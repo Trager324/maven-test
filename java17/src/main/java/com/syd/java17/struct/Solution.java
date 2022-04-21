@@ -26,45 +26,58 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  * @author asus
  */
 public class Solution {
-    public int maximumScore(int[] scores, int[][] edges) {
-        int n = scores.length, res = -1;
-        List<Integer>[] adj = new List[n];
-        for (int i = 0; i < n; i++) {
-            adj[i] = new ArrayList<>();
-        }
-        for (int[] edge : edges) {
-            int a = Math.max(edge[0], edge[1]), b = Math.min(edge[0], edge[1]);
-            adj[b].add(a);
-//            adj[edge[1]].add(edge[0]);
-        }
-        for (int i = 0; i < n; i++) {
-            for (int ii = 0; ii < adj[i].size(); ii++) {
-                int j = adj[i].get(ii);
-                for (int jj = ii + 1; jj < adj[i].size(); jj++) {
-                    int k = adj[i].get(jj);
-                    for (int kk = 0; kk < adj[j].size(); kk++) {
-                        int l = adj[j].get(kk);
-                        if (l != k) res = Math.max(res, scores[i] + scores[j] + scores[k] + scores[l]);
-                    }
-                    for (int kk = 0; kk < adj[k].size();kk++) {
-                        int l = adj[k].get(kk);
-                        if (l != j) res = Math.max(res, scores[i] + scores[j] + scores[k] + scores[l]);
+    public String toGoatLatin(String sentence) {
+        int length = sentence.length();
+        char[] value = new char[length + (1 + length) * length / 2];
+        int index = 0;
+        char c, f = 0, p = ' ';
+        int count = 0;
+        for (int i = 0; i < length; i++) {
+            c = sentence.charAt(i);
+            if (p == ' ') {
+                f = c;
+                switch (f) {
+                    case 'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u' -> value[index++] = f;
+                    default -> {
                     }
                 }
-                for (int jj = 0; jj < adj[j].size(); jj++) {
-                    int k = adj[j].get(jj);
-                    for (int kk = ii + 1; kk < adj[i].size(); kk++) {
-                        int l = adj[i].get(kk);
-                        if (l != j && l != k) res = Math.max(res, scores[i] + scores[j] + scores[k] + scores[l]);
-                    }
-                    for (int kk = 0; kk < adj[k].size();kk++) {
-                        int l = adj[k].get(kk);
-                        if (l != j) res = Math.max(res, scores[i] + scores[j] + scores[k] + scores[l]);
-                    }
+            } else if (c == ' ') {
+                index = getIndex(value, index, f);
+                ++count;
+                for (int j = 0; j < count; j++) {
+                    value[index++] = 'a';
                 }
+                value[index++] = ' ';
+            } else {
+                value[index++] = c;
             }
+            p = c;
         }
-        return res;
+        index = getIndex(value, index, f);
+        for (int j = 0; j <= count; j++) {
+            value[index++] = 'a';
+        }
+        return new String(value, 0, index);
+    }
+
+    private int getIndex(char[] value, int index, char f) {
+        switch (f) {
+            default:
+                value[index++] = f;
+            case 'A':
+            case 'E':
+            case 'I':
+            case 'O':
+            case 'U':
+            case 'a':
+            case 'e':
+            case 'i':
+            case 'o':
+            case 'u':
+                value[index++] = 'm';
+                value[index++] = 'a';
+        }
+        return index;
     }
 
     public static void main(String[] args) throws Exception {
@@ -80,15 +93,6 @@ public class Solution {
         TreeNode root;
         ListNode node;
 
-//        System.out.println(solution.maximumScore(
-//                parseIntArray("[5,2,9,8,4]"),
-//                parseIntMatrix("[[0,1],[1,2],[2,3],[0,2],[1,3],[2,4]]")
-//        ));
-
-        System.out.println(solution.maximumScore(
-                parseIntArray("[1,3,2,1,8,10,12,14]"),
-                parseIntMatrix("[[6,7],[5,7],[4,7],[3,7],[2,6],[1,6],[0,6],[5,6]]")
-        ));
     }
 
 
@@ -161,10 +165,10 @@ public class Solution {
         int n = executables.length;
         Object[] results = new Object[n];
         assert executables[0] instanceof Constructor;
-        Object obj = ((Constructor<?>)executables[0]).newInstance(argsArray[0]);
+        Object obj = ((Constructor<?>) executables[0]).newInstance(argsArray[0]);
         for (int i = 1; i < n; i++) {
             assert executables[i] instanceof Method;
-            results[i] = ((Method)executables[i]).invoke(obj, argsArray[i]);
+            results[i] = ((Method) executables[i]).invoke(obj, argsArray[i]);
         }
         return results;
     }
@@ -180,7 +184,7 @@ public class Solution {
         List<Collections> list = new CopyOnWriteArrayList<>();
         Queue<Calendar> collection = new ConcurrentLinkedDeque<>();
         JSONAware json = JSONObject.parseArray(new JSONArray().toJSONString());
-        Field field = (Field)Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
+        Field field = (Field) Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
                 (o, m, a) -> m.invoke(o, a));
         ExecutorService service = Executors.newCachedThreadPool();
         Pattern pattern = Pattern.compile("^.*?$");
