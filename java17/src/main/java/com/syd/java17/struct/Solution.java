@@ -8,11 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.Matcher;
@@ -26,58 +30,17 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  * @author asus
  */
 public class Solution {
-    public String toGoatLatin(String sentence) {
-        int length = sentence.length();
-        char[] value = new char[length + (1 + length) * length / 2];
-        int index = 0;
-        char c, f = 0, p = ' ';
-        int count = 0;
-        for (int i = 0; i < length; i++) {
-            c = sentence.charAt(i);
-            if (p == ' ') {
-                f = c;
-                switch (f) {
-                    case 'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u' -> value[index++] = f;
-                    default -> {
-                    }
-                }
-            } else if (c == ' ') {
-                index = getIndex(value, index, f);
-                ++count;
-                for (int j = 0; j < count; j++) {
-                    value[index++] = 'a';
-                }
-                value[index++] = ' ';
-            } else {
-                value[index++] = c;
-            }
-            p = c;
+    public int[] createTargetArray(int[] nums, int[] index) {
+        int n = index.length;
+        List<Integer> list = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            list.add(index[i], nums[i]);
         }
-        index = getIndex(value, index, f);
-        for (int j = 0; j <= count; j++) {
-            value[index++] = 'a';
+        int[] res = new int[n];
+        for (int i = 0; i < n; i++) {
+            res[i] = list.get(i);
         }
-        return new String(value, 0, index);
-    }
-
-    private int getIndex(char[] value, int index, char f) {
-        switch (f) {
-            default:
-                value[index++] = f;
-            case 'A':
-            case 'E':
-            case 'I':
-            case 'O':
-            case 'U':
-            case 'a':
-            case 'e':
-            case 'i':
-            case 'o':
-            case 'u':
-                value[index++] = 'm';
-                value[index++] = 'a';
-        }
-        return index;
+        return res;
     }
 
     public static void main(String[] args) throws Exception {
@@ -93,6 +56,13 @@ public class Solution {
         TreeNode root;
         ListNode node;
 
+//        System.out.println(solution.findTheDistanceValue(parseIntArray("[4,5,8]"), parseIntArray("[10,9,1,8]"), 2));
+//        System.out.println(solution.findTheDistanceValue(parseIntArray("[-3,2,-5,7,1]"), parseIntArray("[4]"), 84));
+//        System.out.println(solution.findTheDistanceValue(parseIntArray("[2,1,100,3]"), parseIntArray("[-5,-2,10,-3,7]"), 6));
+//        System.out.println(solution.findTheDistanceValue(parseIntArray("[-803,715,-224,909,121,-296,872,807,715,407,94,-8,572,90,-520,-867,485,-918,-827,-728,-653,-659,865,102,-564,-452,554,-320,229,36,722,-478,-247,-307,-304,-767,-404,-519,776,933,236,596,954,464]"), parseIntArray("[817,1,-723,187,128,577,-787,-344,-920,-168,-851,-222,773,614,-699,696,-744,-302,-766,259,203,601,896,-226,-844,168,126,-542,159,-833,950,-454,-253,824,-395,155,94,894,-766,-63,836,-433,-780,611,-907,695,-395,-975,256,373,-971,-813,-154,-765,691,812,617,-919,-616,-510,608,201,-138,-669,-764,-77,-658,394,-506,-675,523,730,-790,-109,865,975,-226,651,987,111,862,675,-398,126,-482,457,-24,-356,-795,-575,335,-350,-919,-945,-979,611]"), 3));
+//        System.out.println(0b11);
+//        System.out.println((0b1100 & 0b111) == 0b1111);
+        System.out.printf("%+7.4f %+7.4f", Math.PI, Math.E);
     }
 
 
@@ -103,6 +73,7 @@ public class Solution {
         for (int i = 0; i < n; i++) {
             System.out.printf("\"%s\", ", it.next());
         }
+        ExecutorService executor = Executors.newCachedThreadPool();
         System.out.printf("\"%s\"]", it.next());
     }
 
