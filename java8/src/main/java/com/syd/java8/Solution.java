@@ -1,6 +1,8 @@
 package com.syd.java8;
 
 import java.util.Arrays;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+import java.util.concurrent.locks.Condition;
 
 /**
  * @author SYD
@@ -24,6 +26,7 @@ public class Solution {
                 res[index] = threshold;
             }
         }
+        AbstractQueuedSynchronizer aqs;
         return res;
     }
 }

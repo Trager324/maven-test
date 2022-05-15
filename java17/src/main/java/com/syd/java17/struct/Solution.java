@@ -26,20 +26,30 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  * @author asus
  */
 public class Solution {
+    public int largestCombination(int[] candidates) {
+        int[] and = new int[32];
+        for (int candidate : candidates) {
+            int i = 0;
+            while (candidate > 0) {
+                if ((candidate & 1) == 1) {
+                    and[i]++;
+                }
+                candidate >>= 1;
+                i++;
+            }
+        }
+        int res = 0;
+        for (int i : and) {
+            res = Math.max(res, i);
+        }
+        return res;
+    }
 
     public static void main(String[] args) throws Exception {
         Solution solution = new Solution();
-        int n;
-        String s, s2;
-        int[] nums, nums2;
-        int[][] mat, mat2;
-        String[] strs, strs2;
-        List<Integer> li;
-        List<String> ls;
-        char[] cs;
-        TreeNode root;
-        ListNode node;
 
+//        System.out.println(solution.maximumWhiteTiles(parseIntMatrix("[[1,5],[10,11],[12,18],[20,25],[30,32]]"), 10));
+//        System.out.println(solution.maximumWhiteTiles(parseIntMatrix("[[10,11],[1,1]]"), 2));
 
     }
 
