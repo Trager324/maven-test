@@ -1,8 +1,11 @@
 package com.syd.java8;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.Condition;
+import java.util.function.Consumer;
 
 /**
  * @author SYD
@@ -26,7 +29,12 @@ public class Solution {
                 res[index] = threshold;
             }
         }
-        AbstractQueuedSynchronizer aqs;
         return res;
+    }
+
+    public static void main(String[] args) throws NoSuchMethodException {
+        Optional.of(Solution.class.getDeclaredMethod("test")).ifPresent(m -> {
+            m.setAccessible(true);
+        });
     }
 }

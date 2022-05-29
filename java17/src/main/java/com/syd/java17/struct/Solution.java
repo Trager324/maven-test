@@ -26,42 +26,45 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  * @author asus
  */
 public class Solution {
-    public int largestCombination(int[] candidates) {
-        int[] and = new int[32];
-        for (int candidate : candidates) {
-            int i = 0;
-            while (candidate > 0) {
-                if ((candidate & 1) == 1) {
-                    and[i]++;
-                }
-                candidate >>= 1;
-                i++;
+    public int findClosest(String[] words, String word1, String word2) {
+        List<Integer> idx1 = new ArrayList<>();
+        List<Integer> idx2 = new ArrayList<>();
+        int n = words.length, min = Integer.MAX_VALUE, i1 = 0, i2 = 0;
+        for (int i = 0; i < n; i++) {
+            String word = words[i];
+            if (word.equals(word1)) {
+                idx1.add(i);
+            } else if (word.equals(word2)) {
+                idx2.add(i);
             }
         }
-        int res = 0;
-        for (int i : and) {
-            res = Math.max(res, i);
+        while (i1 < idx1.size() && i2 < idx2.size()) {
+            int i = idx1.get(i1);
+            int j = idx2.get(i2);
+            min = Math.min(min, Math.abs(i - j));
+            if (i < j) {
+                i1++;
+            } else {
+                i2++;
+            }
         }
-        return res;
+        return min;
     }
 
     public static void main(String[] args) throws Exception {
         Solution solution = new Solution();
 
-//        System.out.println(solution.maximumWhiteTiles(parseIntMatrix("[[1,5],[10,11],[12,18],[20,25],[30,32]]"), 10));
-//        System.out.println(solution.maximumWhiteTiles(parseIntMatrix("[[10,11],[1,1]]"), 2));
 
     }
 
 
-    public static void printStringList(Collection<String> list) {
+    public static void printStringList(Collection<?> list) {
         System.out.print("[");
-        Iterator<String> it = list.iterator();
+        Iterator<?> it = list.iterator();
         int n = list.size() - 1;
         for (int i = 0; i < n; i++) {
             System.out.printf("\"%s\", ", it.next());
         }
-        ExecutorService executor = Executors.newCachedThreadPool();
         System.out.printf("\"%s\"]", it.next());
     }
 
@@ -81,20 +84,28 @@ public class Solution {
         return parseObject(str, String[].class);
     }
 
-    public static String listToString(List<?> list) {
+    public static String list2Str(Collection<?> c) {
         StringBuilder sb = new StringBuilder("[");
-        for (Object o : list) {
-            sb.append(o).append(",");
+        for (Object o : c) {
+            String tmp = o instanceof String ? "\"" + o + "\"" : o.toString();
+            sb.append(tmp).append(",");
         }
-        return sb.deleteCharAt(sb.length() - 1).append("]").toString();
+        if (sb.length() > 1) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        return sb.append("]").toString();
     }
 
-    public static String arrayToString(Object[] array) {
+    public static String array2Str(Object[] array) {
         StringBuilder sb = new StringBuilder("[");
         for (Object o : array) {
-            sb.append(o).append(",");
+            String tmp = o instanceof String ? "\"" + o + "\"" : o.toString();
+            sb.append(tmp).append(",");
         }
-        return sb.deleteCharAt(sb.length() - 1).append("]").toString();
+        if (sb.length() > 1) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        return sb.append("]").toString();
     }
 
     public static Executable[] getExecutableArray(Class<?> clazz, String str, Map<String, Class<?>[]> argTypeMap)

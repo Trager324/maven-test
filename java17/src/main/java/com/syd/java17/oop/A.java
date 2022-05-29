@@ -2,10 +2,10 @@ package com.syd.java17.oop;
 
 /**
  * @author SYD
- * @description
  * @date 2022/5/14
  */
 public class A {
+    private int a;
 
     public A getInstance(A a) {
         return a;
@@ -18,6 +18,9 @@ public class A {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (obj instanceof A a) {
+            return a.a == this.a;
+        }
+        return false;
     }
 }

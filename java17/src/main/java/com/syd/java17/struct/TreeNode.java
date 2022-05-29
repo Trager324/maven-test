@@ -1,14 +1,15 @@
 package com.syd.java17.struct;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.TypeReference;
+import lombok.Data;
 
 import java.util.*;
 
-import static com.syd.java17.struct.Solution.listToString;
+import static com.syd.java17.struct.Solution.list2Str;
 
+@Data
 public class TreeNode implements JSONAware {
     public int val;
     public TreeNode left;
@@ -30,53 +31,24 @@ public class TreeNode implements JSONAware {
     TreeNode() {
     }
 
-    TreeNode(int val) {
+    public TreeNode(int val) {
         this.val = val;
     }
 
-    TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-
-    public int getVal() {
-        return val;
-    }
-
-    public void setVal(int val) {
-        this.val = val;
-    }
-
-    public TreeNode getLeft() {
-        return left;
-    }
-
-    public void setLeft(TreeNode left) {
-        this.left = left;
-    }
-
-    public TreeNode getRight() {
-        return right;
-    }
-
-    public void setRight(TreeNode right) {
-        this.right = right;
-    }
 
     public static TreeNode parseTreeNode(String s) {
-        JSONArray array = JSONArray.parseArray(s);
-        int n = array.size();
+        String[] numStrings = s.substring(1, s.length() - 1).split(",");
+        int n = numStrings.length;
         if (n == 0) return null;
-        TreeNode root = array.get(0) == null ? null : new TreeNode(array.getIntValue(0));
+        TreeNode root = "null".equals(numStrings[0]) ? null : new TreeNode(Integer.parseInt(numStrings[0]));
         if (root == null) return null;
         Queue<TreeNode> q = new LinkedList<>();
         q.offer(root);
         for (int i = 1; i < n; ) {
             TreeNode now = Objects.requireNonNull(q.poll());
-            now.left = array.get(i) == null ? null : new TreeNode(array.getIntValue(i));
+            now.left = "null".equals(numStrings[i]) ? null : new TreeNode(Integer.parseInt(numStrings[i]));
             if (++i == n) break;
-            now.right = array.get(i) == null ? null : new TreeNode(array.getIntValue(i));
+            now.right = "null".equals(numStrings[i]) ? null : new TreeNode(Integer.parseInt(numStrings[i]));
             i++;
             if (now.left != null) q.offer(now.left);
             if (now.right != null) q.offer(now.right);
@@ -105,7 +77,7 @@ public class TreeNode implements JSONAware {
                 break;
             }
         }
-        return listToString(list);
+        return list2Str(list);
     }
 
     @Override

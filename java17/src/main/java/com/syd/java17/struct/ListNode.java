@@ -8,20 +8,20 @@ import com.alibaba.fastjson.TypeReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.syd.java17.struct.Solution.listToString;
+import static com.syd.java17.struct.Solution.list2Str;
 
 public class ListNode implements JSONAware {
     public int val;
     public ListNode next;
 
-    ListNode() {
+    public ListNode() {
     }
 
-    ListNode(int val) {
+    public ListNode(int val) {
         this.val = val;
     }
 
-    ListNode(int val, ListNode next) {
+    public ListNode(int val, ListNode next) {
         this.val = val;
         this.next = next;
     }
@@ -58,7 +58,7 @@ public class ListNode implements JSONAware {
         for (ListNode p = this; p != null; p = p.next) {
             list.add(p.val);
         }
-        return listToString(list);
+        return list2Str(list);
     }
 
     @Override
