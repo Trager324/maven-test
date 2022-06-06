@@ -1,4 +1,4 @@
-package com.syd.java17.utils.algo;
+package com.syd.java17.util.algo;
 
 import java.util.List;
 
@@ -29,12 +29,15 @@ public class MathUtils {
         return a;
     }
 
-    int bsFlooringEqual(List<Integer> list, int x) {
-        int l = 0, r = list.size() - 1;
-        while (l < r) {
+    /**
+     * 二分搜索，升序列表，不大于x
+     */
+    public static <T> int bsFlooringEqual(List<? extends Comparable<T>> list, T x) {
+        int l = -1, r = list.size();
+        while (l != r - 1) {
             int m = l + ((r - l) >> 1);
-            if (list.get(m) < x) {
-                l = m + 1;
+            if (list.get(m).compareTo(x) <= 0) {
+                l = m;
             } else {
                 r = m;
             }
@@ -42,17 +45,34 @@ public class MathUtils {
         return l;
     }
 
-    int bsCeilingEqual(List<Integer> list, int x) {
-        int l = 0, r = list.size() - 1;
-        while (l < r) {
-            int m = l + ((r - l + 1) >> 1);
-            if (list.get(m) <= x) {
+    /**
+     * 二分搜索，升序列表，严格小于x
+     */
+    public static <T> int bsFlooring(List<? extends Comparable<T>> list, T x) {
+        return bsCeilingEqual(list, x) - 1;
+    }
+
+    /**
+     * 二分搜索，升序列表，不小于x
+     */
+    public static <T> int bsCeilingEqual(List<? extends Comparable<T>> list, T x) {
+        int l = -1, r = list.size();
+        while (l != r - 1) {
+            int m = l + ((r - l) >> 1);
+            if (list.get(m).compareTo(x) < 0) {
                 l = m;
             } else {
-                r = m - 1;
+                r = m;
             }
         }
-        return l;
+        return r;
+    }
+
+    /**
+     * 二分搜索，升序列表，严格小于x
+     */
+    public static <T> int bsCeiling(List<? extends Comparable<T>> list, T x) {
+        return bsFlooringEqual(list, x) + 1;
     }
 
     static int[] getNextArray(char[] cs) {
@@ -88,6 +108,8 @@ public class MathUtils {
         }
         return -1;
     }
+
+    private MathUtils() {}
 
     public static void main(String[] args) {
 //        System.out.println(kmpMatch("BBC ABCDAB ABCDABCDABDE", "ABCDABD"));

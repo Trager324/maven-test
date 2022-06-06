@@ -1,4 +1,4 @@
-package com.syd.java17.utils.algo;
+package com.syd.java17.util.algo;
 
 import java.util.Iterator;
 import java.util.Map;

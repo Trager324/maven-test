@@ -1,4 +1,4 @@
-package com.syd.java17.utils.algo;
+package com.syd.java17.util.algo;
 
 class WordDictionary {
     private static final int NODE_NUM = 26;

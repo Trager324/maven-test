@@ -1,4 +1,4 @@
-package com.syd.java17.utils;
+package com.syd.java17.util;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 
