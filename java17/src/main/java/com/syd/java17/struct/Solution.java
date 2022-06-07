@@ -26,48 +26,47 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  * @author asus
  */
 public class Solution {
-    public int consecutiveNumbersSum(int n) {
-        while ((n & 1) == 0) n >>= 1;
-        int ans = 1, d = 3;
-
-        while (d * d <= n) {
-            int e = 0;
-            while (n % d == 0) {
-                n /= d;
-                e++;
-            }
-            ans *= e + 1;
-            d += 2;
+    public int minEatingSpeed(int[] piles, int h) {
+        long sum = 0;
+        int max = Integer.MIN_VALUE;
+        for (int pile : piles) {
+            sum += pile;
+            max = Math.max(max, pile);
         }
 
-        if (n > 1) ans <<= 1;
-        return ans;
-    }
-
-    public int consecutiveNumbersSum(long n) {
-        while ((n & 1) == 0) n >>= 1;
-        int ans = 1;
-        long d = 3;
-
-        while (d * d <= n) {
-            int e = 0;
-            while (n % d == 0) {
-                n /= d;
-                e++;
-            }
-            ans *= e + 1;
-            d += 2;
+        // 这个为啥是最小的，因为这种场景可能一次性需要吃多堆，
+        int min = (int)((sum + h - 1) / h);
+        int hours = 0;
+        for (int pile : piles) {
+            hours += (pile + min - 1) / min;
         }
+        if (hours <= h) {
+            return min;
+        }
+        if (piles.length == h) {
+            return max;
+        }
+        int tmp = max;
+        while (min < max) {
+            int middle = (max + min) / 2;
+            hours = 0;
+            for (int pile : piles) {
+                hours += (pile + middle - 1) / middle;
+            }
 
-        if (n > 1) ans <<= 1;
-        return ans;
+            if (hours > h) {
+                min = middle + 1;
+            } else {
+                tmp = Math.min(tmp, middle);
+                max = middle;
+            }
+        }
+        return tmp;
     }
 
 
     public static void main(String[] args) throws Exception {
         Solution solution = new Solution();
-
-        System.out.println("1".equals(null));
 
     }
 
