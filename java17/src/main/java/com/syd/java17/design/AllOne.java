@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.syd.java17.struct.Solution.getInvokeResults;
+import static com.syd.java17.struct.Solution.invokeResults;
 
 class AllOne {
     static class Node {
@@ -81,19 +81,15 @@ class AllOne {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        System.out.println(Arrays.toString(getInvokeResults(
+        System.out.println(Arrays.toString(invokeResults(
                 AllOne.class,
                 "[\"AllOne\",\"inc\",\"inc\",\"inc\",\"inc\",\"getMaxKey\",\"inc\",\"inc\",\"inc\",\"dec\",\"inc\",\"inc\",\"inc\",\"getMaxKey\"]",
-                "[[],[\"hello\"],[\"goodbye\"],[\"hello\"],[\"hello\"],[],[\"leet\"],[\"code\"],[\"leet\"],[\"hello\"],[\"leet\"],[\"code\"],[\"code\"],[]]",
-                Map.of("inc", new Class[]{String.class},
-                        "dec", new Class[]{String.class}
-                ))));
-        System.out.println(Arrays.toString(getInvokeResults(
+                "[[],[\"hello\"],[\"goodbye\"],[\"hello\"],[\"hello\"],[],[\"leet\"],[\"code\"],[\"leet\"],[\"hello\"],[\"leet\"],[\"code\"],[\"code\"],[]]"
+        )));
+        System.out.println(Arrays.toString(invokeResults(
                 AllOne.class,
                 "[\"AllOne\",\"inc\",\"inc\",\"inc\",\"inc\",\"inc\",\"inc\",\"getMaxKey\",\"inc\",\"dec\",\"getMaxKey\",\"dec\",\"inc\",\"getMaxKey\",\"inc\",\"inc\",\"dec\",\"dec\",\"dec\",\"dec\",\"getMaxKey\",\"inc\",\"inc\",\"inc\",\"inc\",\"inc\",\"inc\",\"getMaxKey\",\"getMinKey\"]",
-                "[[],[\"hello\"],[\"world\"],[\"leet\"],[\"code\"],[\"ds\"],[\"leet\"],[],[\"ds\"],[\"leet\"],[],[\"ds\"],[\"hello\"],[],[\"hello\"],[\"hello\"],[\"world\"],[\"leet\"],[\"code\"],[\"ds\"],[],[\"new\"],[\"new\"],[\"new\"],[\"new\"],[\"new\"],[\"new\"],[],[]]",
-                Map.of("inc", new Class[]{String.class},
-                        "dec", new Class[]{String.class}
-                ))));
+                "[[],[\"hello\"],[\"world\"],[\"leet\"],[\"code\"],[\"ds\"],[\"leet\"],[],[\"ds\"],[\"leet\"],[],[\"ds\"],[\"hello\"],[],[\"hello\"],[\"hello\"],[\"world\"],[\"leet\"],[\"code\"],[\"ds\"],[],[\"new\"],[\"new\"],[\"new\"],[\"new\"],[\"new\"],[\"new\"],[],[]]"
+        )));
     }
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.JSONObject;
+import com.syd.java17.util.algo.MathUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,51 +26,44 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
 /**
  * @author asus
  */
+@NoArgsConstructor
 public class Solution {
-    public int minEatingSpeed(int[] piles, int h) {
-        long sum = 0;
-        int max = Integer.MIN_VALUE;
-        for (int pile : piles) {
-            sum += pile;
-            max = Math.max(max, pile);
-        }
 
-        // 这个为啥是最小的，因为这种场景可能一次性需要吃多堆，
-        int min = (int)((sum + h - 1) / h);
-        int hours = 0;
-        for (int pile : piles) {
-            hours += (pile + min - 1) / min;
-        }
-        if (hours <= h) {
-            return min;
-        }
-        if (piles.length == h) {
-            return max;
-        }
-        int tmp = max;
-        while (min < max) {
-            int middle = (max + min) / 2;
-            hours = 0;
-            for (int pile : piles) {
-                hours += (pile + middle - 1) / middle;
+    public List<String> findAndReplacePattern(String[] words, String pattern) {
+        char[] set1 = new char[128], set2 = new char[128], cp = pattern.toCharArray();
+        int n = cp.length;
+        List<String> res = new ArrayList<>();
+        for (String word : words) {
+            char[] cw = word.toCharArray();
+            int i = 0;
+            for (; i < n; i++) {
+                if (set1[cp[i]] == 0) {
+                    if (set2[cw[i]] == 0) {
+                        set1[cp[i]] = cw[i];
+                        set2[cw[i]] = cp[i];
+                    } else {
+                        break;
+                    }
+                } else if (set1[cp[i]] != cw[i]) {
+                    break;
+                }
             }
-
-            if (hours > h) {
-                min = middle + 1;
-            } else {
-                tmp = Math.min(tmp, middle);
-                max = middle;
+            if (i == n) {
+                res.add(word);
+            }
+            for (int j = 'a'; j <= 'z'; j++) {
+                set1[j] = set2[j] = 0;
             }
         }
-        return tmp;
+        return res;
     }
-
 
     public static void main(String[] args) throws Exception {
-        Solution solution = new Solution();
-
+        System.out.println(SOLUTION.findAndReplacePattern(parseStringArray("[\"abc\",\"deq\",\"mee\",\"aqq\",\"dkd\",\"ccc\"]"), "abb"));
+        System.out.println(SOLUTION.findAndReplacePattern(parseStringArray("[\"a\",\"b\",\"c\"]"), "a"));
     }
 
+    static final Solution SOLUTION = new Solution();
 
     public static void printStringList(Collection<?> list) {
         System.out.print("[");
@@ -121,37 +115,63 @@ public class Solution {
         return sb.append("]").toString();
     }
 
-    public static Executable[] getExecutableArray(Class<?> clazz, String str, Map<String, Class<?>[]> argTypeMap)
-            throws ClassNotFoundException, NoSuchMethodException {
-        String[] strings = parseStringArray(str);
-        int n = strings.length;
+    public static Executable[] getExecutableArray(Class<?> clazz, String[] methodNames, String[][] argLists)
+            throws NoSuchMethodException {
+        int n = methodNames.length;
+        Method[] methods = clazz.getDeclaredMethods();
+        Constructor<?>[] ctors = clazz.getDeclaredConstructors();
+        String clazzName = clazz.getSimpleName();
         Executable[] res = new Executable[n];
-        res[0] = clazz.getDeclaredConstructor(argTypeMap.get(strings[0]));
-        for (int i = 1; i < n; i++) {
-            res[i] = clazz.getDeclaredMethod(strings[i], argTypeMap.get(strings[i]));
+        for (int i = 0; i < n; i++) {
+            String methodName = methodNames[i];
+            String[] argList = argLists[i];
+            if (clazzName.equals(methodName)) {
+                for (Constructor<?> ctor : ctors) {
+                    if (ctor.getParameterCount() == argList.length) {
+                        res[i] = ctor;
+                        break;
+                    }
+                }
+                if (res[i] == null) {
+                    throw new NoSuchMethodException(clazzName + "(" + array2Str(argList) + ")");
+                }
+            } else {
+                for (Method method : methods) {
+                    if (method.getName().equals(methodName) && method.getParameterCount() == argList.length) {
+                        res[i] = method;
+                        break;
+                    }
+                }
+                if (res[i] == null) {
+                    throw new NoSuchMethodException(clazzName + "." + methodName + "(" + array2Str(argList) + ")");
+                }
+            }
+            res[i].setAccessible(true);
         }
         return res;
     }
 
-    public static Object[][] getArgsArray(String str) {
-        return parseObject(str, Object[][].class);
-    }
-
-    public static Object[] getInvokeResults(
-            Class<?> clazz, String execStr, String argsStr, Map<String, Class<?>[]> argTypeMap)
-            throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Executable[] executables = getExecutableArray(clazz, execStr, argTypeMap);
-        Object[][] argsArray = getArgsArray(argsStr);
-        assert executables.length == argsArray.length;
-        int n = executables.length;
-        Object[] results = new Object[n];
-        assert executables[0] instanceof Constructor;
-        Object obj = ((Constructor<?>)executables[0]).newInstance(argsArray[0]);
-        for (int i = 1; i < n; i++) {
-            assert executables[i] instanceof Method;
-            results[i] = ((Method)executables[i]).invoke(obj, argsArray[i]);
+    public static Object[] invokeResults(Class<?> clazz, String execStr, String argsStr)
+            throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        String[] methodNames = parseStringArray(execStr);
+        String[][] argLists = parseObject(argsStr, String[][].class);
+        if (methodNames.length != argLists.length) {
+            throw new IllegalArgumentException("methodNames.length != argLists.length");
         }
-        return results;
+
+        Executable[] executables = getExecutableArray(clazz, methodNames, argLists);
+        Object[][] argsArray = parseObject(argsStr, Object[][].class);
+        int n = executables.length;
+        Object[] res = new Object[n];
+        Object obj = null;
+        for (int i = 0; i < n; i++) {
+            if (executables[i] instanceof Constructor<?> ctor) {
+                obj = ctor.newInstance(argsArray[i]);
+            } else if (executables[i] instanceof Method method) {
+                res[i] = method.invoke(obj, argsArray[i]);
+            }
+        }
+        return res;
     }
 
     @Data
