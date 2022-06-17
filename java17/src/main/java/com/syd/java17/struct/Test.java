@@ -9,11 +9,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.Reference;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.lang.ref.WeakReference;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 
 /**
@@ -144,15 +143,5 @@ strictfp public class Test {
     }
 
     public static void main(String[] args) throws Exception {
-        Map<Integer, int[]> map = new HashMap<>();
-        int[] compute = map.compute(1, (k, v) -> v == null ? new int[]{0,1} : v);
-        compute[0] = 1;
-        System.out.println(Arrays.toString(map.get(1)));
-        Reference<?> ref;
-        compute = map.compute(1, (k, v) -> v == null ? new int[]{0,1} : v);
-        compute[1] = 2;
-        System.out.println(Arrays.toString(map.get(1)));
-        TypeReference<String> s;
     }
-
 }

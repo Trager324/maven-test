@@ -26,13 +26,5 @@ public class CglibProxy {
             return res;
         });
         ((A) enhancer.create()).test();
-        long l;
-        int i;
-        short s;
-        char c;
-        byte b;
-        boolean g;
-        float f;
-        double d;
     }
 }

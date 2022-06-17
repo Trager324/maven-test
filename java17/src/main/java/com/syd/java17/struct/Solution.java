@@ -1,6 +1,6 @@
 package com.syd.java17.struct;
 
-import com.alibaba.fastjson.*;
+import com.alibaba.fastjson2.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.java.Log;
@@ -27,37 +27,9 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-    static final int[][] DIRS = {{-1, 1}, {1, -1}};
-
-    public int[] findDiagonalOrder(int[][] mat) {
-        int i = 0, j = 0, m = mat.length, n = mat[0].length, len = m * n, cnt = 0, dir = 0;
-        int[] res = new int[len];
-        while (true) {
-            res[cnt++] = mat[i][j];
-            if (cnt == len) {
-                break;
-            }
-            i += DIRS[dir][0];
-            j += DIRS[dir][1];
-            if (i < 0 || i >= m || j < 0 || j >= n) {
-                if (dir == 0) {
-                    i++;
-                } else {
-                    j++;
-                }
-                dir = 1 ^ dir;
-                while (i < 0 || i >= m || j < 0 || j >= n) {
-                    i += DIRS[dir][0];
-                    j += DIRS[dir][1];
-                }
-            }
-        }
-        return res;
-    }
 
     public static void main(String[] args) throws Exception {
-        System.out.println(Arrays.toString(SOLUTION.findDiagonalOrder(parseIntMatrix("[[1,2,3],[4,5,6],[7,8,9]]"))));
-        System.out.println(Arrays.toString(SOLUTION.findDiagonalOrder(parseIntMatrix("[[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20]]"))));
+
     }
 
     static final Solution SOLUTION = new Solution();
@@ -173,8 +145,8 @@ public class Solution {
         Map<Instant, Clock> map = new TreeMap<>();
         List<Collections> list = new CopyOnWriteArrayList<>();
         Queue<Calendar> collection = new ConcurrentLinkedDeque<>();
-        JSONAware jsonAware = JSONPath.compile("$.id");
-        JSON json = JSONObject.parseArray(new JSONArray().toJSONString());
+        JSONFactory.JSONPathCompiler pathCompiler = JSONFactory.getContextJSONPathCompiler();
+        JSONObject json = JSON.parseObject(new JSONArray().toJSONString());
         Field field = (Field)Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
                 (o, m, a) -> m.invoke(o, a));
         ExecutorService service = Executors.newCachedThreadPool();
@@ -186,8 +158,7 @@ public class Solution {
         Stream<InputStream> stream = Arrays.stream(new BufferedInputStream[0]);
         Function<LocalDateTime, LocalTime> function = LocalDateTime::toLocalTime;
         Supplier<LocalDate> supplier = LocalDate::now;
-        Consumer<Duration> consumer = __ -> {
-        };
+        Consumer<Duration> consumer = __ -> {};
         BiFunction<FileReader, FileWriter, File> biFunction = (r, w) -> new File("");
         Predicate<MathContext> intSupplier = __ -> true;
 
