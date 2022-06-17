@@ -1,7 +1,6 @@
 package com.syd.java17;
 
 import com.syd.java17.controller.AController;
-import com.syd.java17.service.A;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

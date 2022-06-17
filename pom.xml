@@ -13,7 +13,9 @@
     </modules>
 
     <properties>
-        <java.version>17(preview)</java.version>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -27,7 +29,7 @@
         <fastjson2.version>2.0.7</fastjson2.version>
         <jna.version>5.10.0</jna.version>
         <jwt.version>0.9.1</jwt.version>
-        <junit.version>4.13.2</junit.version>
+        <junit.version>5.8.2</junit.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <lombok.version>1.18.24</lombok.version>
         <maven-compile-plugin.version>3.3</maven-compile-plugin.version>
@@ -38,7 +40,7 @@
         <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
         <poi.version>5.2.2</poi.version>
         <ruoyi.version>3.8.2</ruoyi.version>
-        <spring-boot.version>2.5.12</spring-boot.version>
+        <spring-boot.version>2.7.0</spring-boot.version>
         <swagger.version>3.0.0</swagger.version>
         <velocity.version>2.3</velocity.version>
     </properties>
@@ -70,11 +72,13 @@
             <artifactId>cglib-nodep</artifactId>
             <version>${cglib.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
+
         <!-- spring-boot-devtools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -150,8 +154,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compile-plugin.version}</version>
                 <configuration>
-                    <source>17(preview)</source>
-                    <target>17(preview)</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <compilerArgs>
+                        --enable-preview
+                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>

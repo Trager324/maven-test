@@ -10,6 +10,4 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AImpl implements A {
-    @Autowired
-    B b;
 }

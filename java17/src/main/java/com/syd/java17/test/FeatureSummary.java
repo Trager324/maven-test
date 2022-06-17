@@ -6,7 +6,7 @@ import java.util.Random;
  * @author songyide
  * @date 2022/6/17
  */
-public class Feature {
+public class FeatureSummary {
     static final Random RANDOM = new Random();
 
 
@@ -56,23 +56,25 @@ public class Feature {
      * @since 17
      */
     sealed interface B permits C {}
-        static final private class C implements B {}
+
+    static non-sealed private class C implements B {}
+
     void _17() {
         Object o = RANDOM.nextBoolean() ? "1" : null;
+        o = new A(1);
         switch (o) {
             case null -> System.out.println("null");
             case String s -> System.out.println(s);
-            default -> System.out.println(
-            );
+            default -> System.out.println();
         }
     }
 
 
     public static void main(String[] args) {
-        Feature feature = new Feature();
-        feature._10();
-        feature._13();
-        feature._14();
-        feature._17();
+        FeatureSummary summary = new FeatureSummary();
+        summary._10();
+        summary._13();
+        summary._14();
+        summary._17();
     }
 }

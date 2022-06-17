@@ -4,23 +4,15 @@ package com.syd.java17.struct;
 //import net.sf.cglib.proxy.MethodInterceptor;
 //import org.junit.Assert;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.LockSupport;
 
 /**
  * @author SYD
  * @description
  * @date 2022/1/25
  */
-strictfp public class Test {
+strictfp public class MyTest {
     static char[] cs1 = "qeijfwnb9u13b89#HBY@BU!09B@!(B|8\n926@！*）hGW".toCharArray();
     static boolean[] map = new boolean[65536];
 
@@ -84,7 +76,7 @@ strictfp public class Test {
     }
 
     static void test(char[] cs) {
-        Test test = getTimerProxy(new Test());
+        MyTest test = getTimerProxy(new MyTest());
         int length = cs.length;
         boolean[] answer = new boolean[length];
         for (int i = 0; i < length; i++) {
@@ -122,7 +114,6 @@ strictfp public class Test {
         System.out.printf("用时%d.%09d秒\n", second, during - second * 1000000000);
     }
 
-    @org.junit.Test
     public void testAvg1() {
         int n = 10000000;
         initNumber(n);
@@ -143,5 +134,6 @@ strictfp public class Test {
     }
 
     public static void main(String[] args) throws Exception {
+        new MyTest().testAvg1();
     }
 }
