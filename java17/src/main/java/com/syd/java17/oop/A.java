@@ -7,6 +7,15 @@ package com.syd.java17.oop;
 public class A {
     private int a;
 
+    interface IA {
+        static void test() {
+            System.out.println("A.IA.test");
+        }
+        private void a() {
+            System.out.println("A.IA.a");
+        }
+    }
+
     public A getInstance(A a) {
         return a;
     }

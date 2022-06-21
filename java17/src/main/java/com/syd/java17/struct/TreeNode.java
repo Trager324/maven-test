@@ -1,8 +1,6 @@
 package com.syd.java17.struct;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONAware;
-import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson2.JSON;
 import lombok.Data;
 
 import java.util.*;
@@ -10,7 +8,7 @@ import java.util.*;
 import static com.syd.java17.struct.Solution.list2Str;
 
 @Data
-public class TreeNode implements JSONAware {
+public class TreeNode {
     public int val;
     public TreeNode left;
     public TreeNode right;
@@ -80,7 +78,6 @@ public class TreeNode implements JSONAware {
         return list2Str(list);
     }
 
-    @Override
     public String toJSONString() {
         return toJSONString(true);
     }
@@ -99,8 +96,7 @@ public class TreeNode implements JSONAware {
         System.out.println(jsonStr);
         TreeNode parsed = JSON.parseObject(jsonStr, TreeNode.class);
         System.out.println(parsed);
-        parsed = JSON.parseObject(jsonStr, new TypeReference<>() {
-        });
+        parsed = JSON.parseObject(jsonStr, TreeNode.class);
         System.out.println(parsed);
     }
 }

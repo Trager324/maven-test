@@ -27,9 +27,39 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
+    static class Node {
+        public int val;
+        public Node next;
 
-    public static void main(String[] args) throws Exception {
+        public Node() {}
 
+        public Node(int _val) {
+            val = _val;
+        }
+
+        public Node(int _val, Node _next) {
+            val = _val;
+            next = _next;
+        }
+    };
+    public Node insert(Node head, int insertVal) {
+        Node node = new Node(insertVal), p = head;
+        if (head == null) {
+            node.next = node;
+            return node;
+        }
+        do {
+            if (p.val <= insertVal && insertVal <= p.next.val || (p.val <= insertVal || p.next.val >= insertVal) && (p.val > p.next.val || p.next == head)) {
+                node.next = p.next;
+                p.next = node;
+                return head;
+            }
+            p = p.next;
+        } while (true);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(SOLUTION.insert(new Node(), 6));
     }
 
     static final Solution SOLUTION = new Solution();

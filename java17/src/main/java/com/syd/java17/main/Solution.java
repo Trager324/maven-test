@@ -1,6 +1,6 @@
 package com.syd.java17.main;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 
 // Definition for a QuadTree node.
 class Node {

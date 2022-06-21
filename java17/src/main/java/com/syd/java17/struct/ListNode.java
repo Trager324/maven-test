@@ -1,16 +1,15 @@
 package com.syd.java17.struct;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONAware;
-import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.TypeReference;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.syd.java17.struct.Solution.list2Str;
 
-public class ListNode implements JSONAware {
+public class ListNode {
     public int val;
     public ListNode next;
 
@@ -61,7 +60,6 @@ public class ListNode implements JSONAware {
         return list2Str(list);
     }
 
-    @Override
     public String toJSONString() {
         return toJSONString(true);
     }
@@ -79,8 +77,7 @@ public class ListNode implements JSONAware {
         System.out.println(jsonStr);
         ListNode parsed = JSON.parseObject(jsonStr, ListNode.class);
         System.out.println(parsed.toString());
-        parsed = JSON.parseObject(jsonStr, new TypeReference<>() {
-        });
+        parsed = JSON.parseObject(jsonStr, ListNode.class);
         System.out.println(parsed.toString());
     }
 }
