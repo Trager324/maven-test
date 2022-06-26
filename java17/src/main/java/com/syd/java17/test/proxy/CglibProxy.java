@@ -4,8 +4,7 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 
 /**
- * @author SYD
- * @description
+ * @author syd
  * @date 2021/9/17
  */
 public class CglibProxy {

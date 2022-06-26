@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * @author SYD
- * @description
+ * @author syd
  * @date 2022/3/29
  */
 @SpringBootApplication

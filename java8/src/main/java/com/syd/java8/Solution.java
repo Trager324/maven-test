@@ -8,8 +8,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.function.Consumer;
 
 /**
- * @author SYD
- * @description
+ * @author syd
  * @date 2022/3/20
  */
 public class Solution {

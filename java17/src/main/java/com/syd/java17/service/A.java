@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 
 /**
- * @author SYD
- * @description
+ * @author syd
  * @date 2022/2/25
  */
 public interface A {

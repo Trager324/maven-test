@@ -6,8 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
- * @author SYD
- * @description Spring测试类
+ * @author syd Spring测试类
  * @date 2022/4/20
  */
 

@@ -1,43 +1,8 @@
-package com.syd.java17.util.algo;
+package com.syd.java17.util;
 
 import java.util.List;
 
-public class ArrayUtil {
-    /**
-     * 快速选择算法
-     */
-    public static void nthElement(int[] arr, int left, int kth, int right) {
-        if (left == right) {
-            return;
-        }
-        int pivot = (int) (left + Math.random() * (right - left + 1));
-        swap(arr, pivot, right);
-        // 三路划分（three-way partition）
-        int sepl = left - 1, sepr = left - 1;
-        for (int i = left; i <= right; i++) {
-            if (arr[i] > arr[right]) {
-                swap(arr, ++sepr, i);
-                swap(arr, ++sepl, sepr);
-            } else if (arr[i] == arr[right]) {
-                swap(arr, ++sepr, i);
-            }
-        }
-        if (sepl < left + kth && left + kth <= sepr) {
-            return;
-        }
-        if (left + kth <= sepl) {
-            nthElement(arr, left, kth, sepl);
-        } else {
-            nthElement(arr, sepr + 1, kth - (sepr - left + 1), right);
-        }
-    }
-
-    public static void swap(int[] arr, int index1, int index2) {
-        int temp = arr[index1];
-        arr[index1] = arr[index2];
-        arr[index2] = temp;
-    }
-
+public class ArrayUtils {
     public static void nthElement(List<Integer> results, int left, int kth, int right) {
         if (left == right) {
             return;

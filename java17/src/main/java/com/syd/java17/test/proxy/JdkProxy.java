@@ -3,8 +3,7 @@ package com.syd.java17.test.proxy;
 import java.lang.reflect.Proxy;
 
 /**
- * @author SYD
- * @description
+ * @author syd
  * @date 2021/9/17
  */
 public class JdkProxy {

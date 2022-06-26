@@ -1,7 +1,7 @@
 package com.syd.java17.oop;
 
 /**
- * @author SYD
+ * @author syd
  * @date 2022/5/14
  */
 public class A {

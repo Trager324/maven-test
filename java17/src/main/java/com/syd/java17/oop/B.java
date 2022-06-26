@@ -3,7 +3,7 @@ package com.syd.java17.oop;
 import java.util.Objects;
 
 /**
- * @author SYD
+ * @author syd
  * @date 2022/5/14
  */
 public class B extends A {

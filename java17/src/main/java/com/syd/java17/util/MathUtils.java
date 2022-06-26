@@ -1,25 +1,16 @@
-package com.syd.java17.util.algo;
+package com.syd.java17.util;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
- * @author SYD
- * @description
+ * @author syd
  * @date 2022/3/10
  */
 public class MathUtils {
-    static final boolean[] NOT_PRIME_MAP = new boolean[101];
-
-    static {
-        for (int i = 2; i < 101; i++) {
-            if (!NOT_PRIME_MAP[i]) {
-                for (int j = i; j * i < 101; j++) {
-                    NOT_PRIME_MAP[i * j] = true;
-                }
-            }
-        }
-    }
-
+    /**
+     * 辗转相除法取最大公约数
+     */
     public static int gcd(int a, int b) {
         while (b != 0) {
             int r = a % b;
@@ -30,13 +21,27 @@ public class MathUtils {
     }
 
     /**
+     * 二分搜索，升序列表，严格小于x
+     */
+    public static <T> int bsCeiling(List<? extends T> list, T x, Comparator<? super T> cmp) {
+        return bsFlooringEqual(list, x, cmp) + 1;
+    }
+
+    /**
+     * 二分搜索，升序列表，严格小于x
+     */
+    public static <T> int bsFlooring(List<? extends T> list, T x, Comparator<? super T> cmp) {
+        return bsCeilingEqual(list, x, cmp) - 1;
+    }
+
+    /**
      * 二分搜索，升序列表，不大于x
      */
-    public static <T> int bsFlooringEqual(List<? extends Comparable<T>> list, T x) {
+    public static <T> int bsFlooringEqual(List<? extends T> list, T x, Comparator<? super T> cmp) {
         int l = -1, r = list.size();
         while (l != r - 1) {
             int m = l + ((r - l) >> 1);
-            if (list.get(m).compareTo(x) <= 0) {
+            if (cmp.compare(list.get(m), x) <= 0) {
                 l = m;
             } else {
                 r = m;
@@ -46,33 +51,19 @@ public class MathUtils {
     }
 
     /**
-     * 二分搜索，升序列表，严格小于x
+     * 二分搜索，升序列表，不大于x
      */
-    public static <T> int bsFlooring(List<? extends Comparable<T>> list, T x) {
-        return bsCeilingEqual(list, x) - 1;
-    }
-
-    /**
-     * 二分搜索，升序列表，不小于x
-     */
-    public static <T> int bsCeilingEqual(List<? extends Comparable<T>> list, T x) {
+    public static <T> int bsCeilingEqual(List<? extends T> list, T x, Comparator<? super T> cmp) {
         int l = -1, r = list.size();
         while (l != r - 1) {
             int m = l + ((r - l) >> 1);
-            if (list.get(m).compareTo(x) < 0) {
+            if (cmp.compare(list.get(m), x) < 0) {
                 l = m;
             } else {
                 r = m;
             }
         }
         return r;
-    }
-
-    /**
-     * 二分搜索，升序列表，严格小于x
-     */
-    public static <T> int bsCeiling(List<? extends Comparable<T>> list, T x) {
-        return bsFlooringEqual(list, x) + 1;
     }
 
     static int[] getNextArray(char[] cs) {

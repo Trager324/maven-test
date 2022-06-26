@@ -1,8 +1,7 @@
-package com.syd.java17.util.algo;
+package com.syd.java17.util;
 
 /**
- * @author SYD
- * @description 排序工具类
+ * @author syd 排序工具类
  * @date 2021/10/11
  */
 public class SortUtils {

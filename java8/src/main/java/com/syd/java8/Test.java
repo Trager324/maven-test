@@ -12,8 +12,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 /**
- * @author SYD
- * @description
+ * @author syd
  * @date 2021/12/3
  */
 public class Test {

@@ -8,8 +8,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * @author SYD
- * @description
+ * @author syd
  * @date 2022/1/25
  */
 strictfp public class MyTest {

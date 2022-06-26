@@ -1,6 +1,11 @@
 package com.syd.java17.struct;
 
-import com.alibaba.fastjson2.*;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONFactory;
+import com.alibaba.fastjson2.JSONObject;
+import com.syd.java17.util.MathUtils;
+import jdk.dynalink.linker.support.TypeUtilities;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.java.Log;
@@ -27,39 +32,40 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-    static class Node {
-        public int val;
-        public Node next;
+    int size = 0;
+    List<int[]> list = new ArrayList<>();
+    Random random = new Random();
 
-        public Node() {}
-
-        public Node(int _val) {
-            val = _val;
-        }
-
-        public Node(int _val, Node _next) {
-            val = _val;
-            next = _next;
-        }
-    };
-    public Node insert(Node head, int insertVal) {
-        Node node = new Node(insertVal), p = head;
-        if (head == null) {
-            node.next = node;
-            return node;
-        }
-        do {
-            if (p.val <= insertVal && insertVal <= p.next.val || (p.val <= insertVal || p.next.val >= insertVal) && (p.val > p.next.val || p.next == head)) {
-                node.next = p.next;
-                p.next = node;
-                return head;
+    public Solution(int n, int[] blacklist) {
+        Arrays.sort(blacklist);
+        int l = 0;
+        for (int i : blacklist) {
+            if (i > l) {
+                list.add(new int[]{size, l});
+                size += i - l;
+                l = i + 1;
+            } else if (i == l) {
+                l++;
             }
-            p = p.next;
-        } while (true);
+        }
+        if (l < n) {
+            list.add(new int[]{size, l});
+            size += n - l;
+        }
     }
 
-    public static void main(String[] args) {
-        System.out.println(SOLUTION.insert(new Node(), 6));
+    public int pick() {
+        int[] idx = new int[]{random.nextInt(size)};
+        int[] pair = list.get(MathUtils.bsFlooringEqual(list, idx, Comparator.comparingInt(a -> a[0])));
+        return pair[1] + idx[0] - pair[0];
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(Arrays.toString(invokeResults(
+                Solution.class,
+                "[\"Solution\",\"pick\",\"pick\",\"pick\",\"pick\",\"pick\",\"pick\",\"pick\"]",
+                "[[7,[2,3,5]],[],[],[],[],[],[],[]]"
+        )));
     }
 
     static final Solution SOLUTION = new Solution();
@@ -100,8 +106,25 @@ public class Solution {
         Class<?>[] types = e.getParameterTypes();
         if (types.length != args.length) return false;
         for (int j = 0; j < args.length; j++) {
-            if (types[j] != args[j].getClass()) {
-                return false;
+            Class<?> type = types[j];
+            Object arg = args[j];
+            Class<?> clazz = args[j].getClass();
+            if (!clazz.isInstance(type)) {
+                if (type.isPrimitive()) {
+                    if (!type.isAssignableFrom(TypeUtilities.getPrimitiveType(clazz))) {
+                        return false;
+                    }
+                } else {
+                    switch (arg) {
+                        case JSONArray json -> {
+                            args[j] = json.to(type);
+                        }
+                        case JSONObject json -> {
+                            args[j] = json.to(type);
+                        }
+                        default -> {return false;}
+                    }
+                }
             }
         }
         return true;

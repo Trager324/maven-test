@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author SYD
- * @description
+ * @author syd
  * @date 2022/3/29
  */
 @RestController
