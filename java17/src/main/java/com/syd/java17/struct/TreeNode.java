@@ -1,13 +1,17 @@
 package com.syd.java17.struct;
 
 import com.alibaba.fastjson2.JSON;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 
 import static com.syd.java17.struct.Solution.list2Str;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TreeNode {
     public int val;
     public TreeNode left;
@@ -20,13 +24,13 @@ public class TreeNode {
         TreeNode treeNode = (TreeNode) o;
         return val == treeNode.val;
     }
+    public String serialize(TreeNode root) {
+        return root.toString();
+    }
 
     @Override
     public int hashCode() {
         return Objects.hash(val);
-    }
-
-    TreeNode() {
     }
 
     public TreeNode(int val) {

@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONFactory;
 import com.alibaba.fastjson2.JSONObject;
-import com.syd.java17.util.MathUtils;
 import jdk.dynalink.linker.support.TypeUtilities;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -32,40 +31,9 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-    int size = 0;
-    List<int[]> list = new ArrayList<>();
-    Random random = new Random();
-
-    public Solution(int n, int[] blacklist) {
-        Arrays.sort(blacklist);
-        int l = 0;
-        for (int i : blacklist) {
-            if (i > l) {
-                list.add(new int[]{size, l});
-                size += i - l;
-                l = i + 1;
-            } else if (i == l) {
-                l++;
-            }
-        }
-        if (l < n) {
-            list.add(new int[]{size, l});
-            size += n - l;
-        }
-    }
-
-    public int pick() {
-        int[] idx = new int[]{random.nextInt(size)};
-        int[] pair = list.get(MathUtils.bsFlooringEqual(list, idx, Comparator.comparingInt(a -> a[0])));
-        return pair[1] + idx[0] - pair[0];
-    }
 
     public static void main(String[] args) throws Exception {
-        System.out.println(Arrays.toString(invokeResults(
-                Solution.class,
-                "[\"Solution\",\"pick\",\"pick\",\"pick\",\"pick\",\"pick\",\"pick\",\"pick\"]",
-                "[[7,[2,3,5]],[],[],[],[],[],[],[]]"
-        )));
+
     }
 
     static final Solution SOLUTION = new Solution();

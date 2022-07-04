@@ -100,11 +100,61 @@ public class MathUtils {
         return -1;
     }
 
-    private MathUtils() {}
-
-    public static void main(String[] args) {
-//        System.out.println(kmpMatch("BBC ABCDAB ABCDABCDABDE", "ABCDABD"));
-//        System.out.println(kmpMatch("ABCDABC", "ABC"));
-        System.out.println(kmpMatch("ABBAABBBABABBAABBABAAA", "BABBA"));
+    /**
+     * 下一个排列
+     */
+    public static String nextPermutation(String s) {
+        char[] cs = s.toCharArray();
+        int n = cs.length - 1, i = n, j = n;
+        while (i > 0 && cs[i] <= cs[i - 1]) {
+            i--;
+        }
+        if (i == 0) {
+            reverse(cs, 0, n);
+            return new String(cs);
+        }
+        while (j >= 0 && cs[j] <= cs[i - 1]) {
+            j--;
+        }
+        swap(cs, j, i - 1);
+        reverse(cs, i, n);
+        return new String(cs);
     }
+
+    /**
+     * 上一个排列
+     */
+    public static String prevPermutation(String s) {
+        char[] cs = s.toCharArray();
+        int n = cs.length - 1, i = n, j = n;
+        while (i > 0 && cs[i] >= cs[i - 1]) {
+            i--;
+        }
+        if (i == 0) {
+            reverse(cs, 0, n);
+            return new String(cs);
+        }
+        while (j >= 0 && cs[j] >= cs[i - 1]) {
+            j--;
+        }
+        swap(cs, j, i - 1);
+        reverse(cs, i, n);
+        return new String(cs);
+    }
+
+    public static void swap(char[] cs, int i, int j) {
+        char tmp = cs[i];
+        cs[i] = cs[j];
+        cs[j] = tmp;
+    }
+
+    public static void reverse(char[] cs, int i, int j) {
+        while (i < j) {
+            swap(cs, i, j);
+            i++;
+            j--;
+        }
+    }
+
+    private MathUtils() {}
 }
