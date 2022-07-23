@@ -3,6 +3,7 @@ package com.syd.java17.framework;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -32,7 +33,13 @@ public class MethodTester<R, T> {
             if (target == null) {
                 target = this.target;
             }
-            assertEquals(data.getExpected(), method.invoke(target, data.getArgs()));
+            T expected = data.getExpected();
+            Class<?> expClazz = expected.getClass();
+            if (expClazz.isArray()) {
+                assertArrayEquals((Object[]) expected, (Object[]) method.invoke(target, data.getArgs()));
+            } else {
+                assertEquals(expected, method.invoke(target, data.getArgs()));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

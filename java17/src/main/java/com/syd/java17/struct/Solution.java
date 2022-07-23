@@ -31,12 +31,42 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-
-    public static void main(String[] args) throws Exception {
-
+    static class Pair {
+        String s;
+        int idx;
+        Pair(String s, int idx) {
+            this.s = s;
+            this.idx = idx;
+        }
+    }
+    public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
+        final int m = nums.length, n = nums[0].length(), len = queries.length;
+        List<Pair>[] pqs = new List[n];
+        for (int i = 0; i < n; i++) {
+            pqs[i] = new ArrayList<>();
+            for (int j = 0; j < m; j++) {
+                pqs[i].add(new Pair(nums[j].substring(i), j));
+            }
+            pqs[i].sort((a, b) -> a.s.equals(b.s) ? Integer.compare(a.idx, b.idx) : a.s.compareTo(b.s));
+        }
+        int[] res = new int[len];
+        for (int i = 0; i < len; i++) {
+            res[i] = pqs[n - queries[i][1]].get(queries[i][0] - 1).idx;
+        }
+        return res;
     }
 
-    static final Solution SOLUTION = new Solution();
+    public static void main(String[] args) throws Exception {
+        System.out.println(Stream.of("1", "2").toList());
+        System.out.println(Stream.of(1, 2, 3).collect(Collectors.toList()));
+//        }
+    }
+
+    static final Solution solution = new Solution();
+
+    static void test(List<Map<Integer, ?>> list) {
+        System.out.println(list);
+    }
 
     public static <T> T parseObject(String text, Class<T> clazz) {
         return JSON.parseObject(text, clazz);
@@ -77,7 +107,7 @@ public class Solution {
             Class<?> type = types[j];
             Object arg = args[j];
             Class<?> clazz = args[j].getClass();
-            if (!clazz.isInstance(type)) {
+            if (!type.isAssignableFrom(clazz) && !clazz.isInstance(type)) {
                 if (type.isPrimitive()) {
                     if (!type.isAssignableFrom(TypeUtilities.getPrimitiveType(clazz))) {
                         return false;
@@ -98,7 +128,7 @@ public class Solution {
         return true;
     }
 
-    public static Executable[] getExecutableArray(Class<?> clazz, String[] methodNames, Object[][] argsArray)
+    static Executable[] getExecutableArray(Class<?> clazz, String[] methodNames, Object[][] argsArray)
             throws NoSuchMethodException {
         int n = methodNames.length;
         Method[] methods = clazz.getDeclaredMethods();
@@ -153,41 +183,41 @@ public class Solution {
         return res;
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @ToString
-    @EqualsAndHashCode
-    @Accessors(chain = true)
-    @Log
-    static class DTO {
-        String id;
-        AbstractMap<BigInteger, BigDecimal> concurrentMap = new ConcurrentHashMap<>();
-        Map<Instant, Clock> map = new TreeMap<>();
-        List<Collections> list = new CopyOnWriteArrayList<>();
-        Queue<Calendar> collection = new ConcurrentLinkedDeque<>();
-        JSONFactory.JSONPathCompiler pathCompiler = JSONFactory.getContextJSONPathCompiler();
-        JSONObject json = JSON.parseObject(new JSONArray().toJSONString());
-        Field field = (Field)Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
-                (o, m, a) -> m.invoke(o, a));
-        ExecutorService service = Executors.newCachedThreadPool();
-        Pattern pattern = Pattern.compile("^.*?$");
-        Matcher matcher = pattern.matcher("");
-        RoundingMode mode = RoundingMode.CEILING;
-        IntStream intStream = StreamSupport.intStream(Spliterators.emptyIntSpliterator(), true);
-        BaseStream<Long, LongStream> longStream = LongStream.of().unordered();
-        Stream<InputStream> stream = Arrays.stream(new BufferedInputStream[0]);
-        Function<LocalDateTime, LocalTime> function = LocalDateTime::toLocalTime;
-        Supplier<LocalDate> supplier = LocalDate::now;
-        Consumer<Duration> consumer = __ -> {};
-        BiFunction<FileReader, FileWriter, File> biFunction = (r, w) -> new File("");
-        Predicate<MathContext> intSupplier = __ -> true;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
+@Accessors(chain = true)
+@Log
+static class DTO {
+    String id;
+    AbstractMap<BigInteger, BigDecimal> concurrentMap = new ConcurrentHashMap<>();
+    Map<Instant, Clock> map = new TreeMap<>();
+    List<Collections> list = new CopyOnWriteArrayList<>();
+    Queue<Calendar> collection = new ConcurrentLinkedDeque<>();
+    JSONFactory.JSONPathCompiler pathCompiler = JSONFactory.getContextJSONPathCompiler();
+    JSONObject json = JSON.parseObject(new JSONArray().toJSONString());
+    Field field = (Field)Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
+            (o, m, a) -> m.invoke(o, a));
+    ExecutorService service = Executors.newCachedThreadPool();
+    Pattern pattern = Pattern.compile("^.*?$");
+    Matcher matcher = pattern.matcher("");
+    RoundingMode mode = RoundingMode.CEILING;
+    IntStream intStream = StreamSupport.intStream(Spliterators.emptyIntSpliterator(), true);
+    BaseStream<Long, LongStream> longStream = LongStream.of().unordered();
+    Stream<InputStream> stream = Arrays.stream(new BufferedInputStream[0]);
+    Function<LocalDateTime, LocalTime> function = LocalDateTime::toLocalTime;
+    Supplier<LocalDate> supplier = LocalDate::now;
+    Consumer<Duration> consumer = __ -> {};
+    BiFunction<FileReader, FileWriter, File> biFunction = (r, w) -> new File("");
+    Predicate<MathContext> intSupplier = __ -> true;
 
-        public static void main(String[] args) {
-            parseTreeNode("[]");
-            parseListNode("[]");
-        }
+    public static void main(String[] args) {
+        parseTreeNode("[]");
+        parseListNode("[]");
     }
+}
 }
 
 

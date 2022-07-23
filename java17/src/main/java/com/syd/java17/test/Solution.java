@@ -2,11 +2,7 @@ package com.syd.java17.test;
 
 import com.syd.java17.struct.ListNode;
 
-import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 //class Solution {
 //    int size = 0;

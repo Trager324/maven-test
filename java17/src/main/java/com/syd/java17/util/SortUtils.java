@@ -5,42 +5,33 @@ package com.syd.java17.util;
  * @date 2021/10/11
  */
 public class SortUtils {
+    static final int THRESHOLD = 10_000_000;
     static public void bucketSort(int[] arr) {
-        int n = arr.length, beg = arr[0], end = beg;
-        int[] buckets = new int[100001];
-        buckets[beg]++;
-        for (int i = 1; i < n; i++) {
-            int num = arr[i];
-            buckets[num]++;
-            if (num > end) {
-                end = num;
-            } else if (num < beg) {
-                beg = num;
+        int n = arr.length, l = Integer.MAX_VALUE, r = Integer.MIN_VALUE, off = 0;
+        for (int i : arr) {
+            if (i < l) {
+                l = i;
             }
+            if (i > r) {
+                r = i;
+            }
+        }
+        if (r - l > THRESHOLD) {
+            throw new OutOfMemoryError();
+        }
+        int[] buckets;
+        if (r > THRESHOLD && l >= 0) {
+            buckets = new int[r + 1];
+        } else {
+            buckets = new int[r - l + 1];
+            off = l;
+        }
+        for (int num : arr) {
+            buckets[num - off]++;
         }
         int j = 0;
-        for (int i = beg; i <= end; i++) {
-            while (buckets[i]-- > 0) {
-                arr[j++] = i;
-            }
-        }
-    }
-    static public void bucketSort(int[] arr, int upper) {
-        int n = arr.length, beg = arr[0], end = beg;
-        int[] buckets = new int[upper + 1];
-        buckets[beg]++;
-        for (int i = 1; i < n; i++) {
-            int num = arr[i];
-            buckets[num]++;
-            if (num > end) {
-                end = num;
-            } else if (num < beg) {
-                beg = num;
-            }
-        }
-        int j = 0;
-        for (int i = beg; i <= end; i++) {
-            while (buckets[i]-- > 0) {
+        for (int i = l; i <= r; i++) {
+            while (buckets[i - off]-- > 0) {
                 arr[j++] = i;
             }
         }

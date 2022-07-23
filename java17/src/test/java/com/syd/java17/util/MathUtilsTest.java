@@ -81,7 +81,8 @@ public class MathUtilsTest {
                 TestData.of(0, "ABCDABC", "ABC"),
                 TestData.of(9, "ABBAABBBABABBAABBABAAA", "BABBA"),
                 TestData.of(15, "BBC ABCDAB ABCDABCDABDE", "ABCDABD"),
-                TestData.of(0, "ABCDABC", "ABC")
+                TestData.of(0, "ABCDABC", "ABC"),
+                TestData.of(-1, "ABCDABC", "ABD")
         );
         KMP_MATCH_TESTER.testList(data);
     }
