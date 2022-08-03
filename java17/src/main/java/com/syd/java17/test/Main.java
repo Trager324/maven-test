@@ -7,6 +7,7 @@ public class Main {
 
 
     public static void main(String[] args) throws Throwable {
-
+        System.out.println(Character.toLowerCase('A'));
+        System.out.println(Character.toLowerCase('a'));
     }
 }

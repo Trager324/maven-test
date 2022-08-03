@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -31,35 +33,71 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-    static class Pair {
-        String s;
-        int idx;
-        Pair(String s, int idx) {
-            this.s = s;
-            this.idx = idx;
+    int res = -1;
+    int n;
+    int[] fa;
+    Set<Integer> loopSet = new HashSet<>();
+    int find(int x) {
+        if (x != fa[x]) {
+            fa[x] = find(fa[x]);
         }
+        return fa[x];
     }
-    public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
-        final int m = nums.length, n = nums[0].length(), len = queries.length;
-        List<Pair>[] pqs = new List[n];
-        for (int i = 0; i < n; i++) {
-            pqs[i] = new ArrayList<>();
-            for (int j = 0; j < m; j++) {
-                pqs[i].add(new Pair(nums[j].substring(i), j));
-            }
-            pqs[i].sort((a, b) -> a.s.equals(b.s) ? Integer.compare(a.idx, b.idx) : a.s.compareTo(b.s));
+    int union(int x, int y) {
+        int fx = find(x);
+        int fy = find(y);
+        if (fx != fy) {
+            fa[fx] = fy;
         }
-        int[] res = new int[len];
-        for (int i = 0; i < len; i++) {
-            res[i] = pqs[n - queries[i][1]].get(queries[i][0] - 1).idx;
+        return fx;
+    }
+    public int longestCycle(int[] edges) {
+        n = edges.length;
+        fa = new int[n];
+        for (int i = 0; i < n; i++) {
+            fa[i] = i;
+        }
+        for (int i = 0; i < n; i++) {
+            if (edges[i] != -1) union(i, edges[i]);
+        }
+        boolean[] visited = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                dfs(visited, edges, i);
+            }
         }
         return res;
     }
+    void dfs(boolean[] visited, int[] edges , int x) {
+        visited[x] = true;
+        int next = edges[x];
+        if (next == -1) {
+            return;
+        }
+        if (visited[next]) {
+            int i = x, cnt = 0;
+            if (loopSet.contains(find(x))) return;
+            do {
+                cnt++;
+                i = edges[i];
+                if (i == -1) {
+                    return;
+                }
+            } while (i != x);
+            loopSet.add(find(x));
+            res = Math.max(res, cnt);
+            return;
+        }
+        dfs(visited, edges, next);
+    }
 
     public static void main(String[] args) throws Exception {
-        System.out.println(Stream.of("1", "2").toList());
-        System.out.println(Stream.of(1, 2, 3).collect(Collectors.toList()));
-//        }
+//        System.out.println(URLEncoder.encode("localhost/a=  &b=1", StandardCharsets.UTF_8).replaceAll(" ", "%20"));
+//        System.out.println(URLEncoder.encode("localhost/a=  &b=1", StandardCharsets.UTF_8).replaceAll("\\+", "%20"));
+//        System.out.println(URLEncoder.encode("localhost/a=  &b=1", StandardCharsets.UTF_8));
+        System.out.println(new BigDecimal("1.0000"));
+        System.out.println(new BigDecimal("1.0000").toPlainString());
+        System.out.println(new BigDecimal("1.0000"));
     }
 
     static final Solution solution = new Solution();
@@ -183,41 +221,41 @@ public class Solution {
         return res;
     }
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@EqualsAndHashCode
-@Accessors(chain = true)
-@Log
-static class DTO {
-    String id;
-    AbstractMap<BigInteger, BigDecimal> concurrentMap = new ConcurrentHashMap<>();
-    Map<Instant, Clock> map = new TreeMap<>();
-    List<Collections> list = new CopyOnWriteArrayList<>();
-    Queue<Calendar> collection = new ConcurrentLinkedDeque<>();
-    JSONFactory.JSONPathCompiler pathCompiler = JSONFactory.getContextJSONPathCompiler();
-    JSONObject json = JSON.parseObject(new JSONArray().toJSONString());
-    Field field = (Field)Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
-            (o, m, a) -> m.invoke(o, a));
-    ExecutorService service = Executors.newCachedThreadPool();
-    Pattern pattern = Pattern.compile("^.*?$");
-    Matcher matcher = pattern.matcher("");
-    RoundingMode mode = RoundingMode.CEILING;
-    IntStream intStream = StreamSupport.intStream(Spliterators.emptyIntSpliterator(), true);
-    BaseStream<Long, LongStream> longStream = LongStream.of().unordered();
-    Stream<InputStream> stream = Arrays.stream(new BufferedInputStream[0]);
-    Function<LocalDateTime, LocalTime> function = LocalDateTime::toLocalTime;
-    Supplier<LocalDate> supplier = LocalDate::now;
-    Consumer<Duration> consumer = __ -> {};
-    BiFunction<FileReader, FileWriter, File> biFunction = (r, w) -> new File("");
-    Predicate<MathContext> intSupplier = __ -> true;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    @EqualsAndHashCode
+    @Accessors(chain = true)
+    @Log
+    static class DTO {
+        String id;
+        AbstractMap<BigInteger, BigDecimal> concurrentMap = new ConcurrentHashMap<>();
+        Map<Instant, Clock> map = new TreeMap<>();
+        List<Collections> list = new CopyOnWriteArrayList<>();
+        Queue<Calendar> collection = new ConcurrentLinkedDeque<>();
+        JSONFactory.JSONPathCompiler pathCompiler = JSONFactory.getDefaultJSONPathCompiler();
+        JSONObject json = JSON.parseObject(new JSONArray().toJSONString());
+        Field field = (Field)Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
+                (o, m, a) -> m.invoke(o, a));
+        ExecutorService service = Executors.newCachedThreadPool();
+        Pattern pattern = Pattern.compile("^.*?$");
+        Matcher matcher = pattern.matcher("");
+        RoundingMode mode = RoundingMode.CEILING;
+        IntStream intStream = StreamSupport.intStream(Spliterators.emptyIntSpliterator(), true);
+        BaseStream<Long, LongStream> longStream = LongStream.of().unordered();
+        Stream<InputStream> stream = Arrays.stream(new BufferedInputStream[0]);
+        Function<LocalDateTime, LocalTime> function = LocalDateTime::toLocalTime;
+        Supplier<LocalDate> supplier = LocalDate::now;
+        Consumer<Duration> consumer = __ -> {};
+        BiFunction<FileReader, FileWriter, File> biFunction = (r, w) -> new File("");
+        Predicate<MathContext> intSupplier = __ -> true;
 
-    public static void main(String[] args) {
-        parseTreeNode("[]");
-        parseListNode("[]");
+        public static void main(String[] args) {
+            parseTreeNode("[]");
+            parseListNode("[]");
+        }
     }
-}
 }
 
 
