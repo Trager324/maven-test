@@ -15,8 +15,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -33,71 +31,34 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-    int res = -1;
-    int n;
-    int[] fa;
-    Set<Integer> loopSet = new HashSet<>();
-    int find(int x) {
-        if (x != fa[x]) {
-            fa[x] = find(fa[x]);
+    public String makeLargestSpecial(String s) {
+        if (s.length() <= 2) {
+            return s;
         }
-        return fa[x];
-    }
-    int union(int x, int y) {
-        int fx = find(x);
-        int fy = find(y);
-        if (fx != fy) {
-            fa[fx] = fy;
-        }
-        return fx;
-    }
-    public int longestCycle(int[] edges) {
-        n = edges.length;
-        fa = new int[n];
-        for (int i = 0; i < n; i++) {
-            fa[i] = i;
-        }
-        for (int i = 0; i < n; i++) {
-            if (edges[i] != -1) union(i, edges[i]);
-        }
-        boolean[] visited = new boolean[n];
-        for (int i = 0; i < n; i++) {
-            if (!visited[i]) {
-                dfs(visited, edges, i);
+        int cnt = 0, left = 0;
+        List<String> subs = new ArrayList<>();
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == '1') {
+                ++cnt;
+            } else {
+                --cnt;
+                if (cnt == 0) {
+                    subs.add("1" + makeLargestSpecial(s.substring(left + 1, i)) + "0");
+                    left = i + 1;
+                }
             }
         }
-        return res;
-    }
-    void dfs(boolean[] visited, int[] edges , int x) {
-        visited[x] = true;
-        int next = edges[x];
-        if (next == -1) {
-            return;
+
+        subs.sort(Comparator.reverseOrder());
+        StringBuilder ans = new StringBuilder();
+        for (String sub : subs) {
+            ans.append(sub);
         }
-        if (visited[next]) {
-            int i = x, cnt = 0;
-            if (loopSet.contains(find(x))) return;
-            do {
-                cnt++;
-                i = edges[i];
-                if (i == -1) {
-                    return;
-                }
-            } while (i != x);
-            loopSet.add(find(x));
-            res = Math.max(res, cnt);
-            return;
-        }
-        dfs(visited, edges, next);
+        return ans.toString();
     }
 
     public static void main(String[] args) throws Exception {
-//        System.out.println(URLEncoder.encode("localhost/a=  &b=1", StandardCharsets.UTF_8).replaceAll(" ", "%20"));
-//        System.out.println(URLEncoder.encode("localhost/a=  &b=1", StandardCharsets.UTF_8).replaceAll("\\+", "%20"));
-//        System.out.println(URLEncoder.encode("localhost/a=  &b=1", StandardCharsets.UTF_8));
-        System.out.println(new BigDecimal("1.0000"));
-        System.out.println(new BigDecimal("1.0000").toPlainString());
-        System.out.println(new BigDecimal("1.0000"));
+        System.out.println("9223372036854775807".length());
     }
 
     static final Solution solution = new Solution();

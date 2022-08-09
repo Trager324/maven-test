@@ -1,10 +1,6 @@
 package com.syd.java17.design;
 
-import com.syd.java17.util.MathUtils;
-
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.TreeSet;
 
 class MyCalendar {

@@ -1,12 +1,10 @@
 package com.syd.java17.util.algo;
 
-import com.syd.java17.BaseTest;
+import com.syd.java17.framework.BaseTest;
 import com.syd.java17.framework.TestData;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author songyide
@@ -15,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class StringAlgoTest extends BaseTest {
 
     @Test
-    void minimumRepresentation() {
+    void minimumRepresentationTest() {
         List<TestData<Void, String>> data = List.of(
                 TestData.of("abc", "abc"),
                 TestData.of("abc", "cab"),

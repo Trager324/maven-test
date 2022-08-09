@@ -7,7 +7,7 @@ package com.syd.java17.util;
 public class SortUtils {
     static final int THRESHOLD = 10_000_000;
     static public void bucketSort(int[] arr) {
-        int n = arr.length, l = Integer.MAX_VALUE, r = Integer.MIN_VALUE, off = 0;
+        int l = Integer.MAX_VALUE, r = Integer.MIN_VALUE, off = 0;
         for (int i : arr) {
             if (i < l) {
                 l = i;

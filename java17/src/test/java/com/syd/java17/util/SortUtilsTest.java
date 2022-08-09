@@ -1,12 +1,8 @@
 package com.syd.java17.util;
 
-import com.syd.java17.framework.MethodTester;
-import com.syd.java17.framework.TestData;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 

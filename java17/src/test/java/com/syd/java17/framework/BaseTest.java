@@ -1,4 +1,4 @@
-package com.syd.java17;
+package com.syd.java17.framework;
 
 import com.syd.java17.framework.TestData;
 
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class BaseTest {
     protected Map<String, Method> methodMap = new HashMap<>();
-    {
+    public BaseTest() {
         try {
             String className = getClass().getName();
             if (className.endsWith("Test")) {
@@ -23,6 +23,7 @@ public class BaseTest {
             }
             Class<?> clazz = Class.forName(className);
             for (Method method : clazz.getDeclaredMethods()) {
+                method.setAccessible(true);
                 methodMap.put(method.getName(), method);
             }
 

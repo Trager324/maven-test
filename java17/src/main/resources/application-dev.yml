@@ -1,17 +1,6 @@
-server:
-  port: 8091
 
 spring:
-  application:
-    name: maven-test
-  #    数据库
-  #  datasource:
-  #    driver-class-name: com.mysql.jdbc.Driver
-  #    url: jdbc:mysql://127.0.0.1:3306/land1?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-  #    password: root
-  #    username: root
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/study?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: root
@@ -22,14 +11,5 @@ spring:
     port: 6379
     timeout: 10000
     database: 0
-    lettuce:
-      pool:
-        max-active: 600
-        max-idle: 300
-        max-wait: 10000
 
-
-logging:
-  level:
-    com.syd: debug
 

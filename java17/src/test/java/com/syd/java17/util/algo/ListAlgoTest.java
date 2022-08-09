@@ -1,7 +1,6 @@
-package com.syd.java17.util;
+package com.syd.java17.util.algo;
 
-import com.syd.java17.BaseTest;
-import com.syd.java17.framework.MethodTester;
+import com.syd.java17.framework.BaseTest;
 import com.syd.java17.framework.TestData;
 import org.junit.jupiter.api.Test;
 
@@ -10,19 +9,10 @@ import java.util.List;
 
 /**
  * @author songyide
- * @date 2022/6/6
+ * @date 2022/8/4
  */
-public class MathUtilsTest extends BaseTest {
+class ListAlgoTest extends BaseTest {
     List<Integer> list = List.of(1, 2, 3, 5, 5, 5, 8, 9);
-
-    @Test
-    public void gcdTest() {
-        List<TestData<Void, Integer>> data = List.of(
-                TestData.of(1, 97, 3),
-                TestData.of(12, 24, 36)
-        );
-        test(data);
-    }
 
     @Test
     public void bsFlooringTest() {

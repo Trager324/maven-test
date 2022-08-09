@@ -27,21 +27,6 @@ public class StringAlgo {
         return s.substring(i) + s.substring(0, i);
     }
 
-    static int[] getNextArray(char[] cs) {
-        int n = cs.length;
-        int[] next = new int[n];
-        for (int i = 1, j = 0; i < n; i++) {
-            while (j > 0 && cs[i] != cs[j]) {
-                j = next[j - 1];
-            }
-            if (cs[i] == cs[j]) {
-                j++;
-            }
-            next[i] = j;
-        }
-        return next;
-    }
-
     public static int kmpMatching(String s, String t) {
         char[] cs = s.toCharArray(), ct = t.toCharArray();
         int ns = cs.length, nt = ct.length;
@@ -61,6 +46,21 @@ public class StringAlgo {
             }
         }
         return -1;
+    }
+
+    static int[] getNextArray(char[] cs) {
+        int n = cs.length;
+        int[] next = new int[n];
+        for (int i = 1, j = 0; i < n; i++) {
+            while (j > 0 && cs[i] != cs[j]) {
+                j = next[j - 1];
+            }
+            if (cs[i] == cs[j]) {
+                j++;
+            }
+            next[i] = j;
+        }
+        return next;
     }
 
     /**

@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class BController {
-    BController() {}
-    BController(@Autowired AController aController) {
-        this.aController = aController;
-    }
-    AController aController;
+
 
 }
