@@ -10,6 +10,15 @@ import java.util.List;
 public class MathAlgo {
     public static final int MOD = 1000000007;
 
+    public static long combine(int m, int n) {
+        long res = 1;
+        n = Math.min(n, m - n);
+        for (int i = 1; i <= n; i++) {
+            res = res * (m - i + 1) / i;
+        }
+        return res;
+    }
+
     public static long binPow(long a, long b) {
         long res = 1;
         while (b > 0) {

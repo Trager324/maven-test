@@ -31,34 +31,13 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-    public String makeLargestSpecial(String s) {
-        if (s.length() <= 2) {
-            return s;
-        }
-        int cnt = 0, left = 0;
-        List<String> subs = new ArrayList<>();
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == '1') {
-                ++cnt;
-            } else {
-                --cnt;
-                if (cnt == 0) {
-                    subs.add("1" + makeLargestSpecial(s.substring(left + 1, i)) + "0");
-                    left = i + 1;
-                }
-            }
-        }
 
-        subs.sort(Comparator.reverseOrder());
-        StringBuilder ans = new StringBuilder();
-        for (String sub : subs) {
-            ans.append(sub);
-        }
-        return ans.toString();
-    }
 
     public static void main(String[] args) throws Exception {
-        System.out.println("9223372036854775807".length());
+        int[] a = {1};
+        var stream = Stream.of(1,2,3).map(x -> x * a[0]);
+        a[0] = 0;
+        stream.forEach(System.out::println);
     }
 
     static final Solution solution = new Solution();
