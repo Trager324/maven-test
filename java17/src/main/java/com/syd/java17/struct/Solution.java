@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.nio.charset.StandardCharsets;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -32,12 +33,8 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
 @NoArgsConstructor
 public class Solution {
 
-
     public static void main(String[] args) throws Exception {
-        int[] a = {1};
-        var stream = Stream.of(1,2,3).map(x -> x * a[0]);
-        a[0] = 0;
-        stream.forEach(System.out::println);
+
     }
 
     static final Solution solution = new Solution();
@@ -80,7 +77,9 @@ public class Solution {
 
     static boolean isMatchedExecutable(Executable e, Object[] args) {
         Class<?>[] types = e.getParameterTypes();
-        if (types.length != args.length) return false;
+        if (types.length != args.length) {
+            return false;
+        }
         for (int j = 0; j < args.length; j++) {
             Class<?> type = types[j];
             Object arg = args[j];
@@ -92,12 +91,8 @@ public class Solution {
                     }
                 } else {
                     switch (arg) {
-                        case JSONArray json -> {
-                            args[j] = json.to(type);
-                        }
-                        case JSONObject json -> {
-                            args[j] = json.to(type);
-                        }
+                        case JSONArray json -> args[j] = json.to(type);
+                        case JSONObject json -> args[j] = json.to(type);
                         default -> {return false;}
                     }
                 }

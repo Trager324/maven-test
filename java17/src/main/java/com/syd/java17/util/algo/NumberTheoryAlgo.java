@@ -1,6 +1,7 @@
 package com.syd.java17.util.algo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,5 +40,58 @@ public class NumberTheoryAlgo {
             b = r;
         }
         return a;
+    }
+
+    /**
+     * 埃氏筛
+     *
+     * @param n 范围，闭合
+     * @return 返回标记数组
+     */
+    public static boolean[] eratosthenes(int n) {
+        boolean[] res = new boolean[n + 1];
+        Arrays.fill(res, true);
+        res[0] = res[1] = false;
+        for (int i = 2; i * i <= n; i++) {
+            if (res[i]) {
+                for (int j = i * i; j <= n; j += i) {
+                    res[j] = false;
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 线性素数筛
+     *
+     * @param n 范围，闭合
+     * @return 返回标记数组
+     */
+    public static boolean[] primeSievesLeaner(int n) {
+        boolean[] res = new boolean[n + 1];
+        Arrays.fill(res, true);
+        res[0] = res[1] = false;
+        List<Integer> list = new ArrayList<>();
+        for (int i = 2; i <= n; ++i) {
+            if (res[i]) {
+                list.add(i);
+            }
+            for (Integer prime : list) {
+                if (i * prime > n) {
+                    break;
+                }
+                res[i * prime] = false;
+                if (i % prime == 0) {
+                    // i % pri[j] == 0
+                    // 换言之，i 之前被 pri[j] 筛过了
+                    // 由于 pri 里面质数是从小到大的，所以 i 乘上其他的质数的结果一定也是
+                    // pri[j] 的倍数 它们都被筛过了，就不需要再筛了，所以这里直接 break
+                    // 掉就好了
+                    break;
+                }
+            }
+        }
+        return res;
     }
 }

@@ -8,13 +8,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
-// junit-platform.properties配置如下
-//
-// junit.jupiter.execution.parallel.enabled=true
-// junit.jupiter.execution.parallel.mode.default=concurrent
-// junit.jupiter.execution.parallel.mode.classes.default=concurrent
-// junit.jupiter.execution.parallel.config.strategy=fixed
-// junit.jupiter.execution.parallel.config.fixed.parallelism=2
 public class ParallelTest {
     @Data
     static class Response<T> {
@@ -51,12 +44,12 @@ class ContrastTest {
     @Test
     void testParallel() {
         // 在ForkJoinPool中异常
-        Stream.of(() -> {
+        Stream.<Runnable>of(() -> {
                     for (int i = 0; i < 100000; i++) {
                         System.out.println(JSON.toJSONString(new ParallelTest.Response<>(Collections.singletonList(0))));
                     }
                 },
-                (Runnable)() -> {
+                () -> {
                     for (int i = 0; i < 100000; i++) {
                         System.out.println(JSON.toJSONString(new ParallelTest.Response<>(new ParallelTest.A())));
                     }

@@ -1,4 +1,4 @@
-package com.syd.java17.util;
+package com.syd.java17.util.struct;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +18,7 @@ public class Trie {
             if (t.children == null) {
                 t.children = new HashMap<>();
             }
-            Trie child = t.children.get(c);
-            if (child == null) {
-                child = t.children.put(c, new Trie());
-            }
-            t = child;
+            t = t.children.computeIfAbsent(c, k -> new Trie());
         }
         t.isLeaf = true;
     }

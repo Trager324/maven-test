@@ -1,10 +1,7 @@
 package com.syd.java8;
 
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-import java.util.concurrent.locks.Condition;
-import java.util.function.Consumer;
+import java.util.concurrent.Semaphore;
+import java.util.stream.IntStream;
 
 /**
  * @author syd
@@ -12,6 +9,7 @@ import java.util.function.Consumer;
  */
 public class Solution {
 
-    public static void main(String[] args) throws NoSuchMethodException {
+    public static void main(String[] args) {
+
     }
 }

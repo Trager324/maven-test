@@ -1,10 +1,8 @@
 package com.syd.java8;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author syd
