@@ -1,7 +1,10 @@
 package com.syd.java17.main;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     static int[][] matrixMultiply(int[][] ma, int[][] mb, int n, int m) {
@@ -16,6 +19,7 @@ public class Main {
         }
         return res;
     }
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         while (input.hasNext()) {
@@ -103,15 +107,16 @@ class B {
 }
 
 class C {
-//    static int cnt = 0;
+    //    static int cnt = 0;
     static int[] map = {2, 4, 3, 5, 1, 6, 0, 7, 8};
     static List<int[]> res = new ArrayList<>();
+
     static void dfs(boolean[] visited, int[] num, int index) {
         if (index == 9) {
             int a = num[map[0]] * 10 + num[map[1]], b = num[map[2]] * 10 + num[map[3]],
                     c = num[map[4]] * 10 + num[map[5]], d = num[map[6]] * 100 + num[map[7]] * 10 + num[map[8]];
             if (a * b == c * d) {
-                res.add(new int[]{a,b,c,d});
+                res.add(new int[]{a, b, c, d});
 //                cnt++;
 //                System.out.printf("%d x %d = %d x %d\n", a, b, c, d);
 //                System.out.printf("%d x %d = %d x %d = %d\n", a, b, c, d, a*b);
@@ -127,6 +132,7 @@ class C {
             }
         }
     }
+
     public static void main(String[] args) {
         boolean[] visited = new boolean[10];
         int[] num = new int[9];

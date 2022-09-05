@@ -34,6 +34,7 @@
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <mybatis-plus-dynamic-datasource.version>3.5.1</mybatis-plus-dynamic-datasource.version>
         <mysql.version>8.0.30</mysql.version>
+        <okhttp.version>4.10.0</okhttp.version>
         <pagehelper-boot.version>1.4.2</pagehelper-boot.version>
         <redis.version>2.7.3</redis.version>
         <spring-boot.version>2.7.3</spring-boot.version>
@@ -191,9 +192,19 @@
         </dependency>
 
         <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>${httpclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
         </dependency>
 
         <!-- Token生成与解析-->

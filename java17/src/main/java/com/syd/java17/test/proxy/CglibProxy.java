@@ -8,22 +8,23 @@ import net.sf.cglib.proxy.MethodInterceptor;
  * @date 2021/9/17
  */
 public class CglibProxy {
-    static class A {
-        void test() {
-            System.out.println(1);
-        }
-    }
     public static void main(String[] args) {
         A a = new A();
 //        JavassistSerialStateHolder
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(A.class);
-        enhancer.setCallback((MethodInterceptor) (o, method, objects, methodProxy) -> {
+        enhancer.setCallback((MethodInterceptor)(o, method, objects, methodProxy) -> {
             System.out.println("--- begin ---");
             Object res = method.invoke(a, objects);
             System.out.println("---- end ----");
             return res;
         });
-        ((A) enhancer.create()).test();
+        ((A)enhancer.create()).test();
+    }
+
+    static class A {
+        void test() {
+            System.out.println(1);
+        }
     }
 }

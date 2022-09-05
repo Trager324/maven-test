@@ -18,6 +18,25 @@ public class MyHeap<E> extends AbstractQueue<E> {
         heapify();
     }
 
+    public static void main(String[] args) {
+        MyHeap<Integer> heap = new MyHeap<>(List.of(9, 8, 7, 6, 5, 4, 3, 2, 1), Integer::compare);
+        assert heap.judge();
+        heap = new MyHeap<>(List.of(9, 8, 7, 6, 5, 4, 3, 2, 1, 0), Integer::compare);
+        assert heap.judge();
+        Random random = ThreadLocalRandom.current();
+        for (int i = 0; i < 1000; i++) {
+            heap.offer(random.nextInt());
+            System.out.println(heap);
+            assert heap.judge();
+        }
+        for (int i = 0; i < 100; i++) {
+            heap.poll();
+            assert heap.judge();
+        }
+        System.out.println(heap);
+//        System.out.println(heap);
+    }
+
     void heapify() {
         int size = size();
         for (int i = (size >> 1) - 1; i >= 0; i--) {
@@ -25,6 +44,7 @@ public class MyHeap<E> extends AbstractQueue<E> {
         }
         System.out.println(queue);
     }
+
     void percolateDown(int index) {
         int size = size(), half = size >> 1;
         E e = queue.get(index);
@@ -83,6 +103,7 @@ public class MyHeap<E> extends AbstractQueue<E> {
         if (isEmpty()) throw new NoSuchElementException();
         return queue.get(0);
     }
+
     private boolean judge() {
         for (int i = 1; i < size(); i++) {
             if (comparator.compare(queue.get(i), queue.get((i - 1) >> 1)) < 0) {
@@ -91,30 +112,11 @@ public class MyHeap<E> extends AbstractQueue<E> {
         }
         return true;
     }
-
-    public static void main(String[] args) {
-        MyHeap<Integer> heap = new MyHeap<>(List.of(9,8,7,6,5,4,3,2,1), Integer::compare);
-        assert heap.judge();
-        heap = new MyHeap<>(List.of(9,8,7,6,5,4,3,2,1,0), Integer::compare);
-        assert heap.judge();
-        Random random = ThreadLocalRandom.current();
-        for (int i = 0; i < 1000; i++) {
-            heap.offer(random.nextInt());
-            System.out.println(heap);
-            assert heap.judge();
-        }
-        for (int i = 0; i < 100; i++) {
-            heap.poll();
-            assert heap.judge();
-        }
-        System.out.println(heap);
-//        System.out.println(heap);
-    }
 }
 
 class IntHeap {
-    private int[] queue;
     private final Comparator<Integer> comparator;
+    private int[] queue;
     private int size;
 
     public IntHeap(int[] arr) {
@@ -126,6 +128,34 @@ class IntHeap {
         size = arr.length;
         this.comparator = comparator;
         heapify();
+    }
+
+    public static void main(String[] args) {
+        IntHeap heap = new IntHeap(new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1});
+        assert heap.judge();
+        heap = new IntHeap(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+        System.out.println(heap);
+        assert heap.judge();
+        Random random = ThreadLocalRandom.current();
+        for (int i = 0; i < 10; i++) {
+            heap.poll();
+            assert heap.judge();
+        }
+        for (int i = 0; i < 10; i++) {
+            heap.offer(random.nextInt());
+            assert heap.judge();
+        }
+        assert heap.judge();
+        for (int i = 0; i < 10; i++) {
+            heap.poll();
+            assert heap.judge();
+        }
+        for (int i = 0; i < 10; i++) {
+            heap.offer(random.nextInt());
+            assert heap.judge();
+        }
+        System.out.println(heap);
+//        System.out.println(heap);
     }
 
     public boolean offer(int o) {
@@ -148,6 +178,7 @@ class IntHeap {
             percolateDown(i);
         }
     }
+
     void percolateDown(int index) {
         int n = size(), half = n >> 1;
         int e = queue[index];
@@ -165,6 +196,7 @@ class IntHeap {
         }
         queue[index] = e;
     }
+
     public int size() {
         return size;
     }
@@ -184,10 +216,12 @@ class IntHeap {
     public boolean isEmpty() {
         return size == 0;
     }
+
     public int peek() {
         if (isEmpty()) throw new NoSuchElementException();
         return queue[0];
     }
+
     private boolean judge() {
         for (int i = 1; i < size(); i++) {
             if (comparator.compare(queue[i], queue[(i - 1) >> 1]) < 0) {
@@ -195,33 +229,5 @@ class IntHeap {
             }
         }
         return true;
-    }
-
-    public static void main(String[] args) {
-        IntHeap heap = new IntHeap(new int[]{9,8,7,6,5,4,3,2,1});
-        assert heap.judge();
-        heap = new IntHeap(new int[]{0,1,2,3,4,5,6,7,8,9});
-        System.out.println(heap);
-        assert heap.judge();
-        Random random = ThreadLocalRandom.current();
-        for (int i = 0; i < 10; i++) {
-            heap.poll();
-            assert heap.judge();
-        }
-        for (int i = 0; i < 10; i++) {
-            heap.offer(random.nextInt());
-            assert heap.judge();
-        }
-        assert heap.judge();
-        for (int i = 0; i < 10; i++) {
-            heap.poll();
-            assert heap.judge();
-        }
-        for (int i = 0; i < 10; i++) {
-            heap.offer(random.nextInt());
-            assert heap.judge();
-        }
-        System.out.println(heap);
-//        System.out.println(heap);
     }
 }

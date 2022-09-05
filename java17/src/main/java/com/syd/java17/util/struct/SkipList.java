@@ -1,9 +1,5 @@
 package com.syd.java17.util.struct;
 
-import java.util.Random;
-
-import static java.lang.constant.ConstantDescs.NULL;
-
 /**
  * @author songyide
  * @date 2022/8/4

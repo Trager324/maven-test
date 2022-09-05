@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.nio.charset.StandardCharsets;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -32,9 +31,55 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
+    static class Node {
+        String s;
+        int off;
+        Node(String s, int off) {
+            this.s = s;
+            this.off = off;
+        }
+    }
+    public int kSimilarity(String s1, String s2) {
+        Set<String> set = new HashSet<>();
+        char[] cs2 = s2.toCharArray();
+
+        Queue<Node> q = new LinkedList<>();
+        set.add(s1);
+        q.offer(new Node(s1, 0));
+        int cnt = 0, n = cs2.length;
+        for (int i = 0; i < n; i++) {
+            int size = q.size();
+            for (int j = 0; j < size; j++) {
+                Node now = q.poll();
+                String s = now.s;
+                int k = now.off;
+                for (; k < n; k++) {
+                    if (s.charAt(k) != cs2[k]) {
+                        break;
+                    }
+                }
+                if (k == n) {
+                    return cnt;
+                }
+                for (int l = k + 1; l < n; l++) {
+                    if (s.charAt(l) == cs2[k]) {
+                        String next = s.substring(0, k) + cs2[k] + s.substring(k + 1, l) + s.charAt(k) +
+                                s.substring(l + 1);
+                        if (!set.contains(next)) {
+                            set.add(next);
+                            q.offer(new Node(next, k + 1));
+                        }
+                    }
+                }
+            }
+            cnt++;
+        }
+        return -1;
+    }
 
     public static void main(String[] args) throws Exception {
-
+//        System.out.println("1".substring(1));
+        System.out.println(solution.kSimilarity("bccaba", "abacbc"));
     }
 
     static final Solution solution = new Solution();

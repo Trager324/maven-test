@@ -4,7 +4,7 @@ package com.syd.java17.struct;
 //import net.sf.cglib.proxy.MethodInterceptor;
 //import org.junit.Assert;
 
-import java.util.*;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -21,11 +21,17 @@ strictfp public class MyTest {
         }
     }
 
+    int[][] avgNums;
+    int[] resNums;
+    int[] expectedNums;
+    long start, stop;
+    Random random = ThreadLocalRandom.current();
+
     static char[] getCs1(int length) {
         char[] cs = new char[length];
         ThreadLocalRandom random = ThreadLocalRandom.current();
         for (int i = 0; i < length; i++) {
-            cs[i] = (char) random.nextInt(128);
+            cs[i] = (char)random.nextInt(128);
         }
         return cs;
     }
@@ -52,6 +58,24 @@ strictfp public class MyTest {
         }
     }
 
+    static void test(char[] cs) {
+        MyTest test = getTimerProxy(new MyTest());
+        int length = cs.length;
+        boolean[] answer = new boolean[length];
+        for (int i = 0; i < length; i++) {
+            char c = cs[i];
+            answer[i] = c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
+        }
+        System.out.printf("长度%d\n", length);
+        test.check1(cs, answer, length);
+        test.check2(cs, answer, length);
+        test.check3(cs, answer, length);
+    }
+
+    public static void main(String[] args) throws Exception {
+        new MyTest().testAvg1();
+    }
+
     void check1(char[] cs, boolean[] answer, int length) {
         for (int i = 0; i < length; i++) {
             char c = cs[i];
@@ -73,26 +97,6 @@ strictfp public class MyTest {
             assertIsLetter(c, map[c], answer[i]);
         }
     }
-
-    static void test(char[] cs) {
-        MyTest test = getTimerProxy(new MyTest());
-        int length = cs.length;
-        boolean[] answer = new boolean[length];
-        for (int i = 0; i < length; i++) {
-            char c = cs[i];
-            answer[i] = c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
-        }
-        System.out.printf("长度%d\n", length);
-        test.check1(cs, answer, length);
-        test.check2(cs, answer, length);
-        test.check3(cs, answer, length);
-    }
-
-    int[][] avgNums;
-    int[] resNums;
-    int[] expectedNums;
-    long start, stop;
-    Random random = ThreadLocalRandom.current();
 
     public void initNumber(int n) {
         avgNums = new int[n][2];
@@ -130,9 +134,5 @@ strictfp public class MyTest {
         timerStop();
 //        Assert.assertArrayEquals(expectedNums, resNums);
 
-    }
-
-    public static void main(String[] args) throws Exception {
-        new MyTest().testAvg1();
     }
 }

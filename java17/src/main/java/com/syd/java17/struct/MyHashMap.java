@@ -3,29 +3,24 @@ package com.syd.java17.struct;
 import java.util.concurrent.atomic.AtomicInteger;
 
 class MyHashMap {
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
+    static final int MAXIMUM_CAPACITY = 1 << 30;
+    private final float loadFactor = 0.75f;
     private Node[] values;
     private int threshold = 16;
     private int size;
-    private final float loadFactor = 0.75f;
-
-    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
-    static final int MAXIMUM_CAPACITY = 1 << 30;
-
-    private static class Node {
-        int key, val;
-        Node next;
-        Node() {}
-        Node(int k, int v) {key = k;val = v;}
-        Node(int k, int v, Node n) {key = k;val = v;next = n;}
-    }
 
     public MyHashMap() {
         this(DEFAULT_INITIAL_CAPACITY);
     }
+
     public MyHashMap(int threshold) {
         int n = -1 >>> Integer.numberOfLeadingZeros(threshold - 1);
         this.threshold = (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
         this.values = new Node[this.threshold];
+    }
+
+    public static void main(String[] args) {
     }
 
     private void resize(int newThreshold) {
@@ -103,7 +98,22 @@ class MyHashMap {
 
     public int size() {return size;}
 
-    public static void main(String[] args) {
+    private static class Node {
+        int key, val;
+        Node next;
+
+        Node() {}
+
+        Node(int k, int v) {
+            key = k;
+            val = v;
+        }
+
+        Node(int k, int v, Node n) {
+            key = k;
+            val = v;
+            next = n;
+        }
     }
 
     /**

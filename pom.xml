@@ -10,6 +10,7 @@
     <modules>
         <module>java8</module>
         <module>java17</module>
+        <module>java19</module>
     </modules>
 
     <properties>
@@ -29,7 +30,7 @@
         <druid.version>1.2.11</druid.version>
         <easyexcel.version>3.1.0</easyexcel.version>
         <fastjson.version>2.0.12</fastjson.version>
-        <fastjson2.version>2.0.12</fastjson2.version>
+        <fastjson2.version>2.0.13</fastjson2.version>
         <guava.version>31.1-jre</guava.version>
         <hutool.version>5.8.3</hutool.version>
         <httpclient.version>4.5.13</httpclient.version>
@@ -178,9 +179,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <compilerArgs>
-                        --enable-preview
-                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>

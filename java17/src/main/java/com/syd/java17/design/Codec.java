@@ -4,16 +4,32 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class Codec {
+    HuffmanTree tree;
+    int size;
+
+    public static void main(String[] args) {
+        Codec codec = new Codec();
+        String longUrl = "http://www.google.com";
+        String shortUrl = codec.encode(longUrl);
+        System.out.println(shortUrl);
+        System.out.println(codec.decode(shortUrl));
+    }
+
+    public String encode(String longUrl) {
+        char[] cs = longUrl.toCharArray();
+        tree = new HuffmanTree(cs);
+        return new String(tree.getBucket().data, StandardCharsets.ISO_8859_1);
+    }
+
+    public String decode(String shortUrl) {
+        return tree.decode();
+    }
+
     static class HuffmanTree {
-        static class Bucket {
-            int size;
-            byte[] data;
-        }
         HuffmanNode root;
         Map<Character, String> map;
         char[] cs;
         Bucket bucket;
-
         HuffmanTree(char[] cs) {
             this.cs = cs;
             int[] cnt = new int[256];
@@ -25,7 +41,7 @@ public class Codec {
                 if (cnt[i] > 0) {
                     HuffmanNode node = new HuffmanNode();
                     node.v = cnt[i];
-                    node.c = (char) i;
+                    node.c = (char)i;
                     pq.offer(node);
                 }
             }
@@ -130,32 +146,17 @@ public class Codec {
             stateMachine(node, b, remain, remainMask, sb);
             return sb.toString();
         }
+
+        static class Bucket {
+            int size;
+            byte[] data;
+        }
     }
+
     static class HuffmanNode {
         HuffmanNode l, r;
         int v;
         char c;
-    }
-
-    HuffmanTree tree;
-    int size;
-
-    public String encode(String longUrl) {
-        char[] cs = longUrl.toCharArray();
-        tree = new HuffmanTree(cs);
-        return new String(tree.getBucket().data, StandardCharsets.ISO_8859_1);
-    }
-
-    public String decode(String shortUrl) {
-        return tree.decode();
-    }
-
-    public static void main(String[] args) {
-        Codec codec = new Codec();
-        String longUrl = "http://www.google.com";
-        String shortUrl = codec.encode(longUrl);
-        System.out.println(shortUrl);
-        System.out.println(codec.decode(shortUrl));
     }
 }
 

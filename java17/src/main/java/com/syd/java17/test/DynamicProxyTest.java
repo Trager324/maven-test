@@ -1,12 +1,16 @@
 package com.syd.java17.test;
 
-//import sun.misc.ProxyGenerator;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public class DynamicProxyTest {
+    public static void main(String[] args) {
+        System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
+        IHello hello = (IHello)new DynamicProxy().bind(new Hello());
+        hello.sayHello();
+    }
+
     interface IHello {
         void sayHello();
     }
@@ -33,12 +37,6 @@ public class DynamicProxyTest {
 
             return method.invoke(originalObj, args);
         }
-    }
-
-    public static void main(String[] args) {
-        System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
-        IHello hello = (IHello) new DynamicProxy().bind(new Hello());
-        hello.sayHello();
     }
 
 }

@@ -1,27 +1,32 @@
 package com.syd.java17.struct;
 
 class MyHashSet {
+    private static final int MAXIMUM_CAPACITY = 1 << 30;
+    private final float loadFactor = 0.75f;
     private Node[] values;
     private int threshold = 16;
     private int size;
-    private final float loadFactor = 0.75f;
-    private static final int MAXIMUM_CAPACITY = 1 << 30;
-
-    private static class Node {
-        int val;
-        Node next;
-        Node() {}
-        Node(int v) {val = v;}
-        Node(int v, Node n) {val = v;next = n;}
-    }
 
     public MyHashSet() {
         this(16);
     }
+
     public MyHashSet(int threshold) {
         int n = -1 >>> Integer.numberOfLeadingZeros(threshold - 1);
         this.threshold = (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
         this.values = new Node[this.threshold];
+    }
+
+    public static void main(String[] args) {
+        MyHashSet set = new MyHashSet();
+        set.add(1);
+        set.add(2);
+        System.out.println(set.contains(1));
+        System.out.println(set.contains(3));
+        set.add(2);
+        System.out.println(set.contains(2));
+        set.remove(2);
+        System.out.println(set.contains(2));
     }
 
     private void resize(int newThreshold) {
@@ -93,16 +98,18 @@ class MyHashSet {
 
     public int size() {return size;}
 
-    public static void main(String[] args) {
-        MyHashSet set = new MyHashSet();
-        set.add(1);
-        set.add(2);
-        System.out.println(set.contains(1));
-        System.out.println(set.contains(3));
-        set.add(2);
-        System.out.println(set.contains(2));
-        set.remove(2);
-        System.out.println(set.contains(2));
+    private static class Node {
+        int val;
+        Node next;
+
+        Node() {}
+
+        Node(int v) {val = v;}
+
+        Node(int v, Node n) {
+            val = v;
+            next = n;
+        }
     }
 }
 

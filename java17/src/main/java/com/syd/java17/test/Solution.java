@@ -2,7 +2,7 @@ package com.syd.java17.test;
 
 import com.syd.java17.struct.ListNode;
 
-import java.util.*;
+import java.util.Random;
 
 //class Solution {
 //    int size = 0;
@@ -35,20 +35,11 @@ import java.util.*;
 //}
 class Solution {
     int[] arr;
-//    ThreadLocalRandom random = ThreadLocalRandom.current();
+    //    ThreadLocalRandom random = ThreadLocalRandom.current();
     Random random = new Random();
+
     public Solution(ListNode head) {
-        int count = 0;
-        ListNode p = head;
-        while (p != null) {
-            count++;
-            p = p.next;
-        }
-        arr = new int[count];
-        for (int i = 0; i < count; i++) {
-            arr[i] = head.val;
-            head = head.next;
-        }
+        System.out.println(Main.class);
     }
 
     public int getRandom() {

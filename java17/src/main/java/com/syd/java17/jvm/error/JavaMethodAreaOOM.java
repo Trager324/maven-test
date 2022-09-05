@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 
 /**
  * VM Args：-XX:PermSize=10M -XX:MaxPermSize=10M
+ *
  * @author zzm
  */
 public class JavaMethodAreaOOM {
@@ -25,6 +26,7 @@ public class JavaMethodAreaOOM {
             enhancer.create();
         }
     }
+
     static class OOMObject {
     }
 }

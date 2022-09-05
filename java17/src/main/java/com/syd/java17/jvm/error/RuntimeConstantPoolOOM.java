@@ -5,6 +5,7 @@ import java.util.Set;
 
 /**
  * VM Args：-XX:PermSize=6M -XX:MaxPermSize=6M
+ *
  * @author zzm
  */
 public class RuntimeConstantPoolOOM {

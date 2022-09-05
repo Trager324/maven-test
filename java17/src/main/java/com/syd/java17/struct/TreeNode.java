@@ -17,26 +17,9 @@ public class TreeNode {
     public TreeNode left;
     public TreeNode right;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TreeNode treeNode = (TreeNode) o;
-        return val == treeNode.val;
-    }
-    public String serialize(TreeNode root) {
-        return root.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(val);
-    }
-
     public TreeNode(int val) {
         this.val = val;
     }
-
 
     public static TreeNode parseTreeNode(String s) {
         String[] numStrings = s.substring(1, s.length() - 1).split(",");
@@ -56,6 +39,34 @@ public class TreeNode {
             if (now.right != null) q.offer(now.right);
         }
         return root;
+    }
+
+    public static void main(String[] args) {
+        TreeNode root = parseTreeNode("[1,2,3,null,5,6,null,10,11,null,13]");
+        String jsonStr = Objects.requireNonNull(root).toJSONString(false);
+        System.out.println(root);
+        System.out.println(jsonStr);
+        TreeNode parsed = JSON.parseObject(jsonStr, TreeNode.class);
+        System.out.println(parsed);
+        parsed = JSON.parseObject(jsonStr, TreeNode.class);
+        System.out.println(parsed);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TreeNode treeNode = (TreeNode)o;
+        return val == treeNode.val;
+    }
+
+    public String serialize(TreeNode root) {
+        return root.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(val);
     }
 
     @Override
@@ -91,16 +102,5 @@ public class TreeNode {
         if (left != null) sb.append(briefly ? ",l:" : ",left:").append(left.toJSONString(briefly));
         if (right != null) sb.append(briefly ? ",r:" : ",right:").append(right.toJSONString(briefly));
         return sb.append("}").toString();
-    }
-
-    public static void main(String[] args) {
-        TreeNode root = parseTreeNode("[1,2,3,null,5,6,null,10,11,null,13]");
-        String jsonStr = Objects.requireNonNull(root).toJSONString(false);
-        System.out.println(root);
-        System.out.println(jsonStr);
-        TreeNode parsed = JSON.parseObject(jsonStr, TreeNode.class);
-        System.out.println(parsed);
-        parsed = JSON.parseObject(jsonStr, TreeNode.class);
-        System.out.println(parsed);
     }
 }
