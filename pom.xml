@@ -30,7 +30,7 @@
         <druid.version>1.2.11</druid.version>
         <easyexcel.version>3.1.0</easyexcel.version>
         <fastjson.version>2.0.12</fastjson.version>
-        <fastjson2.version>2.0.13</fastjson2.version>
+        <fastjson2.version>2.0.14</fastjson2.version>
         <guava.version>31.1-jre</guava.version>
         <hutool.version>5.8.3</hutool.version>
         <httpclient.version>4.5.13</httpclient.version>
@@ -49,7 +49,7 @@
         <oss.version>3.15.0</oss.version>
         <poi.version>5.2.2</poi.version>
         <redis.version>2.7.0</redis.version>
-        <spring-boot.version>2.7.2</spring-boot.version>
+        <spring-boot.version>2.7.3</spring-boot.version>
         <swagger.version>3.0.0</swagger.version>
         <velocity.version>2.3</velocity.version>
 
