@@ -8,12 +8,12 @@ public class MyQueue<E> {
     public void push(E val) {
         tail = tail.next = new Node<>(val);
         size++;
-    }    Node<E> head = new Node<>(), tail = head;
+    }
 
     public E peek() {
         if (isEmpty()) throw new NoSuchElementException();
         return head.next.val;
-    }
+    }    Node<E> head = new Node<>(), tail = head;
 
     public E pop() {
         E res = peek();
@@ -39,6 +39,8 @@ public class MyQueue<E> {
             next = n;
         }
     }
+
+
 
 
 }

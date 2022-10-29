@@ -1,4 +1,4 @@
-package com.syd;
+package com.syd.java19;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         AtomicInteger ai = new AtomicInteger(0);
         var start = System.currentTimeMillis();
-        var tasks = IntStream.range(0, 10000000)
+        var tasks = IntStream.range(0, 100)
                 .mapToObj(i -> Thread.ofVirtual().unstarted(ai::incrementAndGet))
                 .toList();
         tasks.forEach(Thread::start);
