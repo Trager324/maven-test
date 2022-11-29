@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONFactory;
 import com.alibaba.fastjson2.JSONObject;
+import com.syd.java17.util.algo.MathAlgo;
 import jdk.dynalink.linker.support.TypeUtilities;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -31,9 +32,7 @@ import static com.syd.java17.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-
     public static void main(String[] args) throws Exception {
-
     }
 
     static final Solution solution = new Solution();

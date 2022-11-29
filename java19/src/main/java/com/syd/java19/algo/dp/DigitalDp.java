@@ -1,4 +1,4 @@
-package com.syd.java19.util.algo.dp;
+package com.syd.java19.algo.dp;
 
 import java.util.Arrays;
 

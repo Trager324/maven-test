@@ -1,4 +1,4 @@
-package com.syd.java19.util.algo;
+package com.syd.java19.algo;
 
 /**
  * @author syd

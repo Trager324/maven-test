@@ -4,6 +4,7 @@
  */
 module com.syd.java {
     requires jdk.incubator.concurrent;
+    requires jdk.incubator.vector;
     requires lombok;
     requires java.net.http;
     requires java.logging;
@@ -13,4 +14,9 @@ module com.syd.java {
     requires spring.boot;
     requires spring.boot.autoconfigure;
     requires spring.context;
+    requires jmh.core;
+    requires com.syd.common;
+
+    exports com.syd.java19.incubator;
+    exports com.syd.java19;
 }

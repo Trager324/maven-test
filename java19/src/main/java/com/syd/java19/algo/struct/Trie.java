@@ -1,4 +1,4 @@
-package com.syd.java19.util.struct;
+package com.syd.java19.algo.struct;
 
 import java.util.HashMap;
 import java.util.Map;

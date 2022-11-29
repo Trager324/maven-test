@@ -1,48 +1,70 @@
-package com.syd.java17.util.algo;
+package com.syd.java19.algo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.syd.java17.util.algo.MathAlgo.MOD;
+import static com.syd.java19.algo.MathAlgo.MOD;
 
 /**
+ * 数论算法
+ *
  * @author songyide
  * @date 2022/8/4
  */
-public class NumberTheoryAlgo {
+public class NumericAlgo {
     /**
      * 分解质因数
+     *
+     * @param n 要分解的数
+     * @return List[质因数, 指数]
      */
-    public static List<Integer> breakdown(long n) {
-        List<Integer> res = new ArrayList<>();
+    public static List<long[]> breakdown(long n) {
+        List<long[]> res = new ArrayList<>();
         for (int i = 2; (long)i * i <= n; i++) {
-            if (n % i == 0) {
-                // 如果 i 能够整除 N，说明 i 为 N 的一个质因子。
-                while (n % i == 0) {
-                    n /= i;
-                }
-                res.add(i);
+            int cnt = 0;
+            while (n % i == 0) {
+                n /= i;
+                cnt++;
             }
+            if (cnt > 0) res.add(new long[]{i, cnt});
         }
         if (n != 1) {
             // 说明再经过操作之后 N 留下了一个素数
-            res.add((int)n);
+            res.add(new long[]{n, 1});
         }
         return res;
     }
 
     /**
-     * 欧几里得算法(辗转相除法)取最大公约数
+     * 最大公约数(辗转相除法/欧几里得算法)
+     * <p>迭代版:</p>
+     * {@snippet lang = java:
+     * public static long gcd(long a, long b) {
+     *     while (b != 0) {
+     *         long r = a % b;
+     *         a = b;
+     *         b = r;
+     *     }
+     *     return a;
+     * }
+     *}
+     *
+     * @param a 第一个数
+     * @param b 第二个数
+     * @return a和b的最大公约数
      */
-    public static int gcd(int a, int b) {
-        while (b != 0) {
-            int r = a % b;
-            a = b;
-            b = r;
-        }
-        return a;
-    }
+    public static long gcd(long a, long b) {return b == 0 ? a : gcd(b, a % b);}
+
+    /**
+     * 最小公倍数
+     *
+     * @param a 第一个数
+     * @param b 第二个数
+     * @return a和b的最小公倍数
+     */
+    public static long lcm(long a, long b) {return a * b / gcd(a, b);}
+
 
     /**
      * 埃氏筛
@@ -98,21 +120,6 @@ public class NumberTheoryAlgo {
     }
 
     /**
-     * 线性求乘法逆元，对{@link MathAlgo#MOD}取余
-     *
-     * @param n 范围
-     * @return 逆元数组
-     */
-    public static long[] multiplicativeInverseLeaner(int n) {
-        long[] inv = new long[n + 1];
-        inv[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            inv[i] = (MOD - MOD / i) * inv[MOD % i] % MOD;
-        }
-        return inv;
-    }
-
-    /**
      * 快速幂法求乘法逆元，对{@link MathAlgo#MOD}取余
      * <p>根据费马小定理，条件为b为素数</p>
      * <p>条件弱化为{@code gcd(a, b) == 1}需要使用扩展欧几里得算法</p>
@@ -129,5 +136,20 @@ public class NumberTheoryAlgo {
             a = a * a % MOD;
         }
         return res;
+    }
+
+    /**
+     * 线性求乘法逆元，对{@link MathAlgo#MOD}取余
+     *
+     * @param n 范围
+     * @return 逆元数组
+     */
+    public static long[] multiplicativeInverseLeaner(int n) {
+        long[] inv = new long[n + 1];
+        inv[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            inv[i] = (MOD - MOD / i) * inv[MOD % i] % MOD;
+        }
+        return inv;
     }
 }

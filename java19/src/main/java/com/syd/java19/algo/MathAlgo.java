@@ -1,11 +1,15 @@
-package com.syd.java19.util.algo;
+package com.syd.java19.algo;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
 
+import static com.syd.java19.algo.NumericAlgo.multiplicativeInverseLeaner;
+
 /**
+ * 其他数学算法，包含：组合数学、快速幂
+ *
  * @author syd
  * @date 2022/3/10
  */
@@ -30,40 +34,6 @@ public class MathAlgo {
             b >>= 1;
         }
         return res;
-    }
-
-    /**
-     * 快速幂法求乘法逆元，对{@link #MOD}取余
-     * <p>根据费马小定理，条件为b为素数</p>
-     * <p>条件弱化为{@code gcd(a, b) == 1}需要使用扩展欧几里得算法</p>
-     *
-     * @return a mod b 的逆元
-     */
-    public static int multiplicativeInverse(long a, int b) {
-        int res = 1;
-        a = (a % MOD + MOD) % MOD;
-        for (; b != 0; b >>= 1) {
-            if ((b & 1) == 1) {
-                res = (int)(a * res % MOD);
-            }
-            a = a * a % MOD;
-        }
-        return res;
-    }
-
-    /**
-     * 线性求乘法逆元，对{@link #MOD}取余
-     *
-     * @param n 范围
-     * @return 逆元数组
-     */
-    public static long[] multiplicativeInverseLeaner(int n) {
-        long[] inv = new long[n + 1];
-        inv[1] = 1;
-        for (int i = 2; i <= n; i++) {
-            inv[i] = (MOD - MOD / i) * inv[MOD % i] % MOD;
-        }
-        return inv;
     }
 
     /**

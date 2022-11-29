@@ -1,7 +1,7 @@
-package com.syd.java19.util.struct;
+package com.syd.java19.algo.struct;
 
 
-import com.syd.java19.util.algo.ArrayAlgo;
+import com.syd.java19.algo.ArrayAlgo;
 
 /**
  * @author songyide
