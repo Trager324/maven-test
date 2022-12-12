@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONFactory;
 import com.alibaba.fastjson2.JSONObject;
-import com.syd.java17.util.algo.MathAlgo;
 import jdk.dynalink.linker.support.TypeUtilities;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -84,10 +83,12 @@ public class Solution {
                         return false;
                     }
                 } else {
-                    switch (arg) {
-                        case JSONArray json -> args[j] = json.to(type);
-                        case JSONObject json -> args[j] = json.to(type);
-                        default -> {return false;}
+                    if (arg instanceof JSONArray json) {
+                        args[j] = json.to(type);
+                    } else if (arg instanceof JSONObject json) {
+                        args[j] = json.to(type);
+                    } else {
+                        return false;
                     }
                 }
             }

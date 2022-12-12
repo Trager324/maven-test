@@ -1,5 +1,6 @@
 package com.syd.common.util;
 
+import lombok.NonNull;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -7,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotNull;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
@@ -134,7 +134,7 @@ public final class SpringUtils implements ApplicationContextAware {
     }
 
     @Override
-    public synchronized void setApplicationContext(@NotNull ApplicationContext ac) throws BeansException {
+    public synchronized void setApplicationContext(@NonNull ApplicationContext ac) throws BeansException {
         SpringUtils.ac = ac;
     }
 }

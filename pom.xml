@@ -15,7 +15,7 @@
     </modules>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>19</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,9 +29,9 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <druid.version>1.2.15</druid.version>
-        <easyexcel.version>3.1.2</easyexcel.version>
-        <fastjson.version>2.0.19</fastjson.version>
-        <fastjson2.version>2.0.19</fastjson2.version>
+        <easyexcel.version>3.1.3</easyexcel.version>
+        <fastjson.version>2.0.20</fastjson.version>
+        <fastjson2.version>2.0.20</fastjson2.version>
         <guava.version>31.1-jre</guava.version>
         <hutool.version>5.8.10</hutool.version>
         <jmh.version>1.35</jmh.version>
@@ -41,7 +41,7 @@
         <kaptcha.version>2.3.2</kaptcha.version>
         <lombok.version>1.18.24</lombok.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <mybatis.version>2.2.2</mybatis.version>
+        <mybatis.version>3.0.0</mybatis.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <mysql.version>8.0.31</mysql.version>
         <oshi.version>6.1.2</oshi.version>
@@ -50,8 +50,10 @@
         <poi-ooxml.version>5.2.2</poi-ooxml.version>
         <poi-tl.version>1.12.0</poi-tl.version>
         <redis.version>2.7.0</redis.version>
-        <spring-boot.version>2.7.5</spring-boot.version>
+        <spring.version>6.0.2</spring.version>
+        <spring-boot.version>3.0.0</spring-boot.version>
         <swagger.version>3.0.0</swagger.version>
+        <validation.version>3.0.2</validation.version>
         <velocity.version>2.3</velocity.version>
     </properties>
 
@@ -60,6 +62,17 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
             <!-- SpringBoot的依赖配置-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -67,6 +80,12 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${validation.version}</version>
             </dependency>
 
             <!-- 阿里数据库连接池 -->
@@ -200,13 +219,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
-                <configuration>
-                    <fork>true</fork> <!-- 如果没有该配置，devtools不会生效 -->
-                </configuration>
-                <executions>
-                    <execution>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -215,6 +227,29 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <release>${java.version}</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.openjdk.jmh</groupId>
+                            <artifactId>jmh-generator-annprocess</artifactId>
+                            <version>${jmh.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.4.2.Final</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.1.0</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

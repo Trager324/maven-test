@@ -192,7 +192,7 @@ public class FeatureSummary {
             log.error(e.getMessage(), e);
         }
 
-        Consumer<String> con = (@Deprecated var c) -> System.out.println(c.toLowerCase());
+        Consumer<String> con = (var c) -> System.out.println(c.toLowerCase());
         con.accept("HELLO WORLD");
     }
 

@@ -39,7 +39,6 @@ class Solution {
     Random random = new Random();
 
     public Solution(ListNode head) {
-        System.out.println(Main.class);
     }
 
     public int getRandom() {

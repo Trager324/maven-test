@@ -2,7 +2,7 @@ package com.syd.common.constant;
 
 import com.syd.common.exception.BaseException;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;

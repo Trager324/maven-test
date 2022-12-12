@@ -11,7 +11,6 @@ module com.syd.common {
     requires swagger.annotations;
     requires spring.web;
     requires spring.core;
-    requires java.validation;
     requires com.fasterxml.jackson.annotation;
     requires org.apache.tomcat.embed.core;
     requires org.apache.commons.lang3;
@@ -20,7 +19,10 @@ module com.syd.common {
     requires spring.context;
     requires hutool.all;
     requires spring.aop;
+    requires jakarta.validation;
+    requires org.slf4j;
 
+    exports com.syd.common.bean;
     exports com.syd.common.constant;
     exports com.syd.common.util;
     exports com.syd.common.exception;

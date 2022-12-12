@@ -4,8 +4,8 @@ import com.syd.common.constant.ResponseCode;
 import com.syd.common.exception.BaseException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,7 +27,7 @@ public class ExecutorUtils {
             private final String namePrefix = factoryName + "-thread-";
 
             @Override
-            public Thread newThread(@NotNull Runnable r) {
+            public Thread newThread(@NonNull Runnable r) {
                 Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
                 if (t.isDaemon()) {
                     t.setDaemon(false);

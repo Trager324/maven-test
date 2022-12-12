@@ -8,6 +8,7 @@ import jdk.dynalink.linker.support.TypeUtilities;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.java.Log;
+import org.springframework.beans.factory.BeanFactory;
 
 import java.io.*;
 import java.lang.reflect.*;
@@ -34,11 +35,10 @@ import static com.syd.java19.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-    public static void main(String[] args) throws IOException {
-        List<Object> list = new ArrayList<>();
-        list.add(1.3f);
-        list.add("1");
-        System.out.println(list);
+    public static void main(@NonNull String[] args) throws IOException {
+
+        Map<Integer, Integer> treeMap = new TreeMap<>();
+        BeanFactory bf;
     }
 
     static final Solution solution = new Solution();
