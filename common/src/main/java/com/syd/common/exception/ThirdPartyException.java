@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
  * @date 2022/10/25
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ThirdPartyException extends BaseException {
+public non-sealed class ThirdPartyException extends BaseException {
     protected ThirdPartyException(ResponseCode code) {
         super(code);
         super.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);

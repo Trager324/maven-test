@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SystemException extends BaseException {
+public non-sealed class SystemException extends BaseException {
     protected SystemException(ResponseCode code) {
         super(code);
         super.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);

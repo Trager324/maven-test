@@ -51,12 +51,6 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- 模板导出 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
-
         <!-- mybatis-plus插件依赖 -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -69,11 +63,11 @@
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
-        <!-- 阿里数据库连接池 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
+<!--        &lt;!&ndash; 阿里数据库连接池 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid-spring-boot-starter</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
@@ -114,6 +108,11 @@
         <dependency>
             <groupId>com.syd</groupId>
             <artifactId>common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
         <!--        <dependency>-->
 <!--            <groupId>org.openjdk.jmh</groupId>-->

@@ -20,7 +20,7 @@ import java.util.Date;
  * @author songyide
  * @date 2022/5/12
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TimeUtils extends DateUtils {
     public static final String YYYY_MM = "yyyy-MM";
     public static final String YYYY_MM_DD = "yyyy-MM-dd";

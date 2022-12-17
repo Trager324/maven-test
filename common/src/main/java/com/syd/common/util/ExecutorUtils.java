@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author songyide
  * @date 2022/9/19
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExecutorUtils {
     public static final RejectedExecutionHandler DEFAULT_HANDLER = (r, e) -> {
         throw BaseException.of(ResponseCode.B0315)

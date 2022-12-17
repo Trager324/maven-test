@@ -1,0 +1,22 @@
+# 本地开发环境
+spring:
+  #    数据库
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          url: jdbc:mysql://localhost:3306/mysql?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+          username: root
+          password: root
+        slave:
+          url: jdbc:mysql://localhost:3306/slave?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+          username: root
+          password: root
+  data:
+    redis:
+      host: localhost
+
+springfox:
+  documentation:
+    enabled: true
+

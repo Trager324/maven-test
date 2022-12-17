@@ -9,14 +9,24 @@ import java.util.List;
  */
 public class ListAlgo {
     /**
-     * 二分搜索，升序列表，严格小于x
+     * 交换列表元素
+     * @param list 列表
+     * @param i 索引i
+     * @param j 索引j
+     */
+    public static <T> void swap(List<T> list, int i, int j) {
+        list.set(i, list.set(j, list.get(i)));
+    }
+
+    /**
+     * 二分搜索，升序列表，大于等于x的第一个元素的位置
      */
     public static <T extends Comparable<T>> int lowerBound(List<? extends T> list, T x) {
         return lowerBound(list, x, Comparator.naturalOrder());
     }
 
     /**
-     * 二分搜索，升序列表，严格小于x
+     * 二分搜索，升序列表，大于等于x的最后一个元素的位置
      */
     public static <T extends Comparable<T>> int upperBound(List<? extends T> list, T x) {
         return upperBound(list, x, Comparator.naturalOrder());
@@ -62,35 +72,32 @@ public class ListAlgo {
         return l;
     }
 
-    public static void nthElement(List<Integer> results, int left, int kth, int right) {
+    /**
+     * 快速选择算法
+     */
+    public static <T extends Comparable<T>> void nthElement(List<T> list, int left, int right, int kth) {
         if (left == right) {
             return;
         }
         int pivot = (int)(left + Math.random() * (right - left + 1));
-        swap(results, pivot, right);
+        swap(list, pivot, right);
         // 三路划分（three-way partition）
         int sepl = left - 1, sepr = left - 1;
         for (int i = left; i <= right; i++) {
-            if (results.get(i) > results.get(right)) {
-                swap(results, ++sepr, i);
-                swap(results, ++sepl, sepr);
-            } else if (results.get(i).equals(results.get(right))) {
-                swap(results, ++sepr, i);
+            if (list.get(i).compareTo(list.get(right)) > 0) {
+                swap(list, ++sepr, i);
+                swap(list, ++sepl, sepr);
+            } else if (list.get(i).equals(list.get(right))) {
+                swap(list, ++sepr, i);
             }
         }
         if (sepl < left + kth && left + kth <= sepr) {
             return;
         }
         if (left + kth <= sepl) {
-            nthElement(results, left, kth, sepl);
+            nthElement(list, left, sepl, kth);
         } else {
-            nthElement(results, sepr + 1, kth - (sepr - left + 1), right);
+            nthElement(list, sepr + 1, right, kth - (sepr - left + 1));
         }
-    }
-
-    public static <T> void swap(List<T> results, int index1, int index2) {
-        T temp = results.get(index1);
-        results.set(index1, results.get(index2));
-        results.set(index2, temp);
     }
 }

@@ -15,20 +15,20 @@ import java.util.function.Function;
  * @author songyide
  * @date 2022/7/11
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BatchUtils {
     /**
      * 默认批量插入条数
      */
-    public static final int BATCH_SIZE_INSERT = 1000;
+    public static final int BATCH_SIZE_INSERT = 1 << 10;
     /**
      * 默认批量导出条数
      */
-    public static final int BATCH_SIZE_EXPORT = 5000;
+    public static final int BATCH_SIZE_EXPORT = 1 << 13;
     /**
      * 默认批量查询条数
      */
-    public static final int BATCH_SIZE_QUERY = Short.MAX_VALUE;
+    public static final int BATCH_SIZE_QUERY = 1 << 15;
 
     /**
      * 分批查询

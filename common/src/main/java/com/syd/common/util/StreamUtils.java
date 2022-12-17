@@ -1,14 +1,14 @@
 package com.syd.common.util;
 
 import com.alibaba.fastjson2.JSONArray;
+import com.syd.common.constant.ResponseCode;
+import com.syd.common.exception.BaseException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.AbstractMap;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 
 /**
@@ -17,8 +17,15 @@ import java.util.function.Function;
  * @author songyide
  * @date 2022/10/20
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StreamUtils {
+    public static <T> BinaryOperator<T> throwingMerger() {
+        return (u, v) -> {
+            throw BaseException.of(ResponseCode.B0001)
+                    .setDebugInfo("field字段重复\nu: " + u + "\nv: " + v);
+        };
+    }
+
     /**
      * 参数如果不为空则执行映射函数
      */
@@ -37,13 +44,5 @@ public class StreamUtils {
         if (a == null || idx >= a.size() || idx < 0)
             return null;
         return func.apply(a, idx);
-    }
-
-    public static <K, V> Map.Entry<K, V> newEntry(K key, V value) {
-        return new AbstractMap.SimpleEntry<>(key, value);
-    }
-
-    public static <T, R> Comparator<T> comparing(Function<T, R> func, Comparator<R> cmp) {
-        return (p, q) -> cmp.compare(func.apply(p), func.apply(q));
     }
 }

@@ -4,9 +4,6 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Collection;
-import java.util.Map;
-
 /**
  * 字符串工具类
  *
@@ -17,36 +14,9 @@ public class ExtStrUtils extends StringUtils {
 
     public static final String COMMA = ",";
     public static final String PERIOD = ".";
-
-    /**
-     * 判断一个Collection是否为空， 包含List，Set，Queue
-     *
-     * @param c 要判断的Collection
-     * @return 判断结果
-     */
-    public static boolean isEmpty(Collection<?> c) {
-        return c == null || c.isEmpty();
-    }
-
-    /**
-     * 判断一个对象数组是否为空
-     *
-     * @param objects 要判断的对象数组
-     * @return 判断结果
-     */
-    public static boolean isEmpty(Object[] objects) {
-        return objects == null || objects.length == 0;
-    }
-
-    /**
-     * 判断一个Map是否为空
-     *
-     * @param map 要判断的Map
-     * @return 判断结果
-     */
-    public static boolean isEmpty(Map<?, ?> map) {
-        return map == null || map.isEmpty();
-    }
+    public static final String STAR = "*";
+    public static final String UNDERSCORE = "_";
+    public static final String DOLLAR = "$";
 
     /**
      * 驼峰转下划线命名

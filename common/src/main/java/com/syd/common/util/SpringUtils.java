@@ -1,5 +1,7 @@
 package com.syd.common.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
@@ -17,7 +19,8 @@ import java.util.Map;
  * @author ruoyi
  */
 @Component
-public final class SpringUtils implements ApplicationContextAware {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class SpringUtils implements ApplicationContextAware {
     /**
      * Spring应用上下文环境
      */

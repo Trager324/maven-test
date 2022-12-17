@@ -1,0 +1,69 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  profiles:
+    active: @profile.active@
+  application:
+    name: foo
+  mvc:
+    path-match:
+      matching-strategy: ANT_PATH_MATCHER
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      primary: master
+      strict: false  # 是否严格切换数据源
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 200
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: false
+      filters: stat,wall,log4j2
+      # 通过connectProperties属性来打开mergeSql功能; 慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  data:
+    redis:
+      host:
+      password:
+      port: 6379
+      database: 0
+      timeout: 10000
+      lettuce:
+        pool:
+          max-active: 600
+          max-idle: 300
+          max-wait: 10000
+  servlet:
+    multipart:
+      #单文件最大容量
+      max-file-size: 10MB
+      #多文件最大容量
+      max-request-size: 100MB
+
+mybatis-plus:
+  global-config:
+    banner: false
+  configuration:
+    call-setters-on-nulls: false
+
+springfox:
+  documentation:
+    enabled: false
+

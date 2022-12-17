@@ -21,6 +21,17 @@ module com.syd.common {
     requires spring.aop;
     requires jakarta.validation;
     requires org.slf4j;
+    requires spring.boot.autoconfigure;
+    requires com.fasterxml.jackson.databind;
+    requires com.baomidou.mybatis.plus.annotation;
+    requires org.mybatis.spring;
+    requires springfox.oas;
+    requires springfox.spring.web;
+    requires springfox.spi;
+    requires springfox.core;
+    requires swagger.models;
+    requires fastjson2.extension;
+    requires org.aspectj.weaver;
 
     exports com.syd.common.bean;
     exports com.syd.common.constant;

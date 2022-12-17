@@ -1,14 +1,13 @@
 package com.syd.common.util;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,9 +16,9 @@ import java.util.concurrent.TimeUnit;
  * @author songyide
  **/
 @Component
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class RedisService {
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     public void set(String key, Object value, long time) {
         set(key, value, time, TimeUnit.SECONDS);
@@ -48,7 +47,7 @@ public class RedisService {
         return redisTemplate.delete(key);
     }
 
-    public Long del(List<String> keys) {
+    public Long del(Collection<String> keys) {
         return redisTemplate.delete(keys);
     }
 
@@ -115,10 +114,11 @@ public class RedisService {
         return redisTemplate.opsForHash().increment(key, hashKey, delta);
     }
 
+    @NonNull
     @SuppressWarnings("unchecked")
     public <E> Set<E> sMembers(String key) {
-        Set<Object> members = redisTemplate.opsForSet().members(key);
-        return members == null ? null : Set.of((E[])members.toArray());
+        var members = redisTemplate.opsForSet().members(key);
+        return members == null ? Set.of() : Set.of((E[])members.toArray());
     }
 
     public Long sAdd(String key, Object... values) {
@@ -143,10 +143,11 @@ public class RedisService {
         return redisTemplate.opsForSet().remove(key, values);
     }
 
+    @NonNull
     @SuppressWarnings("unchecked")
     public <E> List<E> lRange(String key, long start, long end) {
-        List<Object> list = redisTemplate.opsForList().range(key, start, end);
-        return list == null ? null : List.of((E[])list.toArray());
+        var list = redisTemplate.opsForList().range(key, start, end);
+        return list == null ? List.of() : List.of((E[])list.toArray());
     }
 
     public Long lSize(String key) {
@@ -183,6 +184,6 @@ public class RedisService {
     }
 
     public Set<String> getListKey(String prefix) {
-        return redisTemplate.keys(prefix.concat("*"));
+        return redisTemplate.keys(prefix + ExtStrUtils.STAR);
     }
 }

@@ -31,19 +31,16 @@ spring:
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
 
-  redis:
-    host: localhost
-    password:
-    port: 6379
-    timeout: 10000
-    database: 0
-    lettuce:
-      pool:
-        max-active: 600
-        max-idle: 300
-        max-wait: 10000
+  data:
+    redis:
+      host:
+      password:
+      port: 6379
+      timeout: 10000
+      database: 0
+      lettuce:
+        pool:
+          max-active: 600
+          max-idle: 300
+          max-wait: 10000
 
-
-logging:
-  level:
-    com.syd: debug

@@ -10,9 +10,8 @@ public sealed interface Java<T extends Comparable<T> & Cloneable> permits Java.F
                 switch ((short)1L > Byte.BYTES ? ClassLoader.getSystemClassLoader() : getClass().getClassLoader()) {
                     case null: // TODO FIXME const yield _ goto case when
                     default: assert !((java.util.function.Predicate<? super Double>)_$ -> {
-                        return Thread.currentThread().getName().split("^(.*?|[\\d]{2})+$")
-                                [List.copyOf(Map.of().entrySet()).toArray().length]
-                                .chars().boxed().count() == Short.hashCode(Character.CURRENCY_SYMBOL);
+                        return Thread.currentThread().getName().split("^(.*?|[\\d]{2})+$")[List.of(Map
+                                .ofEntries()).size()].chars().count() == Short.hashCode(Character.CURRENCY_SYMBOL);
                     }).test(((long).3E4f << 5 >> 6 ^ 7) / (double)0x8P9D) || Boolean.valueOf((byte)Math.random() *
                             Date.parse(Void.TYPE.getCanonicalName()) < (char)Runtime.version().feature())
                             && Objects.equals(Long.MAX_VALUE, false);}

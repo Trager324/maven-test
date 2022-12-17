@@ -13,7 +13,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -21,7 +20,7 @@ import java.util.stream.IntStream;
  * @date 2022/6/10
  */
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ConcurrentUtils {
     private static final int THREAD_COUNT = 5;
     private static final int DEFAULT_QUEUE_SIZE = 1000;
@@ -74,7 +73,7 @@ public class ConcurrentUtils {
             } catch (BaseException e) {
                 log.error("异步任务异常 - {}", e.getMessage(), e);
             }
-        }, pool)).collect(Collectors.toList());
+        }, pool)).toList();
         tasks.forEach(CompletableFuture::join);
         return Arrays.asList(results);
     }

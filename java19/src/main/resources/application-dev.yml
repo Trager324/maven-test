@@ -4,12 +4,8 @@ spring:
     url: jdbc:mysql://localhost:3306/study?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: root
-
-  redis:
-    host: localhost
-    password:
-    port: 6379
-    timeout: 10000
-    database: 0
+  data:
+    redis:
+      host: localhost
 
 

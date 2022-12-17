@@ -21,7 +21,9 @@ module com.syd.java {
     requires swagger.annotations;
     requires spring.data.commons;
     requires org.slf4j;
+    requires com.google.common;
 
     exports com.syd.java19.incubator;
     exports com.syd.java19;
+    opens com.syd.java19;
 }

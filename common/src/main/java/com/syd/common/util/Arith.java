@@ -6,15 +6,13 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.util.Comparator;
-import java.util.function.Function;
 
 /**
  * 高精度运算工具类
  *
  * @author songyide
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Arith {
     public static final BigDecimal _100 = BigDecimal.valueOf(100);
 
@@ -22,47 +20,6 @@ public class Arith {
      * 统计接口默认运算精度
      */
     public static final int SCALE_STATS_DEF = 6;
-    /**
-     * 比率型统计精度范围
-     */
-    public static final int SCALE_RATE_MAX = 4;
-    public static final int SCALE_RATE_MIN = 2;
-    /**
-     * 高精度比较器，null值在前
-     */
-    public static final Comparator<BigDecimal> CMP_DECIMAL = (p, q) -> {
-        if (p == null) {
-            return -1;
-        } else if (q == null) {
-            return 1;
-        }
-        return p.compareTo(q);
-    };
-
-    public static final Function<BigDecimal, String> FMT_STATS_DEF = d -> {
-        if (d == null) {
-            return "/";
-        }
-        // 超过精度进行四舍五入
-        if (d.scale() > Arith.SCALE_STATS_DEF) {
-            d = d.setScale(Arith.SCALE_STATS_DEF, RoundingMode.HALF_UP);
-        }
-        return d.toPlainString();
-    };
-
-    public static final Function<BigDecimal, String> FMT_RATE_DEF = d -> {
-        if (d == null) {
-            return "/";
-        }
-        d = Arith._100.multiply(d);
-        if (d.scale() > SCALE_RATE_MAX) {
-            d = d.setScale(SCALE_RATE_MAX, RoundingMode.HALF_UP);
-        } else if (d.scale() < SCALE_RATE_MIN) {
-            // 精度不足则补0
-            d = d.setScale(SCALE_RATE_MIN, RoundingMode.HALF_UP);
-        }
-        return d.toPlainString() + "%";
-    };
 
     public static BigDecimal numberToBigDecimal(Number num) {
         // 排除可能导致精度丢失的类型

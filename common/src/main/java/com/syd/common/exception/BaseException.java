@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class BaseException extends RuntimeException {
+public abstract sealed class BaseException extends RuntimeException permits BusinessException, SystemException, ThirdPartyException {
     private static final String PREFIX_BUSINESS = ResponseCode.A0001.getCode().substring(0, 1);
     private static final String PREFIX_THIRD_PARTY = ResponseCode.C0001.getCode().substring(0, 1);
     /**

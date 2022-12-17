@@ -12,10 +12,8 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BusinessException extends BaseException {
-
+public non-sealed class BusinessException extends BaseException {
     protected BusinessException(ResponseCode code) {
         super(code);
     }
-
 }

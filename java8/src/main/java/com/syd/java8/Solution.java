@@ -10,7 +10,7 @@ import lombok.Data;
  */
 public class Solution {
     public static void main(String[] args) {
-        TypeReference<A<A<Integer>>> type = new TypeReference<A<A<Integer>>>() {
+        TypeReference<A<A<Integer>>> type = new TypeReference<>() {
         };
         A<A<Integer>> data = JSON.parseObject("{\"data\":{\"data\":1}}", type);
         System.out.println(JSON.toJSONString(data));
