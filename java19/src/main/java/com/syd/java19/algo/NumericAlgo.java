@@ -96,12 +96,13 @@ public class NumericAlgo {
         boolean[] res = new boolean[n + 1];
         Arrays.fill(res, true);
         res[0] = res[1] = false;
-        List<Integer> list = new ArrayList<>();
+        // 根据素数定理，素数的个数大约为 n / ln(n)
+        List<Integer> list = new ArrayList<>((int)(n / Math.log(n)));
         for (int i = 2; i <= n; ++i) {
             if (res[i]) {
                 list.add(i);
             }
-            for (Integer prime : list) {
+            for (var prime : list) {
                 if (i * prime > n) {
                     break;
                 }

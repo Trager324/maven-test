@@ -16,7 +16,6 @@ module com.syd.java {
     requires spring.boot;
     requires spring.boot.autoconfigure;
     requires jmh.core;
-    requires com.syd.common;
     requires com.baomidou.mybatis.plus.core;
     requires swagger.annotations;
     requires spring.data.commons;

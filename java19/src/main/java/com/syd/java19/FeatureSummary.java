@@ -156,7 +156,7 @@ public class FeatureSummary {
 
     /**
      * <ul>
-     *   <li>局部变量类型推断升级; ZGC; java命令直接运行源文件，不需要事先javac编译</li>
+     *   <li>局部变量类型推断升级; ZGC; java命令直接运行源文件, 不需要事先javac编译</li>
      *   <li>{@link String#isBlank}, {@link String#strip}, {@link String#stripLeading}, {@link String#stripTrailing},
      *   {@link String#repeat}, {@link String#lines}, </li>
      *   <li>{@link Optional#isEmpty}</li>
@@ -235,7 +235,7 @@ public class FeatureSummary {
      * <ul>
      *   <li>外部存储器访问 API(孵化); jpackage(孵化)</li>
      *   <li>switch表达式(正式); record(预览); instanceof模式匹配</li>
-     *   <li>{@link NullPointerException}错误栈增强，指出引发NPE的对象</li>
+     *   <li>{@link NullPointerException}错误栈增强, 指出引发NPE的对象</li>
      *   <li>CMS移除, 弃用 ParallelScavenge + SerialOld GC; ZGC优化Windows和Mac</li>
      * </ul>
      *
@@ -263,15 +263,15 @@ public class FeatureSummary {
      *   <li>{@link DatagramSocket}, {@link MulticastSocket}API重构</li>
      *   <li>移除Solaris 和 SPARC 端口; 移除the Nashorn JS引擎</li>
      *   <li>封闭类(预览), sealed, permits; 隐藏类; 禁用、弃用偏向锁</li>
-     *   <li>Shenandoah GC(正式): 一种低停顿的垃圾回收器，-XX:+UseShenandoahGC 开启不需要添加参数
+     *   <li>Shenandoah GC(正式): 一种低停顿的垃圾回收器, -XX:+UseShenandoahGC 开启不需要添加参数
      *   -XX:+UnlockExperimentalVMOptions</li>
      *   <li>ZGC(正式)
      *     <ul>
-     *      <li>ZGC是Java 11引入的新的垃圾收集器（JDK9以后默认的垃圾回收器是G1），经过了多个实验阶段，自此终于成为正式特性。</li>
-     *      <li>自 2018 年以来，ZGC 已增加了许多改进，从并发类卸载、取消使用未使用的内存、对类数据共享的支持到改进的 NUMA 感知。
-     *      此外，最大堆大小从 4 TB 增加到 16 TB。支持的平台包括 Linux、Windows 和 MacOS。</li>
-     *      <li>ZGC是一个重新设计的并发的垃圾回收器，通过减少 GC 停顿时间来提高性能。</li>
-     *      <li>默认的GC仍然还是G1；之前需要通过-XX:+UnlockExperimentalVMOptions -XX:+UseZGC来启用ZGC，
+     *      <li>ZGC是Java 11引入的新的垃圾收集器（JDK9以后默认的垃圾回收器是G1）, 经过了多个实验阶段, 自此终于成为正式特性。</li>
+     *      <li>自 2018 年以来, ZGC 已增加了许多改进, 从并发类卸载、取消使用未使用的内存、对类数据共享的支持到改进的 NUMA 感知。
+     *      此外, 最大堆大小从 4 TB 增加到 16 TB。支持的平台包括 Linux、Windows 和 MacOS。</li>
+     *      <li>ZGC是一个重新设计的并发的垃圾回收器, 通过减少 GC 停顿时间来提高性能。</li>
+     *      <li>默认的GC仍然还是G1；之前需要通过-XX:+UnlockExperimentalVMOptions -XX:+UseZGC来启用ZGC,
      *      现在只需要-XX:+UseZGC就可以。</li>
      *     </ul>
      *   </li>
@@ -286,8 +286,8 @@ public class FeatureSummary {
      * <ul>
      *     <li>Vector API(孵化), Foreign Linker API(孵化)简化native code</li>
      *     <li>ZGC优化: 实现了并发thread-stack处理来降低GC safepoints的负担</li>
-     *     <li>Elastic Metaspace, 及时地将未使用的 HotSpot 类元数据（即元空间）内存返回给操作系统，
-     *     减少元空间占用，并简化元空间代码以降低维护成本。</li>
+     *     <li>Elastic Metaspace, 及时地将未使用的 HotSpot 类元数据（即元空间）内存返回给操作系统,
+     *     减少元空间占用, 并简化元空间代码以降低维护成本。</li>
      *     <li>instanceof模式匹配(正式); Record(正式); jpackage(正式)</li>
      * </ul>
      *
@@ -307,14 +307,14 @@ public class FeatureSummary {
     /**
      * <ul>
      *     <li>
-     *      * javaDoc snippet标签
-     *      * {@snippet :
-     *      *     class Main() {
-     *      *         public static void main(String[] args) {
-     *      *             System.out.println("since java18");
-     *      *         }
-     *      *     }
-     *      *}</li>
+     *     javaDoc snippet标签
+     *     {@snippet :
+     *     class Main() {
+     *         public static void main(String[] args) {
+     *             System.out.println("since java18");
+     *         }
+     *     }}
+     *    </li>
      * </ul>
      *
      * @since 18
@@ -323,7 +323,7 @@ public class FeatureSummary {
 
     /**
      * <ul>
-     *     <li>switch(第三次预览)，record解构，解构分支when表达式</li>
+     *     <li>switch(第三次预览), record解构, 解构分支when表达式</li>
      *     <li>虚拟线程</li>
      *     <li>结构化并发(孵化)</li>
      * </ul>
@@ -336,8 +336,11 @@ public class FeatureSummary {
             case null -> 0;
             case A19 a -> a.hashCode();
             case B19 b -> b.hashCode();
-            case Circle(var ignored,var r)when r < 0 -> -1;
-            case Circle(var p,var r) -> r + Math.abs(p.x) + Math.abs(p.y);
+            case Circle(P(var x0, var y0) p, var r)when r < x0 -> {
+                System.out.println(p);
+                yield y0;
+            }
+            case Circle(var p, var r) -> r + Math.abs(p.x) + Math.abs(p.y);
         };
         Thread.ofVirtual().start(() -> System.out.println(x));
     }
@@ -346,7 +349,7 @@ public class FeatureSummary {
      * <ul>
      *     <li>浮点运算更加严格, 简化{@link Math}, {@link StrictMath}</li>
      *     <li>删除AOT和JIT编译器; 删除Applet API; 弃用安全管理器Security Manager; 移除RMI激活机制</li>
-     *     <li>为伪随机数生成器 (PRNG) 提供新的接口类型和实现，包括可跳转 PRNG 和另一类可拆分 PRNG 算法 (LXM)。
+     *     <li>为伪随机数生成器 (PRNG) 提供新的接口类型和实现, 包括可跳转 PRNG 和另一类可拆分 PRNG 算法 (LXM)。
      *     {@link RandomGenerator}为所有现有和新的PRNG提供统一的API。</li>
      *     <li>密封类(正式)</li>
      *     <li>switch模式匹配(预览)</li>
