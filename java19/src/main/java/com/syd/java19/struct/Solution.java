@@ -4,11 +4,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONFactory;
 import com.alibaba.fastjson2.JSONObject;
-import io.netty.util.concurrent.DefaultPromise;
-import io.netty.util.concurrent.Promise;
-import io.netty.util.concurrent.PromiseCombiner;
-import io.netty.util.concurrent.PromiseNotifier;
-import io.swagger.models.auth.In;
 import jdk.dynalink.linker.support.TypeUtilities;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -39,34 +34,25 @@ import static com.syd.java19.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-    public boolean areNumbersAscending(String s) {
-        var cs = s.toCharArray();
-        int last = Integer.MIN_VALUE, n = cs.length;
-        for (int i = 0; i < n; i++) {
-            int j = i, num = 0;
-            boolean isNum = true;
-            while (j < n && cs[j] != ' ') {
-                if (!Character.isDigit(cs[j])) {
-                    isNum = false;
-                    while (j < n && cs[j] != ' ') j++;
-                    break;
-                }
-                num = num * 10 + cs[j] - '0';
-                j++;
-            }
-            if (isNum) {
-//                System.out.println(num);
-                if (num <= last) return false;
-                last = num;
-            }
-            i = j;
-        }
-        return true;
+    public int countEven(int num) {
+        int n = num / 10, sum = 0;
+        do {
+            sum += n % 10;
+            n /= 10;
+        } while (n > 0);
+        return ((sum & 1) == 0 ? num - 1 : num) >> 1;
     }
+
+
     public static void main(@NonNull String[] args) throws IOException {
-        System.out.println(solution.areNumbersAscending("1 box has 3 blue 4 red 6 green and 12 yellow marbles"));
-        System.out.println(solution.areNumbersAscending("hello world 5 x 5"));
-        System.out.println(solution.areNumbersAscending("sunset is at 7 51 pm overnight lows will be in the low 50 and 60 s"));
+        var map = IntStream.range(0, 10).boxed()
+                .collect(Collectors.groupingBy(
+                        i -> i % 3,
+                        Collectors.flatMapping(
+                                i -> Stream.of(i, i + 1),
+                                Collectors.toList()
+                        )));
+        System.out.println(map);
     }
 
     static final Solution solution = new Solution();

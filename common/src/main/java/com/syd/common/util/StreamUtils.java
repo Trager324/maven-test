@@ -6,7 +6,9 @@ import com.syd.common.exception.BaseException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.AbstractMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -22,7 +24,7 @@ public class StreamUtils {
     public static <T> BinaryOperator<T> throwingMerger() {
         return (u, v) -> {
             throw BaseException.of(ResponseCode.B0001)
-                    .setDebugInfo("field字段重复\nu: " + u + "\nv: " + v);
+                    .appendDebugInfo("field字段重复\nu: " + u + "\nv: " + v);
         };
     }
 
@@ -44,5 +46,9 @@ public class StreamUtils {
         if (a == null || idx >= a.size() || idx < 0)
             return null;
         return func.apply(a, idx);
+    }
+
+    public static <K, V> Map.Entry<K, V> newEntry(K key, V value) {
+        return new AbstractMap.SimpleEntry<>(key, value);
     }
 }

@@ -1,8 +1,7 @@
-package com.syd.common.bean.bo.header;
+package com.syd.common.bean.tree;
 
 import org.springframework.lang.NonNull;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,21 +11,8 @@ import java.util.List;
  */
 public abstract class AbstractHeaderCreator<V extends HeaderItemContext> {
     public final <T> TableHeaderData<T> create(T data, V context) {
-        return TableHeaderData.of(TableHeader.of(getItems(context)), data);
-    }
-
-    public final List<List<String>> getLabelList(V context) {
-        return getItems(context)
-                .stream()
-                .map(i -> Collections.singletonList(i.label()))
-                .toList();
-    }
-
-    public final List<String> getFieldList(V context) {
-        return getItems(context)
-                .stream()
-                .map(HeaderItem::key)
-                .toList();
+        TableHeader header = TableHeader.of(getItems(context));
+        return TableHeaderData.of(header, data);
     }
 
     /**
@@ -35,8 +21,8 @@ public abstract class AbstractHeaderCreator<V extends HeaderItemContext> {
      * @param context 可以存储上下文的查询对象
      * @return 表头
      */
-    public final List<HeaderItem> getItems(V context) {
-        List<HeaderItem> items = context.getItems();
+    public final List<TreeItem> getItems(V context) {
+        List<TreeItem> items = context.getItems();
         if (items == null) {
             items = doGetItems(context);
             context.setItems(items);
@@ -51,5 +37,5 @@ public abstract class AbstractHeaderCreator<V extends HeaderItemContext> {
      * @return 表头
      */
     @NonNull
-    protected abstract List<HeaderItem> doGetItems(V context);
+    protected abstract List<TreeItem> doGetItems(V context);
 }

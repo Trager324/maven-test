@@ -2,10 +2,6 @@ package com.syd.common.constant;
 
 import lombok.Getter;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * @author songyide
  * @date 2022/9/23
@@ -15,17 +11,19 @@ public enum ExportTypeEnum {
     /**
      * excel，默认xlsx
      */
-    EXCEL(HttpHeaders.CONTENT_TYPE_EXCEL, ".xlsx", ".xls"),
+    XLS(HttpHeaders.CONTENT_TYPE_XLS),
+    XLSX(HttpHeaders.CONTENT_TYPE_XLSX),
     /**
      * word，默认docx
      */
-    WORD(HttpHeaders.CONTENT_TYPE_WORD, ".docx", ".doc"),
+    DOC(HttpHeaders.CONTENT_TYPE_DOC),
+    DOCX(HttpHeaders.CONTENT_TYPE_DOCX),
     ;
-    private final List<String> suffixes;
+    private final String suffix;
     private final String contentType;
 
-    ExportTypeEnum(String contentType, String... suffixes) {
+    ExportTypeEnum(String contentType) {
         this.contentType = contentType;
-        this.suffixes = Collections.unmodifiableList(Arrays.asList(suffixes));
+        this.suffix = StringPool.DOT + name().toLowerCase();
     }
 }

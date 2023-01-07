@@ -12,6 +12,7 @@
         <module>java17</module>
         <module>java19</module>
         <module>common</module>
+        <module>canal-client</module>
     </modules>
 
     <properties>
@@ -105,13 +106,6 @@
                 <version>${fastjson2.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-                <scope>compile</scope>
-            </dependency>
-
             <!-- Swagger依赖 -->
             <dependency>
                 <groupId>io.springfox</groupId>
@@ -123,6 +117,7 @@
                 <groupId>com.mysql</groupId>
                 <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql.version}</version>
+                <scope>runtime</scope>
             </dependency>
 
             <dependency>
@@ -223,6 +218,24 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <!-- SpringBoot测试框架 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <profiles>
         <profile>

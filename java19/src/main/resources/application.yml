@@ -2,45 +2,44 @@ server:
   port: 8080
 
 spring:
-  application:
-    name: maven-test
   profiles:
     active: dev
+  application:
+    name: data-analysis
   mvc:
-    pathmatch:
+    path-match:
       matching-strategy: ANT_PATH_MATCHER
-
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  #    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      #单文件最大容量
+      max-file-size: 10MB
+      #多文件最大容量
+      max-request-size: 100MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/study?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-    druid:
-      initialSize: 5
-      minIdle: 5
-      maxActive: 200
-      maxWait: 60000
-      timeBetweenEvictionRunsMillis: 60000
-      minEvictableIdleTimeMillis: 300000
-      validationQuery: SELECT 1 FROM DUAL
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      poolPreparedStatements: false
-      filters: stat,wall,log4j2
-      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-
   data:
     redis:
       host:
       password:
       port: 6379
-      timeout: 10000
       database: 0
+      timeout: 10000
       lettuce:
         pool:
           max-active: 600
           max-idle: 300
           max-wait: 10000
 
+mybatis-plus:
+  global-config:
+    banner: false
+  configuration:
+    call-setters-on-nulls: true
+
+springfox:
+  documentation:
+    enabled: false

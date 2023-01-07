@@ -1,10 +1,11 @@
 package com.syd.common.exception;
 
 import com.syd.common.constant.ResponseCode;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+
+import java.io.Serial;
 
 /**
  * 基础异常
@@ -12,30 +13,37 @@ import org.springframework.http.HttpStatus;
  * @author songyide
  * @date 2022/8/29
  */
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract sealed class BaseException extends RuntimeException permits BusinessException, SystemException, ThirdPartyException {
-    private static final String PREFIX_BUSINESS = ResponseCode.A0001.getCode().substring(0, 1);
-    private static final String PREFIX_THIRD_PARTY = ResponseCode.C0001.getCode().substring(0, 1);
+@Slf4j
+public sealed abstract class BaseException extends RuntimeException
+        permits ClientException, ServerException, ThirdPartyException {
+    private static final String PREFIX_CLIENT = "A";
+    private static final String PREFIX_SERVER = "B";
+    private static final String PREFIX_THIRD_PARTY = "C";
+    @Serial
+    private static final long serialVersionUID = 1L;
     /**
      * 错误码
      */
-    private ResponseCode code = ResponseCode.B0001;
+    @Getter
+    private final ResponseCode code;
     /**
      * http响应码
      */
-    private Integer httpStatus = HttpStatus.OK.value();
+    @Getter
+    private HttpStatus httpStatus = HttpStatus.OK;
     /**
-     * 提示用户做出正确操作
+     * 服务端错误明细: 内部调试信息便于排查问题
      */
-    private String detailMessage;
-    /**
-     * 用户端错误明细: 提示用户做出正确操作
-     * 系统端错误明细: 内部调试信息便于排查问题
-     */
-    private String debugInfo;
+    private StringBuilder debugInfoBuilder;
 
-    protected BaseException(ResponseCode code) {
+    /**
+     * 异常基类构造器
+     *
+     * @param message 提示用户做出正确操作
+     * @param code    响应消息
+     */
+    protected BaseException(String message, ResponseCode code) {
+        super(message);
         this.code = code;
     }
 
@@ -46,23 +54,28 @@ public abstract sealed class BaseException extends RuntimeException permits Busi
      * @return 需要的抛出异常
      */
     public static BaseException of(ResponseCode code) {
-        if (code.getCode().startsWith(PREFIX_BUSINESS)) {
-            return new BusinessException(code);
-        } else if (code.getCode().startsWith(PREFIX_THIRD_PARTY)) {
-            return new ThirdPartyException(code);
-        }
-        return new SystemException(code);
+        return of(code, (String)null);
     }
 
     /**
      * 异常工厂，返回相应异常
      *
-     * @param code          返回码
-     * @param detailMessage 详细异常信息以便排查
+     * @param code    返回码
+     * @param message 详细异常信息以便排查
      * @return 需要的抛出异常
      */
-    public static BaseException of(ResponseCode code, String detailMessage) {
-        return of(code).setDetailMessage(detailMessage);
+    public static BaseException of(ResponseCode code, String message) {
+        var prefix = code.getCode().substring(0, 1);
+        return switch (prefix) {
+            case PREFIX_CLIENT -> new ClientException(message, code);
+            case PREFIX_SERVER -> new ServerException(message, code);
+            case PREFIX_THIRD_PARTY -> new ThirdPartyException(message, code);
+            default -> {
+                // Unrecognized response code, critical error here
+                log.error("非法code" + code);
+                yield new ServerException(null, code).appendDebugInfo("非法code" + code);
+            }
+        };
     }
 
     /**
@@ -79,47 +92,52 @@ public abstract sealed class BaseException extends RuntimeException permits Busi
     /**
      * 异常工厂，返回相应异常
      *
-     * @param code          返回码
-     * @param detailMessage 详细异常信息以便排查
-     * @param cause         引发原因
+     * @param code    返回码
+     * @param message 详细异常信息以便排查
+     * @param cause   引发原因
      * @return 需要的抛出异常
      */
-    public static BaseException of(ResponseCode code, String detailMessage, Throwable cause) {
-        return of(code, cause).setDetailMessage(detailMessage);
+    public static BaseException of(ResponseCode code, String message, Throwable cause) {
+        return of(code, message).initCause(cause);
     }
 
-    public String getDetailMessage() {
-        if (detailMessage == null) {
+    public String getMessage() {
+        var message = super.getMessage();
+        if (message == null) {
             if (getCause() instanceof BaseException) {
-                // 嵌套异常路径压缩
-                detailMessage = ((BaseException)getCause()).getDetailMessage();
+                // 嵌套异常递归查询
+                return getCause().getMessage();
+            } else {
+                // 返回默认消息
+                message = code.getMessage();
             }
         }
-        return detailMessage;
-    }
-
-    public BaseException setDetailMessage(String detailMessage) {
-        this.detailMessage = detailMessage;
-        return this;
+        return message;
     }
 
     public String getDebugInfo() {
-        if (debugInfo == null) {
-            if (getCause() instanceof BaseException) {
+        if (debugInfoBuilder == null) {
+            if (getCause() instanceof BaseException cause) {
                 // 嵌套异常路径压缩
-                debugInfo = ((BaseException)getCause()).getDebugInfo();
+                appendDebugInfo(cause.getDebugInfo());
             }
         }
-        return debugInfo;
+        @SuppressWarnings("all")
+        var res = debugInfoBuilder.toString();
+        return res;
     }
 
-    public BaseException setDebugInfo(String debugInfo) {
-        this.debugInfo = debugInfo;
+    public BaseException appendDebugInfo(String debugInfo) {
+        if (this.debugInfoBuilder == null) {
+            this.debugInfoBuilder = new StringBuilder();
+        }
+        this.debugInfoBuilder.append(debugInfo);
         return this;
     }
 
+    @SuppressWarnings("all")
     public BaseException setHttpStatus(HttpStatus status) {
-        this.httpStatus = status.value();
+        this.httpStatus = status;
         return this;
     }
 
@@ -127,14 +145,5 @@ public abstract sealed class BaseException extends RuntimeException permits Busi
     public BaseException initCause(Throwable cause) {
         super.initCause(cause);
         return this;
-    }
-
-    @Override
-    public String getMessage() {
-        String info = code.getMessage();
-        if (getDetailMessage() != null) {
-            info += ": " + detailMessage;
-        }
-        return info;
     }
 }

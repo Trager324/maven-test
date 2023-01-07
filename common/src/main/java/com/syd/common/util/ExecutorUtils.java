@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ExecutorUtils {
     public static final RejectedExecutionHandler DEFAULT_HANDLER = (r, e) -> {
         throw BaseException.of(ResponseCode.B0315)
-                .setDebugInfo(e.toString() + "线程池拒绝任务:" + r.toString());
+                .appendDebugInfo(e.toString() + "线程池拒绝任务:" + r.toString());
     };
 
     public static ThreadFactory newThreadFactory(String factoryName) {

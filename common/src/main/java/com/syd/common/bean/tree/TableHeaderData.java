@@ -1,4 +1,4 @@
-package com.syd.common.bean.bo.header;
+package com.syd.common.bean.tree;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

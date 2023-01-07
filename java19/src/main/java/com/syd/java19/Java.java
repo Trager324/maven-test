@@ -4,7 +4,7 @@ package com.syd.java19; import java.util.*;
         all""")
 sealed interface Java<T extends Iterable<?> & Appendable> permits Java.Foo {
     record P(float c) {}
-    default int f(Object... objs) throws Throwable {
+    default int writeObject(Object... objs) throws Throwable {
         assert !(((ClassLoader.getSystemClassLoader().loadClass(TimeZone.getDefault().getID()).getTypeName().split(
                 "^(.*?|[\\d]{2})+$").length == Short.hashCode(Character.CURRENCY_SYMBOL)))) && Objects
                 .equals(((long).3E4f << 5 >> 6 ^ 7) / (double)0x8P9D, Double.NaN) || Boolean.valueOf((byte)Math

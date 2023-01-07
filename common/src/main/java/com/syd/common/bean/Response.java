@@ -27,7 +27,7 @@ public record Response<T>(@ApiModelProperty("状态码") String code, @ApiModelP
      * 返回成功消息
      */
     public static <T> Response<T> success(T data) {
-        return response(ResponseCode.OK, data);
+        return response(ResponseCode.OK.getCode(), ResponseCode.OK.getMessage(), data);
     }
 
     /**
@@ -37,7 +37,7 @@ public record Response<T>(@ApiModelProperty("状态码") String code, @ApiModelP
      * @return 警告消息
      */
     public static <T> Response<T> response(ResponseCode code) {
-        return response(code, null);
+        return response(code, code.getMessage());
     }
 
     /**
@@ -46,8 +46,20 @@ public record Response<T>(@ApiModelProperty("状态码") String code, @ApiModelP
      * @param code 状态码
      * @return 警告消息
      */
-    public static <T> Response<T> response(ResponseCode code, T data) {
-        return response(code.getCode(), code.getMessage(), data, null);
+    public static <T> Response<T> response(ResponseCode code, String message) {
+        return response(code.getCode(), message, null);
+    }
+
+    /**
+     * 返回消息
+     *
+     * @param code    状态码
+     * @param message 返回内容
+     * @param data    数据
+     * @return 警告消息
+     */
+    public static <T> Response<T> response(String code, String message, T data) {
+        return new Response<>(code, message, data, null);
     }
 
     /**

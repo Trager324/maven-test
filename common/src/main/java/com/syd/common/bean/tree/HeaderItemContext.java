@@ -1,33 +1,30 @@
-package com.syd.common.bean.bo.header;
+package com.syd.common.bean.tree;
+
 
 import com.syd.common.constant.ResponseCode;
 import com.syd.common.exception.BaseException;
 import com.syd.common.util.ExtCollectionUtils;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * 表头列表上下文
- *
  * @author songyide
- * @date 2022/12/14
+ * @date 2022/12/13
  */
-public interface HeaderLabelContext {
+public interface HeaderItemContext {
     /**
      * 获取表头项数组
      *
      * @param itemPairs 表头项键值列表
      * @return 表头项数组
      */
-    static HeaderItem[] getItemArrayFromItemPairs(String[][] itemPairs) {
+    static TreeItem[] getItemArrayFromItemPairs(String[][] itemPairs) {
         return Arrays.stream(itemPairs)
-                .map(s -> HeaderItem.of(s[0], s[1]))
-                .toArray(HeaderItem[]::new);
+                .map(s -> TreeItem.of(s[0], s[1]))
+                .toArray(TreeItem[]::new);
     }
 
     /**
@@ -37,16 +34,16 @@ public interface HeaderLabelContext {
      * @param items 表头项数组
      * @return 表头项列表
      */
-    static List<HeaderItem> getItemsFromItemArray(HeaderLabelContext ctx, HeaderItem[] items) {
+    static List<TreeItem> getItemsFromItemArray(HeaderItemContext ctx, TreeItem[] items) {
         var categoryLabelList = ctx.getCategoryLabelList();
         if (categoryLabelList == null) {
-            throw BaseException.of(ResponseCode.B0001).setDebugInfo("维度表头未初始化");
+            throw BaseException.of(ResponseCode.B0001).appendDebugInfo("维度表头未初始化");
         }
         // 维度项分隔索引
         var categoryIdx = categoryLabelList.size();
         // 维度项
         var categories = IntStream.range(0, categoryIdx)
-                .mapToObj(i -> HeaderItem.of(items[i].key(), categoryLabelList.get(i)));
+                .mapToObj(i -> TreeItem.of(items[i].key(), categoryLabelList.get(i)));
         // 指标项
         var columns = Stream.of(items).skip(categoryIdx);
         var fieldList = ctx.getFieldList();
@@ -57,27 +54,39 @@ public interface HeaderLabelContext {
                     ? fieldList : new HashSet<>(fieldList);
             columns = columns.filter(i -> fieldSet.contains(i.key()));
         }
-        return Stream.concat(categories, columns).toList();
+        return Stream.concat(categories, columns)
+                .collect(Collectors.toList());
     }
+
+    /**
+     * 获取表头项
+     *
+     * @return 表头项
+     */
+    List<TreeItem> getItems();
+
+    /**
+     * 设置表头项
+     *
+     * @param items 表头项
+     */
+    void setItems(List<TreeItem> items);
 
     /**
      * 获取筛选字段列表
      *
      * @return 筛选字段列表
      */
-    List<String> getFieldList();
+    default List<String> getFieldList() {
+        return Collections.emptyList();
+    }
 
     /**
      * 获取维度标签列表
      *
      * @return 维度标签列表
      */
-    List<String> getCategoryLabelList();
-
-    /**
-     * 设置维度标签列表
-     *
-     * @param categoryLabelList 维度标签列表
-     */
-    void setCategoryLabelList(List<String> categoryLabelList);
+    default List<String> getCategoryLabelList() {
+        throw BaseException.of(ResponseCode.B0001, "调用此方法相关方法时请先重写此方法");
+    }
 }

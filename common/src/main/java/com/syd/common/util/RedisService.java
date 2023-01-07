@@ -1,5 +1,6 @@
 package com.syd.common.util;
 
+import com.syd.common.constant.StringPool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -184,6 +185,6 @@ public class RedisService {
     }
 
     public Set<String> getListKey(String prefix) {
-        return redisTemplate.keys(prefix + ExtStrUtils.STAR);
+        return redisTemplate.keys(prefix + StringPool.STAR);
     }
 }

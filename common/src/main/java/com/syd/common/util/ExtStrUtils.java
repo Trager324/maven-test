@@ -1,5 +1,6 @@
 package com.syd.common.util;
 
+import com.syd.common.constant.StringPool;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -12,17 +13,11 @@ import org.apache.commons.lang3.StringUtils;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExtStrUtils extends StringUtils {
 
-    public static final String COMMA = ",";
-    public static final String PERIOD = ".";
-    public static final String STAR = "*";
-    public static final String UNDERSCORE = "_";
-    public static final String DOLLAR = "$";
-
     /**
      * 驼峰转下划线命名
      */
     public static String toUnderScoreCase(String str) {
-        return String.join("_", splitByCharacterTypeCamelCase(str)).toLowerCase();
+        return String.join(StringPool.UNDERSCORE, splitByCharacterTypeCamelCase(str)).toLowerCase();
     }
 
     /**
@@ -49,7 +44,7 @@ public class ExtStrUtils extends StringUtils {
     }
 
     public static String leftPad(int num, int size) {
-        return leftPad(String.valueOf(num), size, '0');
+        return leftPad(String.valueOf(num), size, StringPool.ZERO);
     }
 
     public static String sliceWhenOverLength(Object o, int length) {

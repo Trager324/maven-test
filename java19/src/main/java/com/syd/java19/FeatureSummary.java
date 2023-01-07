@@ -10,6 +10,7 @@ import java.lang.constant.ClassDesc;
 import java.lang.constant.DynamicConstantDesc;
 import java.lang.constant.MethodHandleDesc;
 import java.lang.constant.MethodTypeDesc;
+import java.lang.foreign.*;
 import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -326,11 +327,19 @@ public class FeatureSummary {
      *     <li>switch(第三次预览), record解构, 解构分支when表达式</li>
      *     <li>虚拟线程</li>
      *     <li>结构化并发(孵化)</li>
+     *     <li>外部函数和内存API(预览)</li>
      * </ul>
      *
      * @since 19
      */
     void _19() {
+        try (MemorySession session = MemorySession.openShared()) {
+            SequenceLayout SEQUENCE_LAYOUT = MemoryLayout.sequenceLayout(1024, ValueLayout.JAVA_INT);
+            MemorySegment segment = MemorySegment.allocateNative(SEQUENCE_LAYOUT, session);
+            int sum = segment.elements(ValueLayout.JAVA_INT).parallel()
+                    .mapToInt(s -> s.get(ValueLayout.JAVA_INT, 0))
+                    .sum();
+        }
         I19 i = new I19[]{null, new Circle(new P(0, 0), 1),}[RANDOM.nextInt(2)];
         var x = switch (i) {
             case null -> 0;

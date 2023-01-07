@@ -1,0 +1,17 @@
+{
+  "properties": [
+    {
+      "sourceType": "com.syd.canal.config.CanalConfig",
+      "name": "canal.client.instances",
+      "type": "java.util.Map<java.lang.String, com.syd.canal.config.CanalConfig.Instance>",
+      "description": "canal实例，默认存在一个名为example的实例."
+    },
+    {
+      "sourceType": "com.syd.canal.config.CanalConfig",
+      "name": "canal.client.enabled",
+      "defaultValue": "true",
+      "type": "java.lang.Boolean",
+      "description": "是否开启canal客户端."
+    }
+  ]
+}

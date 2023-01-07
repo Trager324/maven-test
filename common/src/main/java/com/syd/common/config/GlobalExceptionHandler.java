@@ -3,7 +3,6 @@ package com.syd.common.config;
 import com.syd.common.bean.Response;
 import com.syd.common.constant.ResponseCode;
 import com.syd.common.exception.BaseException;
-import com.syd.common.exception.ThirdPartyException;
 import com.syd.common.util.ExtStrUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,16 +17,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.nio.file.AccessDeniedException;
 import java.util.Objects;
 
 /**
  * 全局异常处理器
  *
- * @author ruoyi
+ * @author songyide
  */
-@Slf4j
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
     /**
      * 是否向前端返回报错信息，与swagger开启策略相同
@@ -35,20 +33,11 @@ public class GlobalExceptionHandler {
     @Value("${springfox.documentation.enabled}")
     private boolean enabled;
 
-    private String withDebugInfo(String detailMessage, String debugInfo) {
+    private String withDebugInfo(String message, String debugInfo) {
         if (!enabled || ExtStrUtils.isEmpty(debugInfo)) {
-            return detailMessage;
+            return message;
         }
-        return String.join("; debugInfo: ", detailMessage, debugInfo);
-    }
-
-    /**
-     * 权限校验异常
-     */
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(AccessDeniedException.class)
-    public Response<?> handleAccessDeniedException(AccessDeniedException e, HttpServletRequest req) {
-        return Response.response(ResponseCode.A0300, req.getRequestURI() + " - " + e.getMessage());
+        return message + "; debugInfo: " + debugInfo;
     }
 
     /**
@@ -56,16 +45,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BaseException.class)
     public Response<?> handleBaseException(BaseException e, HttpServletResponse rsp) {
-        if (e.getDebugInfo() != null) {
-            if (e instanceof ThirdPartyException) {
-                log.error("三方服务出错！" + e.getDebugInfo());
-            } else {
-                log.debug(e.getDebugInfo());
-            }
-        }
-        log.error(e.getMessage(), ExtStrUtils.ifNull(e.getCause(), e));
-        rsp.setStatus(e.getHttpStatus());
-        return Response.response(e.getCode(), withDebugInfo(e.getDetailMessage(), e.getDebugInfo()));
+        var debugInfo = withDebugInfo(e.getMessage(), e.getDebugInfo());
+        log.error(debugInfo, ExtStrUtils.ifNull(e.getCause(), e));
+        rsp.setStatus(e.getHttpStatus().value());
+        return Response.response(e.getCode(), debugInfo);
     }
 
     /**
@@ -97,7 +80,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Response<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error(e.getMessage(), e);
-        return Response.response(ResponseCode.A0400, withDebugInfo(null, e.getMessage()));
+        return Response.response(ResponseCode.A0400, withDebugInfo("请求参数出错", e.getMessage()));
     }
 
     /**
@@ -120,7 +103,7 @@ public class GlobalExceptionHandler {
     public Response<?> handleRuntimeException(RuntimeException e, HttpServletRequest req) {
         String uri = req.getRequestURI();
         log.error("请求地址'{}',发生未知异常.", uri, e);
-        return Response.response(ResponseCode.B0001, withDebugInfo("", e.getMessage()));
+        return Response.response(ResponseCode.B0001, withDebugInfo("系统异常", e.getMessage()));
     }
 
     /**
@@ -131,6 +114,6 @@ public class GlobalExceptionHandler {
     public Response<?> handleThrowable(Throwable e, HttpServletRequest req) {
         String uri = req.getRequestURI();
         log.error("请求地址'{}',发生系统异常.", uri, e);
-        return Response.response(ResponseCode.B0001, withDebugInfo("", e.getMessage()));
+        return Response.response(ResponseCode.B0001, withDebugInfo("系统异常", e.getMessage()));
     }
 }
