@@ -13,6 +13,7 @@
         <module>java19</module>
         <module>common</module>
         <module>canal-client</module>
+        <module>algo</module>
     </modules>
 
     <properties>
@@ -214,6 +215,12 @@
             <dependency>
                 <groupId>com.syd</groupId>
                 <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.syd</groupId>
+                <artifactId>algo</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

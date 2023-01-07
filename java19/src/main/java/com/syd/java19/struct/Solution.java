@@ -34,25 +34,38 @@ import static com.syd.java19.struct.TreeNode.parseTreeNode;
  */
 @NoArgsConstructor
 public class Solution {
-    public int countEven(int num) {
-        int n = num / 10, sum = 0;
-        do {
-            sum += n % 10;
-            n /= 10;
-        } while (n > 0);
-        return ((sum & 1) == 0 ? num - 1 : num) >> 1;
+    public int minOperations(int[] nums, int x) {
+        int len = nums.length, fix = 0, res = Integer.MAX_VALUE, i = 0;
+        for (i = 0; i < len; i++) {
+            fix += nums[i];
+            if (fix >= x) {
+                break;
+            }
+        }
+        int sum = fix;
+        for (int j = i + 1; j < len; j++) {
+            sum += nums[j];
+        }
+        if (sum < x) return -1;
+        if (sum == x) return len;
+        if (fix == x) res = i + 1;
+        int j = len - 1;
+        while (i >= 0) {
+            fix -= nums[i--];
+            while (fix < x) {
+                fix += nums[j--];
+            }
+            if (fix == x) {
+                res = Math.min(res, len - j + i);
+            }
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
     }
 
-
     public static void main(@NonNull String[] args) throws IOException {
-        var map = IntStream.range(0, 10).boxed()
-                .collect(Collectors.groupingBy(
-                        i -> i % 3,
-                        Collectors.flatMapping(
-                                i -> Stream.of(i, i + 1),
-                                Collectors.toList()
-                        )));
-        System.out.println(map);
+        System.out.println(solution.minOperations(parseIntArray("[1,1,4,2,3]"), 5));
+        System.out.println(solution.minOperations(parseIntArray("[5,6,7,8,9]"), 4));
+        System.out.println(solution.minOperations(parseIntArray("[3,2,20,1,1,3]"), 10));
     }
 
     static final Solution solution = new Solution();

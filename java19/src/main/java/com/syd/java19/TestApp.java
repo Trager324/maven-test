@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,6 +19,7 @@ public class TestApp {
     static class A {
         private int port;
     }
+
     public static void main(String[] args) {
         ConfigurableApplicationContext ac = SpringApplication.run(TestApp.class);
         var a = ac.getBean(A.class);
