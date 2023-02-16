@@ -21,6 +21,7 @@ module com.syd.java {
     requires spring.data.commons;
     requires org.slf4j;
     requires com.google.common;
+    requires kotlin.stdlib;
 
     exports com.syd.java19.incubator;
     exports com.syd.java19;

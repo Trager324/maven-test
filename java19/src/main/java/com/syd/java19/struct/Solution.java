@@ -4,20 +4,28 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONFactory;
 import com.alibaba.fastjson2.JSONObject;
+import com.syd.algo.leetcode.ListNode;
+import com.syd.algo.leetcode.TreeNode;
 import jdk.dynalink.linker.support.TypeUtilities;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.io.*;
+import java.lang.annotation.*;
+import java.lang.constant.Constable;
+import java.lang.reflect.Proxy;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.net.URI;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
 import java.nio.file.*;
-import java.nio.file.attribute.FileTime;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -26,51 +34,31 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.*;
 
-import static com.syd.java19.struct.ListNode.parseListNode;
-import static com.syd.java19.struct.TreeNode.parseTreeNode;
+import static com.syd.algo.leetcode.ListNode.parseListNode;
+import static com.syd.algo.leetcode.TreeNode.parseTreeNode;
+import static java.util.stream.Collectors.*;
 
 /**
  * @author asus
  */
 @NoArgsConstructor
+@Anno
+@ThreadSafe
+@Slf4j
 public class Solution {
-    public int minOperations(int[] nums, int x) {
-        int len = nums.length, fix = 0, res = Integer.MAX_VALUE, i = 0;
-        for (i = 0; i < len; i++) {
-            fix += nums[i];
-            if (fix >= x) {
-                break;
-            }
-        }
-        int sum = fix;
-        for (int j = i + 1; j < len; j++) {
-            sum += nums[j];
-        }
-        if (sum < x) return -1;
-        if (sum == x) return len;
-        if (fix == x) res = i + 1;
-        int j = len - 1;
-        while (i >= 0) {
-            fix -= nums[i--];
-            while (fix < x) {
-                fix += nums[j--];
-            }
-            if (fix == x) {
-                res = Math.min(res, len - j + i);
-            }
-        }
-        return res == Integer.MAX_VALUE ? -1 : res;
-    }
-
-    public static void main(@NonNull String[] args) throws IOException {
-        System.out.println(solution.minOperations(parseIntArray("[1,1,4,2,3]"), 5));
-        System.out.println(solution.minOperations(parseIntArray("[5,6,7,8,9]"), 4));
-        System.out.println(solution.minOperations(parseIntArray("[3,2,20,1,1,3]"), 10));
+    public static void main(String[] args) throws InterruptedException, IOException {
+        System.out.println("1" + new String("好2".getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.ISO_8859_1));
+        System.out.println("1" + new String("好2".getBytes()));
+        var a = -0x8000_0000;
+        var b = 0x8000_0000L;
+        System.out.println(a);
+        System.out.println(b);
     }
 
     static final Solution solution = new Solution();
 
     public static <T> T parseObject(String text, Class<T> clazz) {
+        // inter procedural analysis
         return JSON.parseObject(text, clazz);
     }
 
@@ -84,22 +72,6 @@ public class Solution {
 
     public static String[] parseStringArray(String str) {
         return parseObject(str, String[].class);
-    }
-
-    public static String list2Str(Collection<?> c) {
-        StringBuilder sb = new StringBuilder("[");
-        for (Object o : c) {
-            String tmp = o instanceof String ? "\"" + o + "\"" : o.toString();
-            sb.append(tmp).append(",");
-        }
-        if (sb.length() > 1) {
-            sb.deleteCharAt(sb.length() - 1);
-        }
-        return sb.append("]").toString();
-    }
-
-    public static String array2Str(Object[] array) {
-        return list2Str(Arrays.asList(array));
     }
 
     static boolean isMatchedExecutable(Executable e, Object[] args) {
@@ -154,7 +126,7 @@ public class Solution {
                 }
             }
             if (res[i] == null) {
-                throw new NoSuchMethodException(clazzName + "." + methodName + "(" + array2Str(argArray) + ")");
+                throw new NoSuchMethodException(clazzName + "." + methodName + "(" + List.of(argArray) + ")");
             }
             res[i].setAccessible(true);
         }
@@ -174,69 +146,98 @@ public class Solution {
      * @throws IllegalAccessException    反射异常
      */
     public static List<Object> invokeResults(Class<?> clazz, String execStr, String argsStr)
-            throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        String[] methodNames = parseStringArray(execStr);
-        Object[][] argsArray = parseObject(argsStr, Object[][].class);
+            throws ReflectiveOperationException {
+        var methodNames = parseStringArray(execStr);
+        var argsArray = parseObject(argsStr, Object[][].class);
         if (methodNames.length != argsArray.length) {
             throw new IllegalArgumentException("methodNames.length != argsArray.length");
         }
 
-        Executable[] executables = getExecutableArray(clazz, methodNames, argsArray);
+        var executables = getExecutableArray(clazz, methodNames, argsArray);
         int n = executables.length;
-        Object[] res = new Object[n];
+        var res = new Object[n];
         Object obj = null;
         for (int i = 0; i < n; i++) {
-            if (executables[i] instanceof Constructor<?> ctor) {
-                obj = ctor.newInstance(argsArray[i]);
-            } else if (executables[i] instanceof Method method) {
+            if (executables[i] instanceof Method method) {
                 res[i] = method.invoke(obj, argsArray[i]);
+            } else if (executables[i] instanceof Constructor<?> ctor) {
+                obj = ctor.newInstance(argsArray[i]);
             }
         }
         return Arrays.asList(res);
     }
+}
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @ToString
-    @EqualsAndHashCode
-    @Accessors(chain = true)
-    @Log
-    static class DTO {
-        String id;
-        AbstractMap<BigInteger, BigDecimal> concurrentMap = new ConcurrentHashMap<>();
-        Map<Instant, Clock> map = new TreeMap<>();
-        List<Collections> list = new CopyOnWriteArrayList<>();
-        Queue<Calendar> collection = new ConcurrentLinkedDeque<>();
-        JSONFactory.JSONPathCompiler pathCompiler = JSONFactory.getDefaultJSONPathCompiler();
-        JSONObject json = JSON.parseObject(new JSONArray().toJSONString());
-        Field field = (Field)Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
-                (o, m, a) -> m.invoke(o, a));
-        ExecutorService service = Executors.newCachedThreadPool();
-        Pattern pattern = Pattern.compile("^.*?$");
-        Matcher matcher = pattern.matcher("");
-        RoundingMode mode = RoundingMode.CEILING;
-        IntStream intStream = StreamSupport.intStream(Spliterators.emptyIntSpliterator(), true);
-        BaseStream<Long, LongStream> longStream = LongStream.of().unordered();
-        Stream<InputStream> stream = Arrays.stream(new BufferedInputStream[0]);
-        Function<LocalDateTime, LocalTime> function = LocalDateTime::toLocalTime;
-        Supplier<LocalDate> supplier = LocalDate::now;
-        Consumer<Duration> consumer = __ -> {};
-        BiFunction<FileReader, FileWriter, File> biFunction = (r, w) -> new File("");
-        Predicate<MathContext> intSupplier = __ -> true;
-        Path path = switch ((int)(Math.random() * 10)) {
-            case 1 -> {
-                try {yield Files.setLastModifiedTime(Paths.get(URI.create("")), FileTime.from(Instant.now()));} catch (
-                        IOException e) {throw new RuntimeException(new FileAlreadyExistsException(""));}
-            }
-            default -> {throw new RuntimeException(new AccessDeniedException(""));}
-        };
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
+@Accessors(chain = true)
+@Log
+class DTO {
+    String id;
+    AbstractMap<BigInteger, BigDecimal> concurrentMap = new ConcurrentHashMap<>();
+    Map<Instant, Clock> map = new TreeMap<>();
+    List<Collections> list = new CopyOnWriteArrayList<>();
+    Queue<Calendar> collection = new ConcurrentLinkedDeque<>();
+    JSONFactory.JSONPathCompiler pathCompiler = JSONFactory.getDefaultJSONPathCompiler();
+    JSONObject json = JSON.parseObject(new JSONArray().toJSONString());
+    Field field = (Field)Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
+            (o, m, a) -> m.invoke(o, a));
+    ExecutorService service = Executors.newCachedThreadPool();
+    Pattern pattern = Pattern.compile("^.*?$");
+    Matcher matcher = pattern.matcher("");
+    RoundingMode mode = RoundingMode.CEILING;
+    IntStream intStream = StreamSupport.intStream(Spliterators.emptyIntSpliterator(), true);
+    BaseStream<Long, LongStream> longStream = LongStream.of().unordered();
+    Stream<InputStream> stream = Arrays.stream(new BufferedInputStream[0]);
+    Function<LocalDateTime, LocalTime> function = LocalDateTime::toLocalTime;
+    Supplier<LocalDate> supplier = LocalDate::now;
+    Consumer<Duration> consumer = __ -> {};
+    BiFunction<FileReader, FileWriter, File> biFunction = (r, w) -> new File("");
+    Predicate<MathContext> intSupplier = __ -> true;
+    Path path = (Paths.get(URI.create(AccessMode.READ.name())));
+    FileSystem fileSystem = FileSystems.getDefault();
 
-        public static void main(String[] args) {
-            parseTreeNode("[]");
-            parseListNode("[]");
+    public static void main(String[] args) throws IOException {
+        TreeNode treeNode = Objects.requireNonNull(parseTreeNode("[]"));
+        ListNode listNode = Objects.requireNonNull(parseListNode("[]"));
+        System.out.println((String)DoubleStream.empty().boxed().collect(teeing(
+                groupingBy(Function.identity(),
+                        groupingByConcurrent(String::valueOf,
+                                mapping(Double::toHexString, toList()))),
+                filtering(d -> !d.isNaN(),
+                        partitioningBy(Double::isFinite,
+                                flatMapping(Stream::of, toSet()))),
+                (u, v) -> treeNode.toString() + listNode)));
+        switch (ThreadLocalRandom.current().nextInt(SocketOptions.SO_BROADCAST)) {
+            case 1 -> throw new SocketException();
+            case 2 -> throw new SocketTimeoutException();
+            case 3 -> throw new UnknownHostException();
+            case 4 -> throw new FileAlreadyExistsException("");
+            default -> throw new AccessDeniedException(StandardSocketOptions.SO_BROADCAST.name());
         }
     }
 }
 
+enum DescribableEnum implements Constable {
+    A;
+}
 
+@Inherited
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Repeatable(Anno.List.class)
+@interface Anno {
+    String value() default "";
+
+    @Inherited
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({})
+    @interface List {
+        Anno[] value();
+    }
+}

@@ -11,7 +11,7 @@ import static com.syd.java17.util.algo.NumberTheoryAlgo.multiplicativeInverseLea
  * @author syd
  * @date 2022/3/10
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MathAlgo {
     public static final int MOD = 1_000_000_007;
 

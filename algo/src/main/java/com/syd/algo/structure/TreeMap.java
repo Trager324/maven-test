@@ -123,12 +123,13 @@ public class TreeMap<K extends Comparable<K>, V> implements IMap<K, V> {
         return (keys.size() == size());
     }
 
+    @SuppressWarnings("rawtypes")
     private boolean validate(Node<K> node, java.util.Set<K> keys) {
-        if (!(node instanceof TreeMapNode<K, V> tmn))
+        if (!(node instanceof TreeMap.TreeMapNode tmn))
             return false;
 
-        K k = tmn.id;
-        V v = tmn.value;
+        K k = (K)tmn.id;
+        V v = (V)tmn.value;
         if (k == null || v == null)
             return false;
         if (keys.contains(k))

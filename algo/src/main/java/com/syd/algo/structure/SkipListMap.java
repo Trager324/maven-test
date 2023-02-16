@@ -1,8 +1,8 @@
 package com.syd.algo.structure;
 
-import com.syd.algo.structure.SkipList.Node;
 import com.syd.algo.structure.interfaces.IMap;
 
+import java.io.Serial;
 /**
  * A set used to store key->values pairs, this is an implementation of an associative array.
  * <p>
@@ -14,13 +14,13 @@ import com.syd.algo.structure.interfaces.IMap;
  * @see <a href="https://en.wikipedia.org/wiki/Associative_array">Associative Array (Wikipedia)</a>
  * <br>
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCreator<K>, IMap<K, V> {
 
     private SkipList<K> list = null;
 
     public SkipListMap() {
-        list = new SkipList<K>(this);
+        list = new SkipList<>(this);
     }
 
     /**
@@ -30,8 +30,8 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
     public V put(K key, V value) {
         V prev = null;
         SkipList.Node<K> node = list.addValue(key);
-        if (node instanceof SkipListMapNode<K, V> treeMapNode) {
-            if (treeMapNode.value != null) prev = treeMapNode.value;
+        if (node instanceof SkipListMapNode treeMapNode) {
+            if (treeMapNode.value != null) prev = (V)treeMapNode.value;
             treeMapNode.value = value;
         }
 
@@ -44,8 +44,8 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
     @Override
     public V get(K key) {
         SkipList.Node<K> node = list.getNode(key);
-        if (node instanceof SkipListMapNode<K, V> mapNode) {
-            return mapNode.value;
+        if (node instanceof SkipListMapNode mapNode) {
+            return (V)mapNode.value;
         }
         return null;
     }
@@ -63,14 +63,14 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
      */
     @Override
     public V remove(K key) {
-        Node<K> node = list.removeValue(key);
+        SkipList.Node<K> node = list.removeValue(key);
         V value = null;
-        if (node instanceof SkipListMapNode<K, V> treeMapNode) {
-            value = treeMapNode.value;
+        if (node instanceof SkipListMap.SkipListMapNode treeMapNode) {
+            value = (V)treeMapNode.value;
             treeMapNode.data = null;
             treeMapNode.value = null;
         }
-        return value;
+        return (V)value;
     }
 
     /**
@@ -96,12 +96,12 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
     public boolean validate() {
         if (list == null) return true;
 
-        java.util.Set<K> keys = new java.util.HashSet<K>();
-        Node<K> node = list.head;
+        java.util.Set<K> keys = new java.util.HashSet<>();
+        SkipList.Node<K> node = list.head;
         if (node == null) return true;
         if (!validate(node, keys)) return false;
 
-        Node<K> next = node.getNext(0);
+        SkipList.Node<K> next = node.getNext(0);
         while (next != null) {
             if (!validate(next, keys)) return false;
             next = next.getNext(0);
@@ -110,11 +110,11 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
         return (keys.size() == size());
     }
 
-    private boolean validate(Node<K> node, java.util.Set<K> keys) {
-        if (!(node instanceof SkipListMapNode<K, V> tmn)) return false;
+    private boolean validate(SkipList.Node<K> node, java.util.Set<K> keys) {
+        if (!(node instanceof SkipListMapNode tmn)) return false;
 
-        K k = tmn.data;
-        V v = tmn.value;
+        K k = (K)tmn.data;
+        V v = (V)tmn.value;
         if (k == null || v == null) return false;
         if (keys.contains(k)) return false;
         keys.add(k);
@@ -127,7 +127,7 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
      */
     @Override
     public java.util.Map<K, V> toMap() {
-        return (new JavaCompatibleTreeMap<K, V>(this));
+        return (new JavaCompatibleTreeMap<>(this));
     }
 
     /**
@@ -137,9 +137,9 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
     public String toString() {
         StringBuilder builder = new StringBuilder();
         if (list != null && list.head != null) {
-            Node<K> node = list.head;
+            SkipList.Node<K> node = list.head;
             while (node != null) {
-                if (!(node instanceof SkipListMapNode<K, V> sln)) continue;
+                if (!(node instanceof SkipListMapNode sln)) continue;
 
                 builder.append(sln.data).append("=").append(sln.value);
 
@@ -155,19 +155,19 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
      */
     @Override
     public SkipList.Node<K> createNewNode(int level, K key) {
-        return (new SkipListMapNode<K, V>(level, key));
+        return new SkipListMapNode<K, V>(level, key);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void swapNode(Node<K> node, Node<K> next) {
+    public void swapNode(SkipList.Node<K> node, SkipList.Node<K> next) {
         K key = node.data;
         node.data = next.data;
         next.data = key;
-        if (node instanceof SkipListMapNode<K, V> node2 && next instanceof SkipListMapNode<K, V> next2) {
-            V value = node2.value;
+        if (node instanceof SkipListMapNode node2 && next instanceof SkipListMapNode next2) {
+            V value = (V)node2.value;
             node2.value = next2.value;
             next2.value = value;
         }
@@ -186,9 +186,8 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
          */
         @Override
         public String toString() {
-            String builder = super.toString() +
+            return super.toString() +
                     "value = " + value + "\n";
-            return builder;
         }
     }
 
@@ -237,6 +236,7 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
 
     private static class JavaCompatibleMapEntry<K extends Comparable<K>, V> extends java.util.AbstractMap.SimpleEntry<K, V> {
 
+        @Serial
         private static final long serialVersionUID = 3282082818647198608L;
 
         public JavaCompatibleMapEntry(K key, V value) {
@@ -297,8 +297,9 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
          */
         @Override
         public java.util.Set<Entry<K, V>> entrySet() {
-            java.util.Set<Entry<K, V>> set = new java.util.HashSet<Entry<K, V>>() {
+            java.util.Set<Entry<K, V>> set = new java.util.HashSet<>() {
 
+                @Serial
                 private static final long serialVersionUID = 1L;
 
                 /**
@@ -306,15 +307,15 @@ public class SkipListMap<K extends Comparable<K>, V> implements SkipList.INodeCr
                  */
                 @Override
                 public java.util.Iterator<Entry<K, V>> iterator() {
-                    return (new JavaCompatibleIteratorWrapper<K, V>(map, super.iterator()));
+                    return (new JavaCompatibleIteratorWrapper<>(map, super.iterator()));
                 }
             };
             if (map.list != null && map.list.head != null) {
-                Node<K> n = map.list.head;
+                SkipList.Node<K> n = map.list.head;
                 while (n != null) {
-                    if (!(n instanceof SkipListMapNode<K, V> node)) continue;
+                    if (!(n instanceof SkipListMapNode node)) continue;
 
-                    set.add(new JavaCompatibleMapEntry<K, V>(node.data, node.value));
+                    set.add(new JavaCompatibleMapEntry<>(node.data, node.value));
 
                     n = node.getNext(0);
                 }

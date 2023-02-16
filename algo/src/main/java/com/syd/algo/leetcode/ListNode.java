@@ -1,11 +1,9 @@
-package com.syd.java19.struct;
+package com.syd.algo.leetcode;
 
 import com.alibaba.fastjson2.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.syd.java19.struct.Solution.list2Str;
 
 public class ListNode {
     public int val;
@@ -50,6 +48,6 @@ public class ListNode {
         for (ListNode p = this; p != null; p = p.next) {
             list.add(p.val);
         }
-        return list2Str(list);
+        return list.toString();
     }
 }

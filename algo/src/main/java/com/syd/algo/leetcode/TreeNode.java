@@ -1,4 +1,4 @@
-package com.syd.java19.struct;
+package com.syd.algo.leetcode;
 
 import com.alibaba.fastjson2.JSON;
 import lombok.AllArgsConstructor;
@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.*;
-
-import static com.syd.java19.struct.Solution.list2Str;
 
 @Data
 @NoArgsConstructor
@@ -90,7 +88,7 @@ public class TreeNode {
                 break;
             }
         }
-        return list2Str(list);
+        return list.toString();
     }
 
     public String toJSONString() {

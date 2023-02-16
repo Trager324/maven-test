@@ -16,6 +16,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <kotlin.version>1.8.0</kotlin.version>
     </properties>
 
     <dependencies>
@@ -49,6 +50,11 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,6 +85,10 @@
         <!--            <artifactId>druid-spring-boot-starter</artifactId>-->
         <!--        </dependency>-->
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
@@ -124,10 +134,21 @@
             <groupId>com.syd</groupId>
             <artifactId>algo</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.openjdk.jmh</groupId>-->
-        <!--            <artifactId>jmh-generator-annprocess</artifactId>-->
-        <!--        </dependency>-->
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -135,27 +156,29 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--add-modules=jdk.incubator.vector</argLine>
+                    <forkCount>3</forkCount>
+                    <reuseForks>true</reuseForks>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>19</source>
-                    <target>19</target>
-                    <release>${java.version}</release>
+                    <compilerVersion>${java.version}</compilerVersion>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <compilerArgs>
                         <arg>--enable-preview</arg>
-                        <arg>--add-modules</arg>
-                        <arg>jdk.incubator.concurrent</arg>
-                        <arg>--add-modules</arg>
-                        <arg>jdk.incubator.vector</arg>
+                        <arg>--add-modules=jdk.incubator.vector</arg>
+                        <arg>--add-modules=jdk.incubator.concurrent</arg>
+                        <arg>--add-exports=java.base/jdk.internal.vm=ALL-UNNAMED</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
