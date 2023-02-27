@@ -6,11 +6,13 @@ import com.alibaba.fastjson2.JSONFactory;
 import com.alibaba.fastjson2.JSONObject;
 import com.syd.algo.leetcode.ListNode;
 import com.syd.algo.leetcode.TreeNode;
+import io.vertx.core.impl.Arguments;
 import jdk.dynalink.linker.support.TypeUtilities;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.stringtemplate.v4.ST;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.*;
@@ -23,7 +25,6 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.time.*;
@@ -46,13 +47,12 @@ import static java.util.stream.Collectors.*;
 @ThreadSafe
 @Slf4j
 public class Solution {
-    public static void main(String[] args) throws InterruptedException, IOException {
-        System.out.println("1" + new String("好2".getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.ISO_8859_1));
-        System.out.println("1" + new String("好2".getBytes()));
-        var a = -0x8000_0000;
-        var b = 0x8000_0000L;
-        System.out.println(a);
-        System.out.println(b);
+
+    public static void main(String[] args) throws InterruptedException, IOException, InvocationTargetException, IllegalAccessException {
+        ST st = new ST("");
+        Method main = Solution.class.getDeclaredMethods()[0];
+        Anno annotation = Solution.class.getAnnotation(Anno.class);
+        main.invoke(null);
     }
 
     static final Solution solution = new Solution();

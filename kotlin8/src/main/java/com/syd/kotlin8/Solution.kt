@@ -43,70 +43,44 @@ import kotlin.Long
 import kotlin.String
 import kotlin.Throws
 import kotlin.also
-import kotlin.arrayOf
 import kotlin.arrayOfNulls
-import kotlin.intArrayOf
 import kotlin.isNaN
 import kotlin.reflect.KClass
 import kotlin.require
 
-val DIRS = arrayOf(intArrayOf(-1, 0), intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1))
+class Node(var `val`: Boolean, var isLeaf: Boolean) {
+    var topLeft: Node? = null
+    var topRight: Node? = null
+    var bottomLeft: Node? = null
+    var bottomRight: Node? = null
+}
 
 class Solution {
-    fun addBinary(a: String, b: String): String {
-        var v1 = a
-        var v2 = b
-        if (b.length > a.length) {
-            v1 = b
-            v2 = a
-        }
-        val res = StringBuilder()
-        var perenos = 0
-        var ind1 = v1.length - 1
-        var ind2 = v2.length - 1
-        while (ind1 >= 0) {
-            val d1 = Character.getNumericValue(v1[ind1])
-            val d2 = if (ind2 < 0) 0 else Character.getNumericValue(v2[ind2])
-            when (d1 + d2 + perenos) {
-                0 -> {
-                    perenos = 0; res.append('0')
-                }
+    private fun Int.toBool(): Boolean = this != 0
 
-                1 -> {
-                    perenos = 0; res.append('1')
-                }
-
-                2 -> {
-                    perenos = 1; res.append('0')
-                }
-
-                3 -> {
-                    perenos = 1; res.append('1')
-                }
-            }
-            ind1--
-            ind2--
-        }
-        if (perenos > 0) res.append('1')
-        return res.reversed().toString()
+    private fun slice(grid: Array<IntArray>, rr: IntRange, cr: IntRange): Array<IntArray> {
+        return grid.sliceArray(rr)
+            .map { ia -> ia.sliceArray(cr) }
+            .toTypedArray()
     }
 
+    fun construct(grid: Array<IntArray>): Node? {
+        val n = grid.size
+        if (n == 1) return Node(grid[0][0] != 0, true)
+        val tl = construct(slice(grid, 0 until n / 2, 0 until n / 2))!!
+        val tr = construct(slice(grid, 0 until n / 2, n / 2 until n))!!
+        val bl = construct(slice(grid, n / 2 until n, 0 until n / 2))!!
+        val br = construct(slice(grid, n / 2 until n, n / 2 until n))!!
+        return if (tl.isLeaf && tr.isLeaf && bl.isLeaf && br.isLeaf &&
+            tl.`val` == tr.`val` && tl.`val` == bl.`val` && tl.`val` == br.`val`)
+            Node(tl.`val`, true) else Node(false, false).apply {
+                bottomLeft = bl; bottomRight = br; topLeft = tl; topRight = tr;
+        }
+    }
 }
 
 fun main() {
-//    val job = Job()
-//    val scope = CoroutineScope(Dispatchers.Default)
-//    scope.launch { }
-    runBlocking {
-        println(LocalDateTime.now())
-        for (task in arrayOf(
-            launch { delay(1000) },
-            launch { delay(1000) },
-            launch { delay(1000) },)) {
-            task.join()
-        }
-        println(LocalDateTime.now())
-    }
+    println(solution.construct(parseIntMatrix("[[1,1,0,0],[0,0,1,1],[1,1,0,0],[0,0,1,1]]")))
 }
 
 val solution = Solution()

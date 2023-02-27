@@ -18,9 +18,9 @@
     </modules>
 
     <properties>
-        <java.version>19</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <jdk.version>19</jdk.version>
+        <maven.compiler.source>${jdk.version}</maven.compiler.source>
+        <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -31,10 +31,10 @@
         <commons-io.version>2.11.0</commons-io.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
-        <druid.version>1.2.15</druid.version>
-        <easyexcel.version>3.1.4</easyexcel.version>
-        <fastjson.version>2.0.22</fastjson.version>
-        <fastjson2.version>2.0.22</fastjson2.version>
+        <druid.version>1.2.16</druid.version>
+        <easyexcel.version>3.2.1</easyexcel.version>
+        <fastjson.version>2.0.24</fastjson.version>
+        <fastjson2.version>2.0.24</fastjson2.version>
         <guava.version>31.1-jre</guava.version>
         <hutool.version>5.8.12</hutool.version>
         <javafx.version>20-ea+11</javafx.version>
@@ -44,6 +44,8 @@
         <jwt.version>0.9.1</jwt.version>
         <junit.version>5.8.2</junit.version>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <kotlin.version>1.8.10</kotlin.version>
+        <kotlinx-coroutines.version>1.6.4</kotlinx-coroutines.version>
         <lombok.version>1.18.26</lombok.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
@@ -51,7 +53,7 @@
         <mybatis.version>3.0.1</mybatis.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mybatis-plus-ds.version>3.5.2</mybatis-plus-ds.version>
-        <mysql.version>8.0.31</mysql.version>
+        <mysql.version>8.0.32</mysql.version>
         <oshi.version>6.1.2</oshi.version>
         <oss.version>3.15.0</oss.version>
         <poi.version>5.2.2</poi.version>
@@ -59,12 +61,13 @@
         <poi-tl.version>1.12.1</poi-tl.version>
         <redis.version>3.0.1</redis.version>
         <slf4j.version>2.0.5</slf4j.version>
-        <spring.version>6.0.4</spring.version>
-        <spring-boot.version>3.0.1</spring-boot.version>
+        <spring.version>6.0.5</spring.version>
+        <spring-boot.version>3.0.2</spring-boot.version>
+        <string-template.version>4.3.4</string-template.version>
         <swagger.version>3.0.0</swagger.version>
         <validation.version>3.0.2</validation.version>
         <velocity.version>2.3</velocity.version>
-        <vertx.version>4.3.3</vertx.version>
+        <vertx.version>4.3.8</vertx.version>
     </properties>
 
     <dependencyManagement>
@@ -248,6 +251,36 @@
                 <artifactId>algo</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>ST4</artifactId>
+                <version>${string-template.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-jdk8</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-test</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.kotlinx</groupId>
+                <artifactId>kotlinx-coroutines-core-jvm</artifactId>
+                <version>${kotlinx-coroutines.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -258,27 +291,62 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring-boot.version}</version>
             <scope>test</scope>
+            <optional>true</optional>
         </dependency>
 
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
     <profiles>
         <profile>
             <id>dev</id>
-            <properties>
-                <profile.active>dev</profile.active>
-            </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <profile.active>dev</profile.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>jdk19</id>
+            <activation>
+                <jdk>19</jdk>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <maven.compiler.source>19</maven.compiler.source>
+                <maven.compiler.target>19</maven.compiler.target>
+                <maven.compiler.compilerVersion>19</maven.compiler.compilerVersion>
+            </properties>
+        </profile>
+        <profile>
+            <id>jdk17</id>
+            <activation>
+                <jdk>17</jdk>
+            </activation>
+            <properties>
+                <maven.compiler.source>17</maven.compiler.source>
+                <maven.compiler.target>17</maven.compiler.target>
+                <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
+            </properties>
+        </profile>
+        <profile>
+            <id>jdk8</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+            <properties>
+                <maven.compiler.source>1.8</maven.compiler.source>
+                <maven.compiler.target>1.8</maven.compiler.target>
+                <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+            </properties>
         </profile>
     </profiles>
 
@@ -304,6 +372,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -317,8 +388,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <release>${jdk.version}</release>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                    <jdkToolchain>
+                        <version>${jdk.version}</version>
+                    </jdkToolchain>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.openjdk.jmh</groupId>
@@ -342,6 +419,28 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>toolchain</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <toolchains>
+                        <jdk>
+                            <version>${jdk.version}</version>
+                            <vendor>oracle</vendor>
+                        </jdk>
+                    </toolchains>
+                </configuration>
             </plugin>
         </plugins>
     </build>

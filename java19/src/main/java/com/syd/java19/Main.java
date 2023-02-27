@@ -1,27 +1,24 @@
 package com.syd.java19;
 
-import jdk.incubator.concurrent.StructuredTaskScope;
+import lombok.Data;
 
-import java.util.stream.Stream;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * @author syd
  */
 public class Main {
-    public static void main(String[] args) {
-        System.out.println(1 << 64);
-        System.out.println(2 << 32);
-        System.out.println(1 >> 64);
-        System.out.println(2 >> 32);
-        System.out.println(1 >>> 64);
-        System.out.println(2 >>> 32);
-        Stream.of();
-        try (var scope = new StructuredTaskScope.ShutdownOnSuccess<>()) {
-            scope.fork(() -> 1);
-            scope.join();
+    @Data
+    static class A<T> {
+        String zyid;
+        String zybh;
+        T isHidden;
+    }
 
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    public static void main(String[] args) throws Exception {
+        Object o = 1.0;
+        System.out.println(o instanceof Double);
     }
 }
