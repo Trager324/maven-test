@@ -43,44 +43,49 @@ import kotlin.Long
 import kotlin.String
 import kotlin.Throws
 import kotlin.also
+import kotlin.apply
 import kotlin.arrayOfNulls
+import kotlin.collections.HashSet
 import kotlin.isNaN
+import kotlin.let
 import kotlin.reflect.KClass
 import kotlin.require
 
-class Node(var `val`: Boolean, var isLeaf: Boolean) {
-    var topLeft: Node? = null
-    var topRight: Node? = null
-    var bottomLeft: Node? = null
-    var bottomRight: Node? = null
-}
 
 class Solution {
-    private fun Int.toBool(): Boolean = this != 0
-
-    private fun slice(grid: Array<IntArray>, rr: IntRange, cr: IntRange): Array<IntArray> {
-        return grid.sliceArray(rr)
-            .map { ia -> ia.sliceArray(cr) }
-            .toTypedArray()
+    private lateinit var fa: IntArray
+    private fun union(x: Int, y: Int) {
+        val fx = find(x)
+        val fy = find(y)
+        fa[fx] = fy
     }
 
-    fun construct(grid: Array<IntArray>): Node? {
-        val n = grid.size
-        if (n == 1) return Node(grid[0][0] != 0, true)
-        val tl = construct(slice(grid, 0 until n / 2, 0 until n / 2))!!
-        val tr = construct(slice(grid, 0 until n / 2, n / 2 until n))!!
-        val bl = construct(slice(grid, n / 2 until n, 0 until n / 2))!!
-        val br = construct(slice(grid, n / 2 until n, n / 2 until n))!!
-        return if (tl.isLeaf && tr.isLeaf && bl.isLeaf && br.isLeaf &&
-            tl.`val` == tr.`val` && tl.`val` == bl.`val` && tl.`val` == br.`val`)
-            Node(tl.`val`, true) else Node(false, false).apply {
-                bottomLeft = bl; bottomRight = br; topLeft = tl; topRight = tr;
-        }
+    private fun find(x: Int): Int {
+        if (x != fa[x]) fa[x] = find(fa[x])
+        return fa[x]
     }
+
+    fun makeConnected(n: Int, connections: Array<IntArray>): Int {
+        if (connections.size < n - 1) return -1
+        fa = IntArray(n) {it}
+        for ((a, b) in connections) union(a, b)
+        return HashSet<Int>(fa.map { find(it) }).size - 1
+    }
+}
+
+class BrowserHistory(homepage: String) {
+    private val stack = ArrayList<String>().apply { add(homepage) }
+    private var idx = 0
+    fun visit(url: String) {
+        stack.removeAt(1)
+    }
+
+    fun back(steps: Int): String = maxOf(0, idx - steps).let { idx = it; stack[it] }
+    fun forward(steps: Int): String = minOf(stack.size - 1, idx + steps).let { idx = it; stack[it] }
 }
 
 fun main() {
-    println(solution.construct(parseIntMatrix("[[1,1,0,0],[0,0,1,1],[1,1,0,0],[0,0,1,1]]")))
+
 }
 
 val solution = Solution()

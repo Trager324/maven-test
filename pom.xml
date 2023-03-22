@@ -10,7 +10,7 @@
     <modules>
         <module>java8</module>
         <module>java17</module>
-        <module>java19</module>
+        <module>java20</module>
         <module>common</module>
         <module>canal-client</module>
         <module>algo</module>
@@ -18,7 +18,7 @@
     </modules>
 
     <properties>
-        <jdk.version>19</jdk.version>
+        <jdk.version>20</jdk.version>
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,6 +37,7 @@
         <fastjson2.version>2.0.24</fastjson2.version>
         <guava.version>31.1-jre</guava.version>
         <hutool.version>5.8.12</hutool.version>
+        <jasperreports.version>6.20.0</jasperreports.version>
         <javafx.version>20-ea+11</javafx.version>
         <jetbrains.version>23.1.0</jetbrains.version>
         <jmh.version>1.36</jmh.version>
@@ -47,13 +48,14 @@
         <kotlin.version>1.8.10</kotlin.version>
         <kotlinx-coroutines.version>1.6.4</kotlinx-coroutines.version>
         <lombok.version>1.18.26</lombok.version>
-        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M8</maven-surefire-plugin.version>
         <mybatis.version>3.0.1</mybatis.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mybatis-plus-ds.version>3.5.2</mybatis-plus-ds.version>
         <mysql.version>8.0.32</mysql.version>
+        <okhttp.version>5.0.0-alpha.11</okhttp.version>
         <oshi.version>6.1.2</oshi.version>
         <oss.version>3.15.0</oss.version>
         <poi.version>5.2.2</poi.version>
@@ -233,12 +235,12 @@
                 <version>${vertx.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx</artifactId>
-                <version>${javafx.version}</version>
-                <type>pom</type>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.openjfx</groupId>-->
+<!--                <artifactId>javafx</artifactId>-->
+<!--                <version>${javafx.version}</version>-->
+<!--                <type>pom</type>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>com.syd</groupId>
@@ -281,6 +283,18 @@
                 <artifactId>kotlinx-coroutines-core-jvm</artifactId>
                 <version>${kotlinx-coroutines.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>${jasperreports.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -305,49 +319,49 @@
     </dependencies>
 
     <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <profile.active>dev</profile.active>
-            </properties>
-        </profile>
-        <profile>
-            <id>jdk19</id>
-            <activation>
-                <jdk>19</jdk>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <maven.compiler.source>19</maven.compiler.source>
-                <maven.compiler.target>19</maven.compiler.target>
-                <maven.compiler.compilerVersion>19</maven.compiler.compilerVersion>
-            </properties>
-        </profile>
-        <profile>
-            <id>jdk17</id>
-            <activation>
-                <jdk>17</jdk>
-            </activation>
-            <properties>
-                <maven.compiler.source>17</maven.compiler.source>
-                <maven.compiler.target>17</maven.compiler.target>
-                <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
-            </properties>
-        </profile>
-        <profile>
-            <id>jdk8</id>
-            <activation>
-                <jdk>1.8</jdk>
-            </activation>
-            <properties>
-                <maven.compiler.source>1.8</maven.compiler.source>
-                <maven.compiler.target>1.8</maven.compiler.target>
-                <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
-            </properties>
-        </profile>
+<!--        <profile>-->
+<!--            <id>dev</id>-->
+<!--            <activation>-->
+<!--                <activeByDefault>true</activeByDefault>-->
+<!--            </activation>-->
+<!--            <properties>-->
+<!--                <profile.active>dev</profile.active>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--        <profile>-->
+<!--            <id>jdk20</id>-->
+<!--            <activation>-->
+<!--                <jdk>20</jdk>-->
+<!--                <activeByDefault>true</activeByDefault>-->
+<!--            </activation>-->
+<!--            <properties>-->
+<!--                <maven.compiler.source>20</maven.compiler.source>-->
+<!--                <maven.compiler.target>20</maven.compiler.target>-->
+<!--                <maven.compiler.compilerVersion>20</maven.compiler.compilerVersion>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--        <profile>-->
+<!--            <id>jdk17</id>-->
+<!--            <activation>-->
+<!--                <jdk>17</jdk>-->
+<!--            </activation>-->
+<!--            <properties>-->
+<!--                <maven.compiler.source>17</maven.compiler.source>-->
+<!--                <maven.compiler.target>17</maven.compiler.target>-->
+<!--                <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--        <profile>-->
+<!--            <id>jdk8</id>-->
+<!--            <activation>-->
+<!--                <jdk>1.8</jdk>-->
+<!--            </activation>-->
+<!--            <properties>-->
+<!--                <maven.compiler.source>1.8</maven.compiler.source>-->
+<!--                <maven.compiler.target>1.8</maven.compiler.target>-->
+<!--                <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>-->
+<!--            </properties>-->
+<!--        </profile>-->
     </profiles>
 
     <build>
@@ -369,28 +383,10 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <configuration>
-                    <includeSystemScope>true</includeSystemScope>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                    <release>${jdk.version}</release>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                     <jdkToolchain>
@@ -415,33 +411,101 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-toolchains-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>toolchain</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <toolchains>
-                        <jdk>
-                            <version>${jdk.version}</version>
-                            <vendor>oracle</vendor>
-                        </jdk>
-                    </toolchains>
-                </configuration>
-            </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <configuration>
+                        <includeSystemScope>true</includeSystemScope>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-toolchains-plugin</artifactId>
+                    <version>1.1</version>
+                    <executions>
+                        <execution>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>toolchain</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <toolchains>
+                            <jdk>
+                                <version>${jdk.version}</version>
+                                <vendor>oracle</vendor>
+                            </jdk>
+                        </toolchains>
+                    </configuration>
+                </plugin>
+                <!-- Javadoc -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9.1</version>
+                    <configuration>
+                        <quiet>true</quiet>
+                        <nonavbar>true</nonavbar>
+                        <notree>true</notree>
+                        <nocomment>true</nocomment>
+                        <nohelp>true</nohelp>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                            <configuration>
+                                <additionalparam>-Xdoclint:none</additionalparam>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-maven-plugin</artifactId>
+                    <version>${kotlin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>compile</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>test-compile</id>
+                            <phase>test-compile</phase>
+                            <goals>
+                                <goal>test-compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <jvmTarget>1.8</jvmTarget>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

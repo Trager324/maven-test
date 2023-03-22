@@ -60,7 +60,7 @@ public class QuickSort<T extends Comparable<T>> {
         }
     }
 
-    private static final int getRandom(int length) {
+    private static int getRandom(int length) {
         if (type == PIVOT_TYPE.RANDOM && length > 0)
             return RAND.nextInt(length);
         if (type == PIVOT_TYPE.FIRST && length > 0)
