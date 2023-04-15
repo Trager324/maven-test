@@ -67,3 +67,9 @@ springfox:
   documentation:
     enabled: false
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    enabled-by-default: false

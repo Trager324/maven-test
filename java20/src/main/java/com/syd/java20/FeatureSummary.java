@@ -1,6 +1,7 @@
 package com.syd.java20;
 
 
+import jdk.incubator.concurrent.ScopedValue;
 import jdk.incubator.concurrent.StructuredTaskScope;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.random.RandomGenerator;
 import java.util.stream.Collectors;
@@ -50,15 +52,20 @@ public class FeatureSummary {
                             summary::_10, summary::_11, summary::_12, summary::_13, summary::_14,
                             summary::_15, summary::_16, summary::_17, summary::_18, summary::_19,
                             summary::_20)
-                    .map(r -> (Callable<Void>)() -> {
+                    .<Callable<Void>>map(r -> () -> {
                         r.run();
                         return null;
                     })
                     .forEach(scope::fork);
             scope.join();
+            Executors.newCachedThreadPool().close();
         }
     }
 
+    /**
+     *
+     * @since 20
+     */
     void _20() {
         try (Arena arena = Arena.openShared()) {
             SequenceLayout SEQUENCE_LAYOUT = MemoryLayout.sequenceLayout(1024, ValueLayout.JAVA_INT);
@@ -73,6 +80,14 @@ public class FeatureSummary {
                     .sum();
             System.out.println(sum);
         }
+        ScopedValue<String> USERNAME = ScopedValue.newInstance();
+        ScopedValue.where(USERNAME, "duke", () -> {
+            try (var scope = new StructuredTaskScope<String>()) {
+                scope.fork(() -> "1");
+                scope.fork(() -> "2");
+                scope.fork(() -> "3");
+            }
+        });
     }
 
     /**
@@ -113,7 +128,7 @@ public class FeatureSummary {
             case null -> 0;
             case A19 a -> a.hashCode();
             case B19 b -> b.hashCode();
-            case Circle(P(var x0, var y0), var r)when r < x0 -> {
+            case Circle(P(var x0, var y0), var r) when r < x0 -> {
                 System.out.println(r);
                 yield y0;
             }

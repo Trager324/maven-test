@@ -12,7 +12,7 @@
     <artifactId>kotlin8</artifactId>
 
     <properties>
-        <jdk.version>19</jdk.version>
+        <jdk.version>20</jdk.version>
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

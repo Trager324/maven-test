@@ -12,9 +12,9 @@
     <artifactId>canal-client</artifactId>
 
     <properties>
-        <java.source>1.8</java.source>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.source>17</java.source>
+        <maven.compiler.source>${java.source}</maven.compiler.source>
+        <maven.compiler.target>${java.source}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <canal.version>1.1.6</canal.version>
     </properties>

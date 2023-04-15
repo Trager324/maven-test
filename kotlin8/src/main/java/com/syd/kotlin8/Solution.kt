@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 import lombok.*
 import lombok.experimental.Accessors
 import lombok.extern.java.Log
+import org.jetbrains.annotations.Contract
 import java.io.*
 import java.lang.annotation.*
 import java.lang.annotation.Repeatable
@@ -43,48 +44,27 @@ import kotlin.Long
 import kotlin.String
 import kotlin.Throws
 import kotlin.also
-import kotlin.apply
 import kotlin.arrayOfNulls
-import kotlin.collections.HashSet
+import kotlin.collections.ArrayDeque
 import kotlin.isNaN
-import kotlin.let
 import kotlin.reflect.KClass
 import kotlin.require
 
 
 class Solution {
-    private lateinit var fa: IntArray
-    private fun union(x: Int, y: Int) {
-        val fx = find(x)
-        val fy = find(y)
-        fa[fx] = fy
-    }
 
-    private fun find(x: Int): Int {
-        if (x != fa[x]) fa[x] = find(fa[x])
-        return fa[x]
-    }
-
-    fun makeConnected(n: Int, connections: Array<IntArray>): Int {
-        if (connections.size < n - 1) return -1
-        fa = IntArray(n) {it}
-        for ((a, b) in connections) union(a, b)
-        return HashSet<Int>(fa.map { find(it) }).size - 1
+    fun longestPalindromeSubseq(s: String): Int {
+        val dp = Array(s.length) { IntArray(s.length) }
+        for (i in s.length - 1 downTo 0) {
+            dp[i][i] = 1
+            for (j in i + 1 until s.length) if (s[i] == s[j]) dp[i][j] = dp[i + 1][j - 1] + 2
+            else dp[i][j] = maxOf(dp[i + 1][j], dp[i][j - 1])
+        }
+        return dp[0][s.length - 1]
     }
 }
 
-class BrowserHistory(homepage: String) {
-    private val stack = ArrayList<String>().apply { add(homepage) }
-    private var idx = 0
-    fun visit(url: String) {
-        stack.removeAt(1)
-    }
-
-    fun back(steps: Int): String = maxOf(0, idx - steps).let { idx = it; stack[it] }
-    fun forward(steps: Int): String = minOf(stack.size - 1, idx + steps).let { idx = it; stack[it] }
-}
-
-fun main() {
+fun main(vararg args: String) {
 
 }
 

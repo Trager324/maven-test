@@ -11,6 +11,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.*;
@@ -45,14 +46,9 @@ import static java.util.stream.Collectors.*;
 @ThreadSafe
 @Slf4j
 public class Solution {
-    static int f(int a) {
-        return a + 1;
-    }
 
-    static String s = "" + BigDecimal.valueOf(1);
     public static void main(String[] args) throws Throwable {
-        switch (args[0]) {
-        }
+        var enumMap = new EnumMap<Month, Integer>(Month.class);
     }
 
     static final Solution solution = new Solution();
