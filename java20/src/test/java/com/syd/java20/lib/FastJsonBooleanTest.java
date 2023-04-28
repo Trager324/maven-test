@@ -7,15 +7,15 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 
 public class FastJsonBooleanTest {
+    @Test
+    void test() {
+        System.out.println(JSON.toJSONString(new A()));
+    }
+
     static class A {
         public Boolean isSuccess() {
             fail();
             return null;
         }
-    }
-
-    @Test
-    void test() {
-        System.out.println(JSON.toJSONString(new A()));
     }
 }

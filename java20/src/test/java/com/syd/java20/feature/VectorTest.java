@@ -34,6 +34,10 @@ public class VectorTest {
         }
     }
 
+    public static void main(String[] args) throws RunnerException {
+        var opt = new OptionsBuilder().include(VectorTest.class.getSimpleName()).build();
+        new Runner(opt).run();
+    }
 
     @Benchmark
     public void testScalar(Blackhole blackhole) throws Exception {
@@ -41,7 +45,6 @@ public class VectorTest {
             c[i] = (a[i] * a[i] + b[i] * b[i]) * -1.0f;
         }
     }
-
 
     @Benchmark
     public void testVector(Blackhole blackhole) {
@@ -62,11 +65,5 @@ public class VectorTest {
         for (; i < a.length; i++) {
             c[i] = (a[i] * a[i] + b[i] * b[i]) * -1.0f;
         }
-    }
-
-
-    public static void main(String[] args) throws RunnerException {
-        var opt = new OptionsBuilder().include(VectorTest.class.getSimpleName()).build();
-        new Runner(opt).run();
     }
 }

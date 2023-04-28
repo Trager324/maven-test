@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * 现有 k 个人，你可以举办任意多次由三个人参加的聚会，现要求任意两个人都同时参加聚会恰好一次，试构造一组聚会方案。
- * 可以说明，在给定的范围内一定有解。
- * 一行一个正整数 k(1≤k≤3000)，保证 kmod6 为 1 或 3。
+ * 现有 k 个人，你可以举办任意多次由三个人参加的聚会，现要求任意两个人都同时参加聚会恰好一次，试构造一组聚会方案。 可以说明，在给定的范围内一定有解。 一行一个正整数 k(1≤k≤3000)，保证 kmod6 为 1 或 3。
  * <p><a href="https://www.cnblogs.com/lyc-music/p/15729925.html">出处</a></p>
  *
  * @author songyide
@@ -15,6 +13,9 @@ import java.util.Scanner;
  */
 public class SteinerTriple {
 
+    int n;
+    int[][] id;
+    int[][] a;
     SteinerTriple(int n) {
         if (n % 6 != 3 && n % 6 != 1) {
             throw new IllegalArgumentException("No result for " + n);
@@ -24,9 +25,16 @@ public class SteinerTriple {
         this.a = new int[n][n];
     }
 
-    int n;
-    int[][] id;
-    int[][] a;
+    public static void main(String[] args) {
+        try (var input = new Scanner(System.in)) {
+            while (input.hasNext()) {
+                int n = input.nextInt();
+                var res = new SteinerTriple(n).solve();
+                System.out.println(res);
+                System.out.println(n * (n - 1) / 6 - res.size());
+            }
+        }
+    }
 
     void init0(int nowX, int nowY, int i, int x) {
         while (a[nowX][nowY] == 0) {
@@ -94,16 +102,5 @@ public class SteinerTriple {
             }
         }
         return res;
-    }
-
-    public static void main(String[] args) {
-        try (var input = new Scanner(System.in)) {
-            while (input.hasNext()) {
-                int n = input.nextInt();
-                var res = new SteinerTriple(n).solve();
-                System.out.println(res);
-                System.out.println(n * (n - 1) / 6 - res.size());
-            }
-        }
     }
 }

@@ -11,12 +11,14 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.*;
 import java.lang.annotation.*;
 import java.lang.constant.Constable;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.invoke.VolatileCallSite;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
@@ -38,6 +40,27 @@ import static com.syd.algo.leetcode.ListNode.parseListNode;
 import static com.syd.algo.leetcode.TreeNode.parseTreeNode;
 import static java.util.stream.Collectors.*;
 
+enum DescribableEnum implements Constable {
+    A;
+}
+
+@Inherited
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Repeatable(Anno.List.class)
+@interface Anno {
+    String value() default "";
+
+    @Inherited
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({})
+    @interface List {
+        Anno[] value();
+    }
+}
+
 /**
  * @author asus
  */
@@ -48,10 +71,15 @@ import static java.util.stream.Collectors.*;
 public class Solution {
 
     public static void main(String[] args) throws Throwable {
-        var enumMap = new EnumMap<Month, Integer>(Month.class);
+        var mhParseIA = MethodHandles.lookup()
+                .findStatic(Solution.class, "parseIntArray",
+                        MethodType.methodType(int[].class, String.class));
+        var ai = (int[]) mhParseIA.invokeExact("[]");
+        System.out.println(Arrays.toString(ai));
+        //        new ConstantCallSite();
+        //        new MutableCallSite();
+        new VolatileCallSite(MethodType.methodType(int.class));
     }
-
-    static final Solution solution = new Solution();
 
     public static <T> T parseObject(String text, Class<T> clazz) {
         // inter procedural analysis
@@ -179,7 +207,7 @@ class DTO {
     Queue<Calendar> collection = new ConcurrentLinkedDeque<>();
     JSONFactory.JSONPathCompiler pathCompiler = JSONFactory.getDefaultJSONPathCompiler();
     JSONObject json = JSON.parseObject(new JSONArray().toJSONString());
-    Field field = (Field)Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
+    Field field = (Field) Proxy.newProxyInstance(DTO.class.getClassLoader(), DTO.class.getInterfaces(),
             (o, m, a) -> m.invoke(o, a));
     ExecutorService service = Executors.newCachedThreadPool();
     Pattern pattern = Pattern.compile("^.*?$");
@@ -199,7 +227,7 @@ class DTO {
     public static void main(String[] args) throws IOException {
         TreeNode treeNode = Objects.requireNonNull(parseTreeNode("[]"));
         ListNode listNode = Objects.requireNonNull(parseListNode("[]"));
-        System.out.println((String)DoubleStream.empty().boxed().collect(teeing(
+        System.out.println((String) DoubleStream.empty().boxed().collect(teeing(
                 groupingBy(Function.identity(),
                         groupingByConcurrent(String::valueOf,
                                 mapping(Double::toHexString, toList()))),
@@ -214,26 +242,5 @@ class DTO {
             case 4 -> throw new FileAlreadyExistsException("");
             default -> throw new AccessDeniedException(StandardSocketOptions.SO_BROADCAST.name());
         }
-    }
-}
-
-enum DescribableEnum implements Constable {
-    A;
-}
-
-@Inherited
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Repeatable(Anno.List.class)
-@interface Anno {
-    String value() default "";
-
-    @Inherited
-    @Documented
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target({})
-    @interface List {
-        Anno[] value();
     }
 }

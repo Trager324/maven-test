@@ -2,7 +2,7 @@ package com.syd.java20.problem.leetcode;
 
 import com.syd.java20.struct.Solution;
 
-import java.util.*;
+import java.util.TreeSet;
 
 class ExamRoom {
     TreeSet<Integer> treeSet = new TreeSet<>();
@@ -11,7 +11,19 @@ class ExamRoom {
     public ExamRoom(int n) {
         this.n = n;
     }
-    
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(Solution.invokeResults(ExamRoom.class,
+                "[\"ExamRoom\",\"seat\",\"seat\",\"seat\",\"seat\",\"leave\",\"seat\"]",
+                "[[10],[],[],[],[],[4],[]]"));
+        System.out.println(Solution.invokeResults(ExamRoom.class,
+                "[\"ExamRoom\",\"seat\",\"seat\",\"seat\",\"seat\",\"leave\",\"leave\",\"seat\"]",
+                "[[4],[],[],[],[],[1],[3],[]]"));
+        System.out.println(Solution.invokeResults(ExamRoom.class,
+                "[\"ExamRoom\",\"seat\",\"seat\",\"seat\",\"leave\",\"leave\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"leave\"]",
+                "[[10],[],[],[],[0],[4],[],[],[],[],[],[],[],[],[],[0]]"));
+    }
+
     public int seat() {
         if (treeSet.size() == 0) {
             treeSet.add(0);
@@ -40,20 +52,8 @@ class ExamRoom {
         treeSet.add(start + m);
         return start + m;
     }
-    
+
     public void leave(int p) {
         treeSet.remove(p);
-    }
-
-    public static void main(String[] args) throws Exception {
-        System.out.println(Solution.invokeResults(ExamRoom.class,
-                "[\"ExamRoom\",\"seat\",\"seat\",\"seat\",\"seat\",\"leave\",\"seat\"]",
-                "[[10],[],[],[],[],[4],[]]"));
-        System.out.println(Solution.invokeResults(ExamRoom.class,
-                "[\"ExamRoom\",\"seat\",\"seat\",\"seat\",\"seat\",\"leave\",\"leave\",\"seat\"]",
-                "[[4],[],[],[],[],[1],[3],[]]"));
-        System.out.println(Solution.invokeResults(ExamRoom.class,
-                "[\"ExamRoom\",\"seat\",\"seat\",\"seat\",\"leave\",\"leave\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"seat\",\"leave\"]",
-                "[[10],[],[],[],[0],[4],[],[],[],[],[],[],[],[],[],[0]]"));
     }
 }

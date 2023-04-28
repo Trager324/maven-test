@@ -14,55 +14,77 @@ import java.util.function.Supplier;
  * @date 2022/8/4
  */
 public class SegmentTree<E, T extends SegmentTree.Tag> {
-    public interface Tag {
-        /**
-         * 是否初始值
-         *
-         * @return 是否初始值
-         */
-        boolean isDefault();
-
-        /**
-         * 初始化
-         */
-        void init();
+    /**
+     * 值合并函数
+     */
+    final BinaryOperator<E> infoMerger;
+    /**
+     * 标记合并函数
+     */
+    final BinaryOperator<T> tagMerger;
+    /**
+     * 加标记函数
+     */
+    final BiFunction<E, T, E> infoFunc;
+    /**
+     * 默认值
+     */
+    final Supplier<E> infoSupplier;
+    /**
+     * 默认标记
+     */
+    final Supplier<T> tagSupplier;
+    /**
+     * 值生成函数
+     */
+    final Function<Long, E> infoGenerator;
+    /**
+     * 标记生成函数
+     */
+    final Function<Long, T> tagGenerator;
+    final int size;
+    final Node[] tree;
+    /**
+     * 初始化线段树
+     *
+     * @param a 初始化数组，下标从1开始
+     */
+    @SuppressWarnings("unchecked")
+    public SegmentTree(long[] a,
+                       BinaryOperator<E> infoMerger,
+                       BinaryOperator<T> tagMerger,
+                       BiFunction<E, T, E> infoFunc,
+                       Supplier<E> infoSupplier,
+                       Supplier<T> tagSupplier,
+                       Function<Long, E> infoGenerator,
+                       Function<Long, T> tagGenerator) {
+        this.infoMerger = infoMerger;
+        this.tagMerger = tagMerger;
+        this.infoFunc = infoFunc;
+        this.infoSupplier = infoSupplier;
+        this.tagSupplier = tagSupplier;
+        this.infoGenerator = infoGenerator;
+        this.tagGenerator = tagGenerator;
+        this.size = a.length - 1;
+        this.tree = new SegmentTree.Node[size << 2];
+        build(a, 1, 1, size);
+    }
+    public SegmentTree(int size,
+                       BinaryOperator<E> infoMerger,
+                       BinaryOperator<T> tagMerger,
+                       BiFunction<E, T, E> infoFunc,
+                       Supplier<E> infoSupplier,
+                       Supplier<T> tagSupplier,
+                       Function<Long, E> infoGenerator,
+                       Function<Long, T> tagGenerator) {
+        this(new long[size], infoMerger, tagMerger, infoFunc, infoSupplier, tagSupplier, infoGenerator, tagGenerator);
     }
 
-    public static class Info {
-        long maxv;
+    static int mid(int l, int r) {return (l + r) >> 1;}
 
-        Info() {}
+    static int left(int id) {return id << 1;}
 
-        Info(long x) {
-            this.maxv = x;
-        }
-
-        @Override
-        public String toString() {
-            return maxv + "";
-        }
-    }
-    static class TagImpl implements Tag {
-        long add;
-
-        TagImpl() {init();}
-
-        TagImpl(long add) {
-            this.add = add;
-        }
-
-        /**
-         * 是否初始值
-         *
-         * @return 是否初始值
-         */
-        public boolean isDefault() {return add == 0;}
-
-        /**
-         * 初始化
-         */
-        public void init() {this.add = 0;}
-    }
+    static int right(int id) {return (id << 1) + 1;}
 
     /**
      * 单点修改
@@ -94,98 +116,6 @@ public class SegmentTree<E, T extends SegmentTree.Tag> {
     public E query(int ql, int qr) {
         return query(1, 1, size, ql, qr);
     }
-
-    class Node {
-        // 结点值
-        E val;
-        // 标记
-        T t;
-
-        Node() {
-            this.val = infoSupplier.get();
-            this.t = tagSupplier.get();
-        }
-
-        Node(long x) {
-            this.val = infoGenerator.apply(x);
-            this.t = tagGenerator.apply(x);
-        }
-    }
-
-    /**
-     * 值合并函数
-     */
-    final BinaryOperator<E> infoMerger;
-
-    /**
-     * 标记合并函数
-     */
-    final BinaryOperator<T> tagMerger;
-    /**
-     * 加标记函数
-     */
-    final BiFunction<E, T, E> infoFunc;
-    /**
-     * 默认值
-     */
-    final Supplier<E> infoSupplier;
-    /**
-     * 默认标记
-     */
-    final Supplier<T> tagSupplier;
-    /**
-     * 值生成函数
-     */
-    final Function<Long, E> infoGenerator;
-    /**
-     * 标记生成函数
-     */
-    final Function<Long, T> tagGenerator;
-    final int size;
-    final Node[] tree;
-
-    /**
-     * 初始化线段树
-     *
-     * @param a 初始化数组，下标从1开始
-     */
-    @SuppressWarnings("unchecked")
-    public SegmentTree(long[] a,
-                       BinaryOperator<E> infoMerger,
-                       BinaryOperator<T> tagMerger,
-                       BiFunction<E, T, E> infoFunc,
-                       Supplier<E> infoSupplier,
-                       Supplier<T> tagSupplier,
-                       Function<Long, E> infoGenerator,
-                       Function<Long, T> tagGenerator) {
-        this.infoMerger = infoMerger;
-        this.tagMerger = tagMerger;
-        this.infoFunc = infoFunc;
-        this.infoSupplier = infoSupplier;
-        this.tagSupplier = tagSupplier;
-        this.infoGenerator = infoGenerator;
-        this.tagGenerator = tagGenerator;
-        this.size = a.length - 1;
-        this.tree = new SegmentTree.Node[size << 2];
-        build(a, 1, 1, size);
-    }
-
-    public SegmentTree(int size,
-                       BinaryOperator<E> infoMerger,
-                       BinaryOperator<T> tagMerger,
-                       BiFunction<E, T, E> infoFunc,
-                       Supplier<E> infoSupplier,
-                       Supplier<T> tagSupplier,
-                       Function<Long, E> infoGenerator,
-                       Function<Long, T> tagGenerator) {
-        this(new long[size], infoMerger, tagMerger, infoFunc, infoSupplier, tagSupplier, infoGenerator, tagGenerator);
-    }
-
-    static int mid(int l, int r) {return (l + r) >> 1;}
-
-    static int left(int id) {return id << 1;}
-
-    static int right(int id) {return (id << 1) + 1;}
 
     final void update(int id) {
         // 更新结点
@@ -259,5 +189,73 @@ public class SegmentTree<E, T extends SegmentTree.Tag> {
         if (tree[id] == null) tree[id] = new Node();
         // ‼递归后更新结点
         update(id);
+    }
+
+    public interface Tag {
+        /**
+         * 是否初始值
+         *
+         * @return 是否初始值
+         */
+        boolean isDefault();
+
+        /**
+         * 初始化
+         */
+        void init();
+    }
+
+    public static class Info {
+        long maxv;
+
+        Info() {}
+
+        Info(long x) {
+            this.maxv = x;
+        }
+
+        @Override
+        public String toString() {
+            return maxv + "";
+        }
+    }
+
+    static class TagImpl implements Tag {
+        long add;
+
+        TagImpl() {init();}
+
+        TagImpl(long add) {
+            this.add = add;
+        }
+
+        /**
+         * 是否初始值
+         *
+         * @return 是否初始值
+         */
+        public boolean isDefault() {return add == 0;}
+
+        /**
+         * 初始化
+         */
+        public void init() {this.add = 0;}
+    }
+
+    class Node {
+        // 结点值
+        E val;
+        // 标记
+        T t;
+
+        Node() {
+            this.val = infoSupplier.get();
+            this.t = tagSupplier.get();
+        }
+
+        Node(long x) {
+            this.val = infoGenerator.apply(x);
+            this.t = tagGenerator.apply(x);
+        }
     }
 }

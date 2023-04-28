@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegexTest {
-    static final Pattern PTN_PATH = Pattern.compile("collections/(.*?)/inscriptions\\.json");
     public static final String PREFIX = "collections/";
+    static final Pattern PTN_PATH = Pattern.compile("collections/(.*?)/inscriptions\\.json");
 
     @Nullable
     static String getPath0(@Nullable String s) {

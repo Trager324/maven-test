@@ -21,7 +21,7 @@ public class NumericAlgo {
      */
     public static List<long[]> breakdown(long n) {
         List<long[]> res = new ArrayList<>();
-        for (int i = 2; (long)i * i <= n; i++) {
+        for (int i = 2; (long) i * i <= n; i++) {
             int cnt = 0;
             while (n % i == 0) {
                 n /= i;
@@ -97,7 +97,7 @@ public class NumericAlgo {
         Arrays.fill(res, true);
         res[0] = res[1] = false;
         // 根据素数定理，素数的个数大约为 n / ln(n)
-        List<Integer> list = new ArrayList<>((int)(n / Math.log(n)));
+        List<Integer> list = new ArrayList<>((int) (n / Math.log(n)));
         for (int i = 2; i <= n; ++i) {
             if (res[i]) {
                 list.add(i);
@@ -132,7 +132,7 @@ public class NumericAlgo {
         a = (a % MOD + MOD) % MOD;
         for (; b != 0; b >>= 1) {
             if ((b & 1) == 1) {
-                res = (int)(a * res % MOD);
+                res = (int) (a * res % MOD);
             }
             a = a * a % MOD;
         }

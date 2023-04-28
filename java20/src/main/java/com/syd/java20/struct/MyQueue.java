@@ -13,14 +13,14 @@ public class MyQueue<E> {
     public E peek() {
         if (isEmpty()) throw new NoSuchElementException();
         return head.next.val;
-    }    Node<E> head = new Node<>(), tail = head;
+    }
 
     public E pop() {
         E res = peek();
         head.next = head.next.next;
         size--;
         return res;
-    }
+    }    Node<E> head = new Node<>(), tail = head;
 
     public boolean isEmpty() {return size == 0;}
 

@@ -50,7 +50,7 @@ public class MathAlgo {
         for (int i = 1; i <= m; i++) {
             res = res * (n - i + 1) % MOD * inv[i] % MOD;
         }
-        return (int)res;
+        return (int) res;
     }
 
     /**

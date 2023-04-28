@@ -10,34 +10,6 @@ import java.util.function.BinaryOperator;
  * @date 2022/8/4
  */
 public class SegTree {
-    public static class Info {
-        long maxv;
-
-        Info(long x) {
-            this.maxv = x;
-        }
-    }
-
-    static class Tag {
-        long add;
-
-        Tag(long add) {
-            this.add = add;
-        }
-
-        /**
-         * 是否初始值
-         *
-         * @return 是否初始值
-         */
-        boolean isDefault() {return add == 0;}
-
-        /**
-         * 初始化
-         */
-        void init() {this.add = 0;}
-    }
-
     /**
      * 标记合并函数
      */
@@ -50,6 +22,8 @@ public class SegTree {
      * 加标记函数
      */
     static final BiFunction<Info, Tag, Info> INFO_FUNC = (v, t) -> new Info(v.maxv + t.add);
+    private final int size;
+    private final Node[] tree;
 
     public SegTree(long[] a) {
         this.size = a.length - 1;
@@ -60,6 +34,12 @@ public class SegTree {
     public SegTree(int size) {
         this(new long[size]);
     }
+
+    static int mid(int l, int r) {return (l + r) >> 1;}
+
+    static int left(int id) {return id << 1;}
+
+    static int right(int id) {return (id << 1) + 1;}
 
     /**
      * 单点修改
@@ -91,27 +71,6 @@ public class SegTree {
     Info query(int ql, int qr) {
         return query(1, 1, size, ql, qr);
     }
-
-    static class Node {
-        // 结点值
-        Info val;
-        // 标记
-        Tag t;
-
-        Node(long x) {
-            this.val = new Info(x);
-            this.t = new Tag(x);
-        }
-    }
-
-    private final int size;
-    private final Node[] tree;
-
-    static int mid(int l, int r) {return (l + r) >> 1;}
-
-    static int left(int id) {return id << 1;}
-
-    static int right(int id) {return (id << 1) + 1;}
 
     final void update(int id) {
         // 更新结点
@@ -185,5 +144,45 @@ public class SegTree {
         if (tree[id] == null) tree[id] = new Node(0);
         // ‼递归后更新结点
         update(id);
+    }
+
+    public static class Info {
+        long maxv;
+
+        Info(long x) {
+            this.maxv = x;
+        }
+    }
+
+    static class Tag {
+        long add;
+
+        Tag(long add) {
+            this.add = add;
+        }
+
+        /**
+         * 是否初始值
+         *
+         * @return 是否初始值
+         */
+        boolean isDefault() {return add == 0;}
+
+        /**
+         * 初始化
+         */
+        void init() {this.add = 0;}
+    }
+
+    static class Node {
+        // 结点值
+        Info val;
+        // 标记
+        Tag t;
+
+        Node(long x) {
+            this.val = new Info(x);
+            this.t = new Tag(x);
+        }
     }
 }

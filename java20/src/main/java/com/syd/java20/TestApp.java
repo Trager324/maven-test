@@ -27,6 +27,10 @@ import java.util.Objects;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, RedisAutoConfiguration.class})
 @EnableRetry(proxyTargetClass = true)
 public class TestApp {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext ac = SpringApplication.run(TestApp.class);
+    }
+
     @RestController
     static class A {
         @RequestMapping(value = "/{fileName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -38,9 +42,5 @@ public class TestApp {
             return ResponseEntity.ok(new InputStreamResource(Objects.requireNonNull(getClass().getClassLoader()
                     .getResourceAsStream(fileName))));
         }
-    }
-
-    public static void main(String[] args) {
-        ConfigurableApplicationContext ac = SpringApplication.run(TestApp.class);
     }
 }

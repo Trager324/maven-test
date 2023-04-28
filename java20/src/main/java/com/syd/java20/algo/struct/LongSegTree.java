@@ -28,10 +28,10 @@ public class LongSegTree {
     // Common associative functions used with segment trees
     // include: min, max, sum, product, GCD, and etc...
     private long function(long a, long b) {
-//        return a + b; // sum over a range
+        //        return a + b; // sum over a range
         return Math.max(a, b); // maximum value over a range
-//        return Math.min(a, b); // minimum value over a range
-//        return a * b; // product over a range (watch out for overflow!)
+        //        return Math.min(a, b); // minimum value over a range
+        //        return a * b; // product over a range (watch out for overflow!)
     }
 
     // Adjust point i by a value, O(log(n))

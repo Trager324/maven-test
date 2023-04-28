@@ -5,14 +5,15 @@ import com.alibaba.fastjson2.JSON
 import com.alibaba.fastjson2.JSONArray
 import com.alibaba.fastjson2.JSONFactory
 import com.alibaba.fastjson2.JSONObject
+import com.syd.algo.leetcode.ListNode
 import com.syd.algo.leetcode.ListNode.parseListNode
+import com.syd.algo.leetcode.TreeNode
 import com.syd.algo.leetcode.TreeNode.parseTreeNode
 import jdk.dynalink.linker.support.TypeUtilities
 import kotlinx.coroutines.*
 import lombok.*
 import lombok.experimental.Accessors
 import lombok.extern.java.Log
-import org.jetbrains.annotations.Contract
 import java.io.*
 import java.lang.annotation.*
 import java.lang.annotation.Repeatable
@@ -37,6 +38,7 @@ import java.util.stream.Collectors.*
 import kotlin.Any
 import kotlin.Array
 import kotlin.Boolean
+import kotlin.BooleanArray
 import kotlin.Double
 import kotlin.Int
 import kotlin.IntArray
@@ -45,26 +47,55 @@ import kotlin.String
 import kotlin.Throws
 import kotlin.also
 import kotlin.arrayOfNulls
-import kotlin.collections.ArrayDeque
 import kotlin.isNaN
 import kotlin.reflect.KClass
 import kotlin.require
 
 
 class Solution {
+    private fun dfs(node: Int, adj: Map<Int?, MutableList<Int>>, visit: BooleanArray) {
+        visit[node] = true
+        if (!adj.containsKey(node))
+            return
+        for (neighbor in adj[node]!!)
+            if (!visit[neighbor]) {
+                visit[neighbor] = true
+                dfs(neighbor, adj, visit)
+            }
+    }
 
-    fun longestPalindromeSubseq(s: String): Int {
-        val dp = Array(s.length) { IntArray(s.length) }
-        for (i in s.length - 1 downTo 0) {
-            dp[i][i] = 1
-            for (j in i + 1 until s.length) if (s[i] == s[j]) dp[i][j] = dp[i + 1][j - 1] + 2
-            else dp[i][j] = maxOf(dp[i + 1][j], dp[i][j - 1])
-        }
-        return dp[0][s.length - 1]
+    private fun isSimilar(a: String, b: String): Boolean {
+        var diff = 0
+        for (i in a.indices) if (a[i] != b[i])
+            diff++
+        return diff == 0 || diff == 2
+    }
+
+    fun numSimilarGroups(strs: Array<String>): Int {
+        val n = strs.size
+        val adj: MutableMap<Int?, MutableList<Int>> = HashMap()
+        // Form the required graph from the given strings array.
+        for (i in 0 until n)
+            for (j in i + 1 until n)
+                if (isSimilar(strs[i], strs[j])) {
+                    adj.computeIfAbsent(i) { ArrayList() }.add(j)
+                    adj.computeIfAbsent(j) { ArrayList() }.add(i)
+                }
+        val visit = BooleanArray(n)
+        var count = 0
+        // Count the number of connected components.
+        for (i in 0 until n)
+            if (!visit[i]) {
+                dfs(i, adj, visit)
+                count++
+            }
+        return count
     }
 }
 
 fun main(vararg args: String) {
+    //    "[null,null,1,2,3,null,1,4,5]"
+    println()
 
 }
 
@@ -196,8 +227,8 @@ internal class DTO {
         @Throws(IOException::class)
         @JvmStatic
         fun main(args: Array<String>) {
-            val treeNode = Objects.requireNonNull(parseTreeNode("[]"))
-            val listNode = Objects.requireNonNull(parseListNode("[]"))
+            val treeNode: TreeNode = Objects.requireNonNull(parseTreeNode("[]"))
+            val listNode: ListNode = Objects.requireNonNull(parseListNode("[]"))
             println(
                 DoubleStream.empty().boxed().collect(teeing(
                     groupingBy(

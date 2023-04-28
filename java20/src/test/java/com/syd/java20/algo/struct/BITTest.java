@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author songyide
@@ -28,7 +28,7 @@ class BITTest {
     @Test
     void test() {
         for (int i = 1; i <= list.size(); i++) {
-            assertEquals((long)i * (i + 1) >> 1, tree.query(i), i + "行");
+            assertEquals((long) i * (i + 1) >> 1, tree.query(i), i + "行");
         }
     }
 }

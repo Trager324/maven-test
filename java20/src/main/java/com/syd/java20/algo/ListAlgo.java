@@ -10,9 +10,10 @@ import java.util.List;
 public class ListAlgo {
     /**
      * 交换列表元素
+     *
      * @param list 列表
-     * @param i 索引i
-     * @param j 索引j
+     * @param i    索引i
+     * @param j    索引j
      */
     public static <T> void swap(List<T> list, int i, int j) {
         list.set(i, list.set(j, list.get(i)));
@@ -43,11 +44,10 @@ public class ListAlgo {
         int l = -1, r = list.size();
         while (l != r - 1) {
             int m = l + ((r - l) >> 1);
-            if (cmp.compare(list.get(m), x) < 0) {
+            if (cmp.compare(list.get(m), x) < 0)
                 l = m;
-            } else {
+            else
                 r = m;
-            }
         }
         return r;
     }
@@ -63,11 +63,10 @@ public class ListAlgo {
         int l = -1, r = list.size();
         while (l != r - 1) {
             int m = l + ((r - l) >> 1);
-            if (cmp.compare(list.get(m), x) <= 0) {
+            if (cmp.compare(list.get(m), x) <= 0)
                 l = m;
-            } else {
+            else
                 r = m;
-            }
         }
         return l;
     }
@@ -76,10 +75,10 @@ public class ListAlgo {
      * 快速选择算法
      */
     public static <T extends Comparable<T>> void nthElement(List<T> list, int left, int right, int kth) {
-        if (left == right) {
+        if (left == right)
             return;
-        }
-        int pivot = (int)(left + Math.random() * (right - left + 1));
+
+        int pivot = (int) (left + Math.random() * (right - left + 1));
         swap(list, pivot, right);
         // 三路划分（three-way partition）
         int sepl = left - 1, sepr = left - 1;
@@ -87,17 +86,15 @@ public class ListAlgo {
             if (list.get(i).compareTo(list.get(right)) > 0) {
                 swap(list, ++sepr, i);
                 swap(list, ++sepl, sepr);
-            } else if (list.get(i).equals(list.get(right))) {
+            } else if (list.get(i).equals(list.get(right)))
                 swap(list, ++sepr, i);
-            }
         }
-        if (sepl < left + kth && left + kth <= sepr) {
+        if (sepl < left + kth && left + kth <= sepr)
             return;
-        }
-        if (left + kth <= sepl) {
+
+        if (left + kth <= sepl)
             nthElement(list, left, sepl, kth);
-        } else {
+        else
             nthElement(list, sepr + 1, right, kth - (sepr - left + 1));
-        }
     }
 }

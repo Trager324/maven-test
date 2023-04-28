@@ -7,6 +7,10 @@ import org.stringtemplate.v4.STGroupString;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+enum A {
+
+}
+
 public class STTest {
     @Test
     void test0() {
@@ -27,7 +31,4 @@ public class STTest {
         sqlST.add("condition", "dt='2017-04-04'");
         assertEquals("select order_id from table where 1=1 and dt='2017-04-04'", sqlST.render());
     }
-}
-enum A {
-
 }

@@ -147,11 +147,11 @@ public class FunctionDemo {
             //                );
             //            }
 
-            var map = data.stream().map(p -> (JSONObject)p)
+            var map = data.stream().map(p -> (JSONObject) p)
                     .collect(toMap(p -> p.getString("id"), p -> p));
-            var map2 = data.stream().map(p -> (JSONObject)p)
+            var map2 = data.stream().map(p -> (JSONObject) p)
                     .collect(HashMap::new, (m, v) -> m.put("id", null), HashMap::putAll);
-            var tree = data.stream().map(p -> (JSONObject)p)
+            var tree = data.stream().map(p -> (JSONObject) p)
                     .collect(groupingBy(p -> p.getString("category1_id"),
                             groupingBy(p -> p.getString("category2_id"),
                                     mapping(p -> p.getString("id"), toList()))));

@@ -34,7 +34,7 @@ public class MyHeap<E> extends AbstractQueue<E> {
             assert heap.judge();
         }
         System.out.println(heap);
-//        System.out.println(heap);
+        //        System.out.println(heap);
     }
 
     void heapify() {
@@ -155,7 +155,7 @@ class IntHeap {
             assert heap.judge();
         }
         System.out.println(heap);
-//        System.out.println(heap);
+        //        System.out.println(heap);
     }
 
     public boolean offer(int o) {

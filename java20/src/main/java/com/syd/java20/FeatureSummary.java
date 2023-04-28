@@ -63,7 +63,6 @@ public class FeatureSummary {
     }
 
     /**
-     *
      * @since 20
      */
     void _20() {
@@ -89,28 +88,6 @@ public class FeatureSummary {
             }
         });
     }
-
-    /**
-     * <ul>
-     *     <li>浮点运算更加严格, 简化{@link Math}, {@link StrictMath}</li>
-     *     <li>删除AOT和JIT编译器; 删除Applet API; 弃用安全管理器Security Manager; 移除RMI激活机制</li>
-     *     <li>为伪随机数生成器 (PRNG) 提供新的接口类型和实现, 包括可跳转 PRNG 和另一类可拆分 PRNG 算法 (LXM)。
-     *     {@link RandomGenerator}为所有现有和新的PRNG提供统一的API。</li>
-     *     <li>密封类(正式)</li>
-     *     <li>switch模式匹配(预览)</li>
-     * </ul>
-     *
-     * @since 17
-     */
-    sealed interface I19 permits A19, B19, Circle {}
-
-    record P(int x, int y) {}
-
-    record Circle(P c, int r) implements I19 {}
-
-    static non-sealed private class A19 implements I19 {}
-
-    static non-sealed private class B19 implements I19 {}
 
     /**
      * <ul>
@@ -398,4 +375,26 @@ public class FeatureSummary {
         B b = new B();
         System.out.println(b.new NB(b));
     }
+
+    /**
+     * <ul>
+     *     <li>浮点运算更加严格, 简化{@link Math}, {@link StrictMath}</li>
+     *     <li>删除AOT和JIT编译器; 删除Applet API; 弃用安全管理器Security Manager; 移除RMI激活机制</li>
+     *     <li>为伪随机数生成器 (PRNG) 提供新的接口类型和实现, 包括可跳转 PRNG 和另一类可拆分 PRNG 算法 (LXM)。
+     *     {@link RandomGenerator}为所有现有和新的PRNG提供统一的API。</li>
+     *     <li>密封类(正式)</li>
+     *     <li>switch模式匹配(预览)</li>
+     * </ul>
+     *
+     * @since 17
+     */
+    sealed interface I19 permits A19, B19, Circle {}
+
+    record P(int x, int y) {}
+
+    record Circle(P c, int r) implements I19 {}
+
+    static non-sealed private class A19 implements I19 {}
+
+    static non-sealed private class B19 implements I19 {}
 }
