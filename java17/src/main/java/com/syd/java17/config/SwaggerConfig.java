@@ -20,10 +20,10 @@ import java.util.List;
 /**
  * @author syd
  */
-@Configuration
-@EnableOpenApi
+//@Configuration
+//@EnableOpenApi
 public class SwaggerConfig {
-    @Value("${springfox.documentation.swagger-ui.enabled:true}")
+    @Value("${springfox.documentation.swagger-ui.enabled:false}")
     private boolean enabled;
 
     /**

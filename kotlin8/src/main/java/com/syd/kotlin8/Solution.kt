@@ -43,6 +43,7 @@ import kotlin.Int
 import kotlin.IntArray
 import kotlin.Long
 import kotlin.String
+import kotlin.Suppress
 import kotlin.Throws
 import kotlin.also
 import kotlin.arrayOfNulls
@@ -50,45 +51,17 @@ import kotlin.isNaN
 import kotlin.reflect.KClass
 import kotlin.require
 
+internal class Solution {
 
-class Solution {
-
-    fun maxProbability(n: Int, edges: Array<IntArray>, succProb: DoubleArray, start: Int, end: Int): Double {
-        val g = Array(n) { ArrayList<Pair<Int, Double>>() }
-        for ((i, prob) in succProb.withIndex()) {
-            val (a, b) = edges[i]
-            g[a].add(b to prob)
-            g[b].add(a to prob)
-        }
-        fun dijkstra(): DoubleArray {
-            val probs = DoubleArray(g.size).also { it[start] = 1.0 }
-            val pq = PriorityQueue<Pair<Int, Double>> { p1, p2 ->
-                java.lang.Double.compare(p2.second, p1.second) }
-                .apply { add(start to 1.0) }
-            while (pq.isNotEmpty()) {
-                val (now, prob) = pq.poll()
-                if (prob < probs[now]) continue
-                for ((nx, sp) in g[now]) {
-                    val np = prob * sp
-                    if (np > probs[nx]) {
-                        probs[nx] = np
-                        pq.add(nx to np)
-                    }
-                }
-            }
-            return probs
-        }
-        return dijkstra()[end]
-    }
 }
+
+private val solution = Solution()
 
 fun main(vararg args: String) {
-    val a: Any? = 1
-    val n: Nothing? = null
-    val b: Any? = Object()
-}
+    //    "[null,null,1,2,3,null,1,4,5]"
+    println()
 
-val solution = Solution()
+}
 
 fun <T : Any> parseObject(text: String?, clazz: KClass<T>): T {
     return JSON.parseObject(text, clazz.java)
