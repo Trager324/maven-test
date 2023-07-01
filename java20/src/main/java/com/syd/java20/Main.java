@@ -8,13 +8,25 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Date;
+
 /**
  * @author syd
  */
 @ComponentScan
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.println(JSON.toJSONString(null));
+        System.out.printf("%x%n", 16);
+        System.out.printf("%o%n", 16);
+        System.out.printf("%d%n", 16);
+        System.out.printf("%h%n", 16);
+//        System.out.println(Instant.ofEpochMilli(Long.parseLong("11101001000000000010000000000011111010010", 2)));
+//        System.out.println(new Date(0b11101001000000000010000000000011111010010L));
+//        System.out.println(new Date(0b11101001000000000010000000000011111010010L));
+//        System.out.println(Instant.ofEpochMilli(0b11101001000000000010000000000011111010010L));
+//        System.out.println(Instant.EPOCH);
+
     }
 }
 

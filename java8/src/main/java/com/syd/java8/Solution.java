@@ -1,6 +1,11 @@
 package com.syd.java8;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
+import org.springframework.core.annotation.AnnotationUtils;
+
+import java.nio.charset.Charset;
 
 /**
  * @author syd
@@ -8,7 +13,7 @@ import lombok.Data;
  */
 public class Solution {
     public static void main(String[] args) {
-        System.gc();
+        System.out.println(Charset.defaultCharset());
     }
 
     @Data

@@ -38,7 +38,6 @@ import java.util.stream.Collectors.*
 import kotlin.Any
 import kotlin.Array
 import kotlin.Boolean
-import kotlin.BooleanArray
 import kotlin.Double
 import kotlin.Int
 import kotlin.IntArray
@@ -53,50 +52,40 @@ import kotlin.require
 
 
 class Solution {
-    private fun dfs(node: Int, adj: Map<Int?, MutableList<Int>>, visit: BooleanArray) {
-        visit[node] = true
-        if (!adj.containsKey(node))
-            return
-        for (neighbor in adj[node]!!)
-            if (!visit[neighbor]) {
-                visit[neighbor] = true
-                dfs(neighbor, adj, visit)
-            }
-    }
 
-    private fun isSimilar(a: String, b: String): Boolean {
-        var diff = 0
-        for (i in a.indices) if (a[i] != b[i])
-            diff++
-        return diff == 0 || diff == 2
-    }
-
-    fun numSimilarGroups(strs: Array<String>): Int {
-        val n = strs.size
-        val adj: MutableMap<Int?, MutableList<Int>> = HashMap()
-        // Form the required graph from the given strings array.
-        for (i in 0 until n)
-            for (j in i + 1 until n)
-                if (isSimilar(strs[i], strs[j])) {
-                    adj.computeIfAbsent(i) { ArrayList() }.add(j)
-                    adj.computeIfAbsent(j) { ArrayList() }.add(i)
+    fun maxProbability(n: Int, edges: Array<IntArray>, succProb: DoubleArray, start: Int, end: Int): Double {
+        val g = Array(n) { ArrayList<Pair<Int, Double>>() }
+        for ((i, prob) in succProb.withIndex()) {
+            val (a, b) = edges[i]
+            g[a].add(b to prob)
+            g[b].add(a to prob)
+        }
+        fun dijkstra(): DoubleArray {
+            val probs = DoubleArray(g.size).also { it[start] = 1.0 }
+            val pq = PriorityQueue<Pair<Int, Double>> { p1, p2 ->
+                java.lang.Double.compare(p2.second, p1.second) }
+                .apply { add(start to 1.0) }
+            while (pq.isNotEmpty()) {
+                val (now, prob) = pq.poll()
+                if (prob < probs[now]) continue
+                for ((nx, sp) in g[now]) {
+                    val np = prob * sp
+                    if (np > probs[nx]) {
+                        probs[nx] = np
+                        pq.add(nx to np)
+                    }
                 }
-        val visit = BooleanArray(n)
-        var count = 0
-        // Count the number of connected components.
-        for (i in 0 until n)
-            if (!visit[i]) {
-                dfs(i, adj, visit)
-                count++
             }
-        return count
+            return probs
+        }
+        return dijkstra()[end]
     }
 }
 
 fun main(vararg args: String) {
-    //    "[null,null,1,2,3,null,1,4,5]"
-    println()
-
+    val a: Any? = 1
+    val n: Nothing? = null
+    val b: Any? = Object()
 }
 
 val solution = Solution()

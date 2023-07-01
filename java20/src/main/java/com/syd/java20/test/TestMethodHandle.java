@@ -1,4 +1,4 @@
-package com.syd.java20;
+package com.syd.java20.test;
 
 import java.lang.invoke.*;
 
@@ -6,7 +6,7 @@ import static java.lang.invoke.MethodHandles.lookup;
 import static java.lang.invoke.MethodType.methodType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestA {
+public class TestMethodHandle {
 
     private static final MethodHandle printArgs;
 

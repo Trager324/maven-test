@@ -1,9 +1,8 @@
 package com.syd.java20.struct;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONFactory;
-import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.*;
+import com.fasterxml.jackson.core.json.JsonWriteFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.syd.algo.leetcode.ListNode;
 import com.syd.algo.leetcode.TreeNode;
 import jdk.dynalink.linker.support.TypeUtilities;
@@ -11,14 +10,13 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.util.Pair;
+import org.springframework.lang.NonNull;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.*;
 import java.lang.annotation.*;
 import java.lang.constant.Constable;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.lang.invoke.VolatileCallSite;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
@@ -28,6 +26,7 @@ import java.math.RoundingMode;
 import java.net.*;
 import java.nio.file.FileSystem;
 import java.nio.file.*;
+import java.text.DecimalFormat;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -70,15 +69,24 @@ enum DescribableEnum implements Constable {
 @Slf4j
 public class Solution {
 
-    public static void main(String[] args) throws Throwable {
-        var mhParseIA = MethodHandles.lookup()
-                .findStatic(Solution.class, "parseIntArray",
-                        MethodType.methodType(int[].class, String.class));
-        var ai = (int[]) mhParseIA.invokeExact("[]");
-        System.out.println(Arrays.toString(ai));
-        //        new ConstantCallSite();
-        //        new MutableCallSite();
-        new VolatileCallSite(MethodType.methodType(int.class));
+    static final Pair<Pattern, Function<Matcher, BigDecimal[]>> PF_LHL = Pair.of(
+            Pattern.compile("(?=(.*)[<≤])?绿化率(?=[<≤=](.*))?"),
+            m -> new BigDecimal[]{new BigDecimal(m.group(1)), new BigDecimal(m.group(2))}
+    );
+
+    public static BigDecimal[] parseData(Pair<Pattern, Function<Matcher, BigDecimal[]>> pf, String row) {
+        Matcher matcher = pf.getFirst().matcher(row);
+        if (matcher.matches()) {
+            return pf.getSecond().apply(matcher);
+        } else {
+            throw new IllegalArgumentException("脏数据：" + row);
+        }
+    }
+
+    static final Semaphore semaphore = new Semaphore(Runtime.getRuntime().availableProcessors() / 4 + 1);
+
+    public static void main(@NonNull String[] args) throws Exception {
+        new BigDecimal("");
     }
 
     public static <T> T parseObject(String text, Class<T> clazz) {

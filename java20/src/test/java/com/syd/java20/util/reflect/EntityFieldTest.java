@@ -1,4 +1,4 @@
-package com.syd.java20.struct;
+package com.syd.java20.util.reflect;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

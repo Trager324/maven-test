@@ -24,6 +24,7 @@ class MyHashSet {
         System.out.println(set.contains(1));
         System.out.println(set.contains(3));
         set.add(2);
+        System.out.println(set.size);
         System.out.println(set.contains(2));
         set.remove(2);
         System.out.println(set.contains(2));
@@ -55,17 +56,17 @@ class MyHashSet {
 
     public void add(int key) {
         int idx = key & (threshold - 1);
-        if (values[idx] == null) {
-            values[idx] = new Node(key);
-            return;
-        }
         Node n = values[idx];
-        if (n.val == key) return;
-        while (n.next != null) {
-            if (n.next.val == key) return;
-            n = n.next;
+        if (n == null) {
+            values[idx] = new Node(key);
+        } else {
+            if (n.val == key) return;
+            while (n.next != null) {
+                if (n.next.val == key) return;
+                n = n.next;
+            }
+            n.next = new Node(key);
         }
-        n.next = new Node(key);
         if (++size > threshold * loadFactor) {
             resize(threshold << 1);
         }
@@ -101,8 +102,6 @@ class MyHashSet {
     private static class Node {
         int val;
         Node next;
-
-        Node() {}
 
         Node(int v) {val = v;}
 

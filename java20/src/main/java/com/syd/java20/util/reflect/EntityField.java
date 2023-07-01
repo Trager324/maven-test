@@ -1,4 +1,4 @@
-package com.syd.java20.struct;
+package com.syd.java20.util.reflect;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
