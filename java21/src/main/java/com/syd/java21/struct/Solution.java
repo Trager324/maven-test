@@ -68,8 +68,41 @@ enum DescribableEnum implements Constable {
 @ThreadSafe
 @Slf4j
 public class Solution {
+    static Solution s = new Solution();
+
+    synchronized void t1() {
+        try {
+            TimeUnit.MILLISECONDS.sleep(100);
+            System.out.println("before wait");
+            s.wait();
+            System.out.println("after wait");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    synchronized void t2() {
+        try {
+            System.out.println("before signal");
+            s.notify();
+            TimeUnit.MILLISECONDS.sleep(3000);
+            System.out.println("after signal");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) throws Throwable {
+        List<Thread> list = Stream.<Runnable>of(s::t1, s::t2)
+                .map(r -> Thread.ofPlatform().start(r))
+                .toList();
+        list.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
     }
 

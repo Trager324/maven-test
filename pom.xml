@@ -14,8 +14,9 @@
         <module>common</module>
         <module>canal-client</module>
         <module>algo</module>
-        <module>kotlin8</module>
+        <module>kt</module>
         <module>math</module>
+        <module>dbeaver-learn</module>
     </modules>
 
     <properties>
@@ -29,8 +30,8 @@
         <cglib.version>3.3.0</cglib.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
-        <commons-io.version>2.11.0</commons-io.version>
-        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-io.version>2.15.1</commons-io.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <druid.version>1.2.16</druid.version>
         <easyexcel.version>3.2.1</easyexcel.version>
@@ -46,8 +47,8 @@
         <jwt.version>0.9.1</jwt.version>
         <junit.version>5.8.2</junit.version>
         <kaptcha.version>2.3.2</kaptcha.version>
-        <kotlin.version>1.9.0</kotlin.version>
-        <kotlinx-coroutines.version>1.7.0-Beta</kotlinx-coroutines.version>
+        <kotlin.version>1.9.20</kotlin.version>
+        <kotlinx-coroutines.version>1.7.3</kotlinx-coroutines.version>
         <lombok.version>1.18.30</lombok.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
@@ -62,11 +63,12 @@
         <poi.version>5.2.2</poi.version>
         <poi-ooxml.version>5.2.2</poi-ooxml.version>
         <poi-tl.version>1.12.1</poi-tl.version>
-        <redis.version>3.0.1</redis.version>
+        <postgresql.version>42.7.3</postgresql.version>
         <redisson.version>3.20.0</redisson.version>
         <slf4j.version>2.0.5</slf4j.version>
         <spring.version>6.0.9</spring.version>
-        <spring-boot.version>3.1.0</spring-boot.version>
+        <spring-boot-starter-data-redis.version>3.0.1</spring-boot-starter-data-redis.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
         <string-template.version>4.3.4</string-template.version>
         <swagger.version>3.0.0</swagger.version>
         <validation.version>3.0.2</validation.version>
@@ -76,6 +78,18 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
@@ -135,6 +149,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${oss.version}</version>
@@ -150,7 +170,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>${redis.version}</version>
+                <version>${spring-boot-starter-data-redis.version}</version>
             </dependency>
 
             <!--redisson-->

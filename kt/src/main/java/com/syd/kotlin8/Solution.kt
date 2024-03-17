@@ -1,10 +1,7 @@
 package com.syd.kotlin8
 
 
-import com.alibaba.fastjson2.JSON
-import com.alibaba.fastjson2.JSONArray
-import com.alibaba.fastjson2.JSONFactory
-import com.alibaba.fastjson2.JSONObject
+import com.alibaba.fastjson2.*
 import com.syd.algo.leetcode.ListNode
 import com.syd.algo.leetcode.ListNode.parseListNode
 import com.syd.algo.leetcode.TreeNode
@@ -43,7 +40,6 @@ import kotlin.Int
 import kotlin.IntArray
 import kotlin.Long
 import kotlin.String
-import kotlin.Suppress
 import kotlin.Throws
 import kotlin.also
 import kotlin.arrayOfNulls
@@ -51,20 +47,28 @@ import kotlin.isNaN
 import kotlin.reflect.KClass
 import kotlin.require
 
-internal class Solution {
-
+class Solution {
 }
 
 private val solution = Solution()
 
 fun main(vararg args: String) {
     //    "[null,null,1,2,3,null,1,4,5]"
-    println()
 
+    val a = object : Any() {
+        var a: Int = 0
+        fun f() = a
+    }
+    println(1.also { a.a = it })
+    println(a.f())
 }
 
 fun <T : Any> parseObject(text: String?, clazz: KClass<T>): T {
     return JSON.parseObject(text, clazz.java)
+}
+
+fun <T : Any> parseObject(text: String?): T {
+    return JSON.parseObject(text, object : TypeReference<T>() {})
 }
 
 fun parseIntArray(str: String?): IntArray {

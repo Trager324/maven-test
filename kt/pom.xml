@@ -9,15 +9,15 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>kotlin8</artifactId>
+    <artifactId>kt</artifactId>
 
     <properties>
-        <jdk.version>20</jdk.version>
+        <jdk.version>21</jdk.version>
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.8.10</kotlin.version>
-        <kotlinx-coroutines.version>1.6.4</kotlinx-coroutines.version>
+        <kotlin.version>1.9.20</kotlin.version>
+        <kotlinx-coroutines.version>1.7.3</kotlinx-coroutines.version>
     </properties>
 
     <dependencies>
@@ -89,7 +89,7 @@
                 <executions>
                     <execution>
                         <id>compile</id>
-                        <phase>compile</phase>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
                         </goals>
