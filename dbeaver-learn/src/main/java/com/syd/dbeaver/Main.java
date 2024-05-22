@@ -6,6 +6,7 @@ import com.syd.dbeaver.driver.PostgresqlDriverConstants;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
@@ -25,6 +26,15 @@ public class Main {
         }
     }
 
+    public static void loadDriverClass() {
+        try {
+            Class.forName("org.postgresql.Driver");
+            log.info("PostgreSQL Driver loaded");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         var desc_42_7_3 = new DriverDescriptor(
                 PostgresqlDriverConstants.DATABASE_POSTGRESQL,
@@ -36,20 +46,24 @@ public class Main {
                 PostgresqlDriverConstants.DRIVER_NAME,
                 List.of(PostgresqlDriverConstants.DRIVER_PATH_PG_42_5_6)
         );
-        Properties props = new Properties();
-        props.put("user", "postgres");
-        props.put("password", "root");
-        props.put("ssl", "false");
-        var opener1 = new JDBCConnectionOpener(desc_42_5_6, desc_42_5_6.getDriverInstance(),
-                JDBC_URL_POSTGRESQL_LOCAL, props);
-        var opener2 = new JDBCConnectionOpener(desc_42_7_3, desc_42_7_3.getDriverInstance(),
-                JDBC_URL_POSTGRESQL_LOCAL, props);
-        log.info("{}", desc_42_5_6.getDriverInstance().getMinorVersion());
-        log.info("{}", desc_42_7_3.getDriverInstance().getMinorVersion());
-        try (Connection c1 = opener1.run();
-             Connection c2 = opener2.run()) {
-            testPostgresqlConnection(c1);
-            testPostgresqlConnection(c2);
-        }
+//        Properties props = new Properties();
+//        props.put("user", "postgres");
+//        props.put("password", "root");
+//        props.put("ssl", "false");
+//        var opener1 = new JDBCConnectionOpener(desc_42_5_6, desc_42_5_6.getDriverInstance(),
+//                JDBC_URL_POSTGRESQL_LOCAL, props);
+//        var opener2 = new JDBCConnectionOpener(desc_42_7_3, desc_42_7_3.getDriverInstance(),
+//                JDBC_URL_POSTGRESQL_LOCAL, props);
+//        log.info("{}", desc_42_5_6.getDriverInstance().getMinorVersion());
+//        log.info("{}", desc_42_7_3.getDriverInstance().getMinorVersion());
+//        try (Connection c1 = opener1.run();
+//             Connection c2 = opener2.run()) {
+//            testPostgresqlConnection(c1);
+//            testPostgresqlConnection(c2);
+//        }
+        loadDriverClass();
+        Thread.currentThread().setContextClassLoader(desc_42_7_3.getClassLoader());
+        loadDriverClass();
+
     }
 }

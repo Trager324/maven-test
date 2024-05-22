@@ -53,14 +53,8 @@ class Solution {
 private val solution = Solution()
 
 fun main(vararg args: String) {
-    //    "[null,null,1,2,3,null,1,4,5]"
-
-    val a = object : Any() {
-        var a: Int = 0
-        fun f() = a
-    }
-    println(1.also { a.a = it })
-    println(a.f())
+    println(KotlinVersion.CURRENT)
+    println(Runtime.version())
 }
 
 fun <T : Any> parseObject(text: String?, clazz: KClass<T>): T {

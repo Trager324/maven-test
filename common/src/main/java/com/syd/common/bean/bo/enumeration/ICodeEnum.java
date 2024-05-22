@@ -35,7 +35,7 @@ public interface ICodeEnum {
         @SuppressWarnings("rawtypes")
         Map map;
         if ((map = ENUM_CACHE.get(clz)) == null) {
-            synchronized (clz) {
+            synchronized (ENUM_CACHE) {
                 if ((map = ENUM_CACHE.get(clz)) == null) {
                     @SuppressWarnings("all")
                     Map<String, ?> newMap = Arrays.stream(clz.getEnumConstants())
@@ -65,7 +65,7 @@ public interface ICodeEnum {
     }
 
     static <T extends Enum<T> & ICodeEnum & Describable> String getDescription(Class<T> clz, String code) {
-        @SuppressWarnings("all")
+        @SuppressWarnings("Convert2MethodRef")
         var res = Optional.ofNullable(ofNullable(clz, code))
                 .map(p -> p.getDescription())
                 .orElse(code);

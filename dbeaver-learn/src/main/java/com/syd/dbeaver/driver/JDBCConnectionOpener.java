@@ -50,6 +50,7 @@ public class JDBCConnectionOpener implements PrivilegedExceptionAction<Connectio
 
 
     @Override
+    @jakarta.annotation.Nullable
     public Connection run() throws Exception {
         // Set context class loaded to driver class loader
         ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
@@ -65,11 +66,11 @@ public class JDBCConnectionOpener implements PrivilegedExceptionAction<Connectio
                 log.trace(e.getMessage(), e);
             }
             // Open connection
-            if (driverInstance == null) {
+//            if (driverInstance == null) {
                 return DriverManager.getConnection(url, connectProps);
-            } else {
-                return driverInstance.connect(url, connectProps);
-            }
+//            } else {
+//                return driverInstance.connect(url, connectProps);
+//            }
         } finally {
             Thread.currentThread().setContextClassLoader(originalClassLoader);
         }

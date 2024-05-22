@@ -12,12 +12,12 @@
     <artifactId>kt</artifactId>
 
     <properties>
-        <jdk.version>21</jdk.version>
+        <jdk.version>22</jdk.version>
         <maven.compiler.source>${jdk.version}</maven.compiler.source>
         <maven.compiler.target>${jdk.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.9.20</kotlin.version>
-        <kotlinx-coroutines.version>1.7.3</kotlinx-coroutines.version>
+        <kotlin.version>2.0.0</kotlin.version>
+        <kotlinx-coroutines.version>1.8.1</kotlinx-coroutines.version>
     </properties>
 
     <dependencies>
@@ -28,6 +28,11 @@
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
         </dependency>
 
         <dependency>
@@ -60,9 +65,10 @@
             <groupId>com.syd</groupId>
             <artifactId>algo</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.syd</groupId>
-            <artifactId>java21</artifactId>
+            <artifactId>java-latest</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

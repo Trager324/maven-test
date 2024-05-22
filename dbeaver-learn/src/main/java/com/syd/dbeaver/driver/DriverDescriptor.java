@@ -41,7 +41,7 @@ public class DriverDescriptor {
     }
 
     @Nullable
-    public URLClassLoader getClassLoader() {
+    public DriverClassLoader getClassLoader() {
         return classLoader;
     }
 
