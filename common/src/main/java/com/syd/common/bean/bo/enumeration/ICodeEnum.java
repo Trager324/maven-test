@@ -33,24 +33,14 @@ public interface ICodeEnum {
      */
     static <T extends Enum<T> & ICodeEnum> Map<String, T> getIndexMap(Class<T> clz) {
         @SuppressWarnings("rawtypes")
-        Map map;
-        if ((map = ENUM_CACHE.get(clz)) == null) {
-            synchronized (ENUM_CACHE) {
-                if ((map = ENUM_CACHE.get(clz)) == null) {
-                    @SuppressWarnings("all")
-                    Map<String, ?> newMap = Arrays.stream(clz.getEnumConstants())
-                            .collect(Collectors.toMap(
-                                    // 此处使用方法引用会引起动态调用点异常，因为IAttribution作为第二个泛型参数无法匹配
-                                    // 详见<https://stackoverflow.com/questions/33929304/weird-exception-invalid-receiver-type-class-java-lang-object-not-a-subtype-of>
-                                    e -> e.getCode(),
-                                    e -> e,
-                                    StreamUtils.throwingMerger(),
-                                    () -> MapUtils.newCaseInsensitiveMap()));
-                    ENUM_CACHE.put(clz, newMap);
-                    map = newMap;
-                }
-            }
-        }
+        Map map = ENUM_CACHE.computeIfAbsent(clz, k -> Arrays.stream(clz.getEnumConstants())
+                .collect(Collectors.toMap(
+                        // 此处使用方法引用会引起动态调用点异常，因为IAttribution作为第二个泛型参数无法匹配
+                        // 详见<https://stackoverflow.com/questions/33929304/weird-exception-invalid-receiver-type-class-java-lang-object-not-a-subtype-of>
+                        ICodeEnum::getCode,
+                        e -> e,
+                        StreamUtils.throwingMerger(),
+                        MapUtils::<T>newCaseInsensitiveMap)));
         @SuppressWarnings("unchecked")
         var res = (Map<String, T>)map;
         return res;
