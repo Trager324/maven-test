@@ -31,5 +31,5 @@ spring:
 
 logging:
   level:
-    com.syd: debug
+    org.behappy: debug
 

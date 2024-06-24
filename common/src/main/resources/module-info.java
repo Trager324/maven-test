@@ -2,7 +2,7 @@
  * @author songyide
  * @date 2022/11/27
  */
-module com.syd.common {
+module org.behappy.common {
     requires com.baomidou.mybatis.plus;
     requires com.baomidou.mybatis.plus.core;
     requires com.baomidou.mybatis.plus.extension;
@@ -33,8 +33,8 @@ module com.syd.common {
     requires fastjson2.extension;
     requires org.aspectj.weaver;
 
-    exports com.syd.common.bean;
-    exports com.syd.common.constant;
-    exports com.syd.common.util;
-    exports com.syd.common.exception;
+    exports org.behappy.common.bean;
+    exports org.behappy.common.constant;
+    exports org.behappy.common.util;
+    exports org.behappy.common.exception;
 }

@@ -127,7 +127,7 @@
 
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.apache.http" level="INFO" additivity="true" includeLocation="true"/>
-    <logger name="com.syd.common" level="WARN"/>
+    <logger name="org.behappy.common" level="WARN"/>
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="DEBUG_FILE"/>
