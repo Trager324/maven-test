@@ -1,5 +1,5 @@
 module algo {
     requires lombok;
     requires jsr305;
-    exports com.behappy.algo.math;
+    exports org.behappy.algo.math;
 }

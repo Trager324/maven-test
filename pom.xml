@@ -3,20 +3,18 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.syd</groupId>
+    <groupId>org.behappy</groupId>
     <artifactId>maven-test</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>java8</module>
         <module>java17</module>
         <module>java-latest</module>
         <module>common</module>
         <module>canal-client</module>
         <module>algo</module>
         <module>kt</module>
-        <module>math</module>
-        <module>dbeaver-learn</module>
+        <module>tpantlr2</module>
     </modules>
 
     <properties>
@@ -275,13 +273,13 @@
 <!--            </dependency>-->
 
             <dependency>
-                <groupId>com.syd</groupId>
+                <groupId>org.behappy</groupId>
                 <artifactId>common</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.syd</groupId>
+                <groupId>org.behappy</groupId>
                 <artifactId>algo</artifactId>
                 <version>${project.version}</version>
             </dependency>
