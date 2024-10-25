@@ -44,17 +44,44 @@ import kotlin.Throws
 import kotlin.also
 import kotlin.arrayOfNulls
 import kotlin.isNaN
+import kotlin.math.abs
 import kotlin.reflect.KClass
 import kotlin.require
 
 class Solution {
+    fun f(arr: IntArray): Int {
+        val n = arr.size
+        val p0 = IntArray(n + 1)
+        val p1 = IntArray(n + 1)
+        var (m0, m1) = 0 to 0
+        var s = 0
+        for ((i, num) in arr.withIndex()) {
+            val c = if (num == 1) 1 else -1
+            p0[i + 1] = maxOf(p0[i] - c, 0)
+            p1[i + 1] = maxOf(p1[i] + c, 0)
+            m0 = maxOf(m0, p0[i + 1])
+            m1 = maxOf(m1, p1[i + 1])
+            s += c
+        }
+        m0 = s + m0 * 2
+        m1 = s - m1 * 2
+        if ((m0 > 0) xor (m1 > 0)) {
+            if (abs(m0) > abs(m1)) {
+                m1 = 0
+            } else {
+                m0 = 0
+            }
+        }
+        return abs(m1 - m0) / 2 + 1
+    }
 }
 
 private val solution = Solution()
 
+
 fun main(vararg args: String) {
-    println(KotlinVersion.CURRENT)
-    println(Runtime.version())
+    println(solution.f(intArrayOf(0,0,1,0,1,0,0,1)))
+    println(solution.f(intArrayOf(0,0,1,0,1,1,0,0,0,0,0,1)))
 }
 
 fun <T : Any> parseObject(text: String?, clazz: KClass<T>): T {
