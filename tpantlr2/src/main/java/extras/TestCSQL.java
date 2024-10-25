@@ -6,6 +6,7 @@
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
 ***/
+package extras;
 import org.antlr.v4.runtime.*;
 
 public class TestCSQL {
@@ -19,6 +20,6 @@ public class TestCSQL {
 		CSQL parser = new CSQL(tokens);
 		ParserRuleContext tree = parser.prog();
 		System.out.println(tree.toStringTree(parser));
-		tree.inspect(parser);
+//		tree.inspect(parser);
 	}
 }

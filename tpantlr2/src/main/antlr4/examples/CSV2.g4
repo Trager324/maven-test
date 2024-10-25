@@ -1,4 +1,4 @@
-grammar CSV;
+grammar CSV2;
 
 file : hdr row+ ;
 hdr : row ;

@@ -32,7 +32,8 @@ public class ExtractInterfaceTool {
 
     public static void main(String[] args) throws Exception {
         var input = CharStreams.fromStream(
-                Files.newInputStream(Constants.PATH_ANTLR.resolve("tour/IDemo.java"))
+                Files.newInputStream(Constants.PATH_ANTLR.resolve("tour/Demo.java"))
         );
+        run(input);
     }
 }

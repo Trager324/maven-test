@@ -2,6 +2,8 @@ lexer grammar CPPBaseLexer;
 
 @header {
 import java.util.List;
+import extras.CPP;
+import extras.CPPToken;
 }
 
 INCLUDE

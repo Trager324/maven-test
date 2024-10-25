@@ -11,10 +11,10 @@ import java.util.Map;
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
-interface IDemo {
-    void f(int x, String y);
+public class Demo {
+    void f(int x, String y) {}
 
-    int[] g(/*no args*/);
+    int[] g(/*no args*/) { return null; }
 
-    List<Map<String, Integer>>[] h();
+    List<Map<String, Integer>>[] h() { return null; }
 }

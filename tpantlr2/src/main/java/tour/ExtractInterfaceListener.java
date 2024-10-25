@@ -12,14 +12,16 @@ import org.antlr.v4.runtime.TokenStream;
 public class ExtractInterfaceListener extends JavaBaseListener {
     JavaParser parser;
 
-    public ExtractInterfaceListener(JavaParser parser) {this.parser = parser;}
+    public ExtractInterfaceListener(JavaParser parser) {
+        this.parser = parser;
+    }
 
     /**
      * Listen to matches of classDeclaration
      */
     @Override
     public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
-        System.out.println("interface I" + ctx.Identifier() + " {");
+        System.out.println("class " + ctx.Identifier() + " {");
     }
 
     @Override

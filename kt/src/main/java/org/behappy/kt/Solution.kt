@@ -80,8 +80,8 @@ private val solution = Solution()
 
 
 fun main(vararg args: String) {
-    println(solution.f(intArrayOf(0,0,1,0,1,0,0,1)))
-    println(solution.f(intArrayOf(0,0,1,0,1,1,0,0,0,0,0,1)))
+    buildString {
+    }
 }
 
 fun <T : Any> parseObject(text: String?, clazz: KClass<T>): T {

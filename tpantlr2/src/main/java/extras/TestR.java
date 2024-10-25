@@ -6,6 +6,8 @@
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
 ***/
+package extras;
+import constant.Constants;
 import org.antlr.v4.runtime.*;
 
 import java.io.FileInputStream;
@@ -13,13 +15,7 @@ import java.io.InputStream;
 
 public class TestR {
 	public static void main(String[] args) throws Exception {
-		String inputFile = null;
-		if ( args.length>0 ) inputFile = args[0];
-		InputStream is = System.in;
-		if ( inputFile!=null ) {
-			is = new FileInputStream(inputFile);
-		}
-		ANTLRInputStream input = new ANTLRInputStream(is);
+		var input = CharStreams.fromPath(Constants.PATH_ANTLR.resolve("examples/t.R"));
 		RLexer lexer = new RLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 //		tokens.fill();

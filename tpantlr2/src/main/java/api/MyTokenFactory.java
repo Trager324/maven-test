@@ -1,4 +1,4 @@
-/***
+package api; /***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
  * Copyrights apply to this code. It may not be used to create training material, 
@@ -9,7 +9,6 @@
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.TokenFactory;
 import org.antlr.v4.runtime.TokenSource;
-import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.Pair;
 
 /** A TokenFactory that creates MyToken objects */

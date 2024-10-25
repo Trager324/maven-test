@@ -37,6 +37,6 @@ public class InsertSerialID {
     }
 
     public static void main(String[] args) throws Exception {
-        run(CharStreams.fromPath(Constants.PATH_ANTLR.resolve("tour/t.data")));
+        run(CharStreams.fromPath(Constants.PATH_ANTLR.resolve("tour/Demo.java")));
     }
 }
