@@ -215,15 +215,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>--add-modules=jdk.incubator.vector</argLine>
-                    <forkCount>3</forkCount>
-                    <reuseForks>true</reuseForks>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>

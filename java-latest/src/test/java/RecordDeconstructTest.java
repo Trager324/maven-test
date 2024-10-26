@@ -1,3 +1,5 @@
+
+
 public class RecordDeconstructTest {
     record P(int x, int y) {}
 
