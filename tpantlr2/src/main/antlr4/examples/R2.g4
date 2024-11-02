@@ -2,7 +2,7 @@
 derived from http://svn.r-project.org/R/trunk/src/main/gram.y
 http://cran.r-project.org/doc/manuals/R-lang.html#Parser
 */
-grammar R;
+grammar R2;
 
 prog:   (   expr_or_assign (';'|NL)
         |   NL

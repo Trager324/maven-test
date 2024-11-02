@@ -16,13 +16,13 @@ import java.io.InputStream;
 public class TestR {
 	public static void main(String[] args) throws Exception {
 		var input = CharStreams.fromPath(Constants.PATH_ANTLR.resolve("examples/t.R"));
-		RLexer lexer = new RLexer(input);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		var lexer = new RLexer(input);
+		var tokens = new CommonTokenStream(lexer);
 //		tokens.fill();
 //		for (Object tok : tokens.getTokens()) {
 //			System.out.println(tok);
 //		}
-		RFilter filter = new RFilter(tokens);
+		var filter = new RFilter(tokens);
 		filter.stream(); // call start rule: stream
 		tokens.reset();
 //		for (Object tok : tokens.getTokens()) {
