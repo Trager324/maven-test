@@ -5,27 +5,31 @@ package api; /***
  * courses, books, articles, and the like. Contact us if you are in doubt.
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
-***/
+ ***/
+
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.TokenFactory;
 import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.misc.Pair;
 
-/** A TokenFactory that creates MyToken objects */
+/**
+ * A TokenFactory that creates MyToken objects
+ */
 public class MyTokenFactory implements TokenFactory<MyToken> {
     CharStream input;
 
-    public MyTokenFactory(CharStream input) { this.input = input; }
+    public MyTokenFactory(CharStream input) {this.input = input;}
+
     @Override
     public MyToken create(int type, String text) {
         return new MyToken(type, text);
     }
+
     @Override
     public MyToken create(Pair<TokenSource, CharStream> source, int type,
-                         String text,
-                         int channel, int start, int stop, int line,
-                         int charPositionInLine)
-    {
+                          String text,
+                          int channel, int start, int stop, int line,
+                          int charPositionInLine) {
         MyToken t = new MyToken(source, type, channel, start, stop);
         t.setLine(line);
         t.setCharPositionInLine(charPositionInLine);

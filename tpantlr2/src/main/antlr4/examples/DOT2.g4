@@ -1,7 +1,7 @@
 /** Derived from http://www.graphviz.org/doc/info/lang.html.
     Comments pulled from spec.
  */
-grammar DOT;
+grammar DOT2;
 
 graph       :   STRICT? (GRAPH | DIGRAPH) id? '{' stmt_list '}' ;
 stmt_list   :   ( stmt ';'? )* ;

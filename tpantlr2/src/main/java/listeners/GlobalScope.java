@@ -1,3 +1,5 @@
+package listeners;
+
 /***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
@@ -5,8 +7,9 @@
  * courses, books, articles, and the like. Contact us if you are in doubt.
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
-***/
-/** Represents a variable definition (name,type) in symbol table */
-public class VariableSymbol extends Symbol {
-    public VariableSymbol(String name, Type type) { super(name, type); }
+ ***/
+public class GlobalScope extends BaseScope {
+    public GlobalScope(Scope enclosingScope) {super(enclosingScope);}
+
+    public String getScopeName() {return "globals";}
 }

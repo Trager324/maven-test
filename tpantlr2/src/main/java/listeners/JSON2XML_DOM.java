@@ -1,23 +1,22 @@
 /***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
+ * Copyrights apply to this code. It may not be used to create training material,
  * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
+ * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
-***/
-import org.antlr.v4.runtime.*;
+ ***/
+package listeners;
+
+import constant.Constants;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Utils;
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeProperty;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import org.w3c.dom.Document;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -83,18 +82,22 @@ public class JSON2XML_DOM {
     public static class Element extends Node {
         String name;
         List<Node> children = new ArrayList<Node>();
-        public Element(String name) { this.name = name; }
+
+        public Element(String name) {this.name = name;}
+
         public String toString() {
             String content = Utils.join(children.iterator(), "");
-            if ( name==null ) return content;
+            if (name == null) return content;
             return XMLEmitter.tag(name, content);
         }
     }
 
     public static class TextNode extends Node {
         String content;
-        public TextNode(String content) { this.content = content; }
-        public String toString() { return content; }
+
+        public TextNode(String content) {this.content = content;}
+
+        public String toString() {return content;}
     }
 
     public static class XMLEmitter extends JSONBaseListener {
@@ -129,12 +132,11 @@ public class JSON2XML_DOM {
             JSONParser.ValueContext vctx = ctx.value();
             Element p = new Element(name);
             Node value = nodes.get(vctx);
-            if ( value!=null ) {
-                if ( value instanceof Element && ((Element)value).name==null ) {
+            if (value != null) {
+                if (value instanceof Element && ((Element) value).name == null) {
                     // if null content, must be object or array, copy in elements
-                    p.children.addAll(((Element)value).children);
-                }
-                else {
+                    p.children.addAll(((Element) value).children);
+                } else {
                     p.children.add(value);
                 }
             }
@@ -155,12 +157,11 @@ public class JSON2XML_DOM {
         @Override
         public void exitString(JSONParser.StringContext ctx) {
             TextNode text = new TextNode(stripQuotes(ctx.start.getText()));
-            if ( ctx.parent instanceof JSONParser.ArrayContext ) {
+            if (ctx.parent instanceof JSONParser.ArrayContext) {
                 Element implicitTag = new Element("element");
-                implicitTag.children.add( new TextNode(ctx.start.getText()) );
+                implicitTag.children.add(new TextNode(ctx.start.getText()));
                 nodes.put(ctx, implicitTag);
-            }
-            else {
+            } else {
                 nodes.put(ctx, text);
             }
         }
@@ -168,48 +169,40 @@ public class JSON2XML_DOM {
         @Override
         public void exitAtom(JSONParser.AtomContext ctx) {
             TextNode text = new TextNode(ctx.start.getText());
-            if ( ctx.parent instanceof JSONParser.ArrayContext ) {
+            if (ctx.parent instanceof JSONParser.ArrayContext) {
                 Element implicitTag = new Element("element");
-                implicitTag.children.add( new TextNode(ctx.start.getText()) );
+                implicitTag.children.add(new TextNode(ctx.start.getText()));
                 nodes.put(ctx, implicitTag);
-            }
-            else {
+            } else {
                 nodes.put(ctx, text);
             }
         }
 
         public static String stripQuotes(String s) {
-            if ( s==null || s.charAt(0)!='"' ) return s;
-            return s.substring(1, s.length()-1);
+            if (s == null || s.charAt(0) != '"') return s;
+            return s.substring(1, s.length() - 1);
         }
 
         public static String tag(String name, String content) {
-            StringBuilder buf = new StringBuilder();
-            buf.append('<'+name+'>');
-            buf.append(content);
-            buf.append("</"+name+'>');
-            return buf.toString();
+            return '<' + name + '>'
+                   + content
+                   + "</" + name + '>';
         }
     }
 
     public static void main(String[] args) throws Exception {
-        String inputFile = null;
-        if ( args.length>0 ) inputFile = args[0];
-        InputStream is = System.in;
-        if ( inputFile!=null ) {
-            is = new FileInputStream(inputFile);
-        }
-        ANTLRInputStream input = new ANTLRInputStream(is);
-        JSONLexer lexer = new JSONLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        JSONParser parser = new JSONParser(tokens);
+        var input = CharStreams.fromPath(Constants.PATH_ANTLR
+                .resolve("listeners/t.json"));
+        var lexer = new JSONLexer(input);
+        var tokens = new CommonTokenStream(lexer);
+        var parser = new JSONParser(tokens);
         parser.setBuildParseTree(true);
-        ParseTree tree = parser.json();
+        var tree = parser.json();
         // show tree in text form
         System.out.println(tree.toStringTree(parser));
 
-        ParseTreeWalker walker = new ParseTreeWalker();
-        XMLEmitter converter = new XMLEmitter();
+        var walker = new ParseTreeWalker();
+        var converter = new XMLEmitter();
         walker.walk(converter, tree);
         System.out.println(converter.nodes.get(tree));
     }

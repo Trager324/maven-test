@@ -1,6 +1,9 @@
 package examples;
+
 import constant.Constants;
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 /***
  * Excerpted from "The Definitive ANTLR 4 Reference",
@@ -11,18 +14,18 @@ import org.antlr.v4.runtime.*;
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
 public class TestR {
-	public static void run(CharStream input) {
-		var lexer = new R2Lexer(input);
-		var tokens = new CommonTokenStream(lexer);
-		R2Parser parser = new R2Parser(tokens);
-		parser.setBuildParseTree(true);
-		var tree = parser.prog();
+    public static void run(CharStream input) {
+        var lexer = new R2Lexer(input);
+        var tokens = new CommonTokenStream(lexer);
+        R2Parser parser = new R2Parser(tokens);
+        parser.setBuildParseTree(true);
+        var tree = parser.prog();
 //		tree.inspect(parser); // show in gui
-		//tree.save(parser, "/tmp/R.ps"); // Generate postscript
-		System.out.println(tree.toStringTree(parser));
-	}
+        //tree.save(parser, "/tmp/R.ps"); // Generate postscript
+        System.out.println(tree.toStringTree(parser));
+    }
 
-	public static void main(String[] args) throws Exception {
-		run(CharStreams.fromPath(Constants.PATH_ANTLR.resolve("examples/t.R")));
-	}
+    public static void main(String[] args) throws Exception {
+        run(CharStreams.fromPath(Constants.PATH_ANTLR.resolve("examples/t.R")));
+    }
 }

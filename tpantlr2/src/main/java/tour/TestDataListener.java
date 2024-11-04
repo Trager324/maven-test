@@ -19,7 +19,6 @@ public class TestDataListener extends DataBaseListener {
     }
 
 
-
     public static void main(String[] args) throws IOException {
 
         var input = CharStreams.fromPath(Constants.PATH_ANTLR.resolve("tour/t.data"));

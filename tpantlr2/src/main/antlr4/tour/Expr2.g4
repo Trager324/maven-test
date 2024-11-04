@@ -1,4 +1,4 @@
-grammar Expr;
+grammar Expr2;
 
 /** The start rule; begin parsing here. */
 prog:   stat+ ; 

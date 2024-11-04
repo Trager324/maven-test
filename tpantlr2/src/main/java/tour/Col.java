@@ -13,9 +13,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Col {
     static final Path PATH = Constants.PATH_ANTLR.resolve("tour/t.rows");

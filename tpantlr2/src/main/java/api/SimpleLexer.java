@@ -5,15 +5,14 @@ package api; /***
  * courses, books, articles, and the like. Contact us if you are in doubt.
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
-***/
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenFactory;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenFactory;
-import org.antlr.v4.runtime.TokenSource;
+ ***/
+
+import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.misc.Pair;
 
-/** Match ID, INT, and SEMI tokens and toss out whitespace */
+/**
+ * Match ID, INT, and SEMI tokens and toss out whitespace
+ */
 public class SimpleLexer implements TokenSource {
     public static final int ID = 1; // Token.MIN_USER_TOKEN_TYPE;
     public static final int INT = 2;
@@ -25,8 +24,9 @@ public class SimpleLexer implements TokenSource {
     int line = 1;
     int charPositionInLine = 0;
 
-    /** When we start token, track initial coordinates so we can properly
-     *  build token objects.
+    /**
+     * When we start token, track initial coordinates so we can properly
+     * build token objects.
      */
     int startCharIndex;
     int startLine;
@@ -35,27 +35,25 @@ public class SimpleLexer implements TokenSource {
 
     public SimpleLexer(CharStream input) {
         this.input = input;
-        c = (char)input.LA(1); // prime lookahead
+        c = (char) input.LA(1); // prime lookahead
     }
 
     @Override
     public Token nextToken() {
         while (true) {
-            if ( c==(char)CharStream.EOF ) return createToken(Token.EOF);
-            while ( Character.isWhitespace(c) ) consume(); // toss out whitespace
+            if (c == (char) CharStream.EOF) return createToken(Token.EOF);
+            while (Character.isWhitespace(c)) consume(); // toss out whitespace
             startCharIndex = input.index();
             startLine = getLine();
             startCharPositionInLine = getCharPositionInLine();
-            if ( c==';' ) {
+            if (c == ';') {
                 consume();
                 return createToken(SEMI);
-            }
-            else if ( c>='0' && c<='9' ) {
-                while ( c>='0' && c<='9' ) consume();
+            } else if (c >= '0' && c <= '9') {
+                while (c >= '0' && c <= '9') consume();
                 return createToken(INT);
-            }
-            else if ( c>='a' && c<='z' ) { // VERY simple ID
-                while ( c>='a' && c<='z' ) consume();
+            } else if (c >= 'a' && c <= 'z') { // VERY simple ID
+                while (c >= 'a' && c <= 'z') consume();
                 return createToken(ID);
             }
             // error; consume and try again
@@ -65,20 +63,20 @@ public class SimpleLexer implements TokenSource {
 
     protected Token createToken(int ttype) {
         String text = null; // we use start..stop indexes in input
-		Pair<TokenSource, CharStream> source =
-			new Pair<TokenSource, CharStream>(this, input);
+        Pair<TokenSource, CharStream> source =
+                new Pair<TokenSource, CharStream>(this, input);
         return factory.create(source, ttype, text, Token.DEFAULT_CHANNEL,
-                              startCharIndex, input.index()-1,
-                              startLine, startCharPositionInLine);
+                startCharIndex, input.index() - 1,
+                startLine, startCharPositionInLine);
     }
 
     protected void consume() {
-        if ( c=='\n' ) {
+        if (c == '\n') {
             line++;  // \r comes back as a char, but \n means line++
             charPositionInLine = 0;
         }
-        if ( c!=(char)CharStream.EOF ) input.consume();
-        c = (char)input.LA(1);
+        if (c != (char) CharStream.EOF) input.consume();
+        c = (char) input.LA(1);
         charPositionInLine++;
     }
 
