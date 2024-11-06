@@ -44,7 +44,7 @@ to
 
 public class JSON2XML {
     public static class XMLEmitter extends JSONBaseListener {
-        ParseTreeProperty<String> xml = new ParseTreeProperty<String>();
+        ParseTreeProperty<String> xml = new ParseTreeProperty<>();
 
         String getXML(ParseTree ctx) {return xml.get(ctx);}
 
@@ -70,7 +70,7 @@ public class JSON2XML {
         public void exitArrayOfValues(JSONParser.ArrayOfValuesContext ctx) {
             StringBuilder buf = new StringBuilder();
             buf.append("\n");
-            for (JSONParser.ValueContext vctx : ctx.value()) {
+            for (var vctx : ctx.value()) {
                 buf.append("<element>"); // conjure up element for valid XML
                 buf.append(getXML(vctx));
                 buf.append("</element>");
@@ -84,9 +84,9 @@ public class JSON2XML {
         }
 
         public void exitPair(JSONParser.PairContext ctx) {
-            String tag = stripQuotes(ctx.STRING().getText());
-            JSONParser.ValueContext vctx = ctx.value();
-            String x = String.format("<%s>%s</%s>\n", tag, getXML(vctx), tag);
+            var tag = stripQuotes(ctx.STRING().getText());
+            var vctx = ctx.value();
+            var x = "<" + tag + ">" + getXML(vctx) + "</" + tag + ">";
             setXML(ctx, x);
         }
 

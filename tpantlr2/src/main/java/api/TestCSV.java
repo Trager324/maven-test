@@ -13,11 +13,11 @@ import org.antlr.v4.runtime.*;
  ***/
 public class TestCSV {
     public static void run(CharStream input) {
-        var lex = new CSVLexer(input);
+        var lex = new CSV3Lexer(input);
         // copy text out of sliding buffer and store in tokens
         lex.setTokenFactory(new CommonTokenFactory(true));
-        TokenStream tokens = new UnbufferedTokenStream<CommonToken>(lex);
-        CSVParser parser = new CSVParser(tokens);
+        var tokens = new UnbufferedTokenStream<CommonToken>(lex);
+        var parser = new CSV3Parser(tokens);
         parser.setBuildParseTree(false);
         parser.file();
     }

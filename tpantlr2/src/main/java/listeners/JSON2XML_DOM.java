@@ -9,16 +9,17 @@
 package listeners;
 
 import constant.Constants;
-import org.antlr.v4.runtime.ANTLRInputStream;
+import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Utils;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,28 +54,28 @@ to
 <aliases></aliases>
  */
 
+@Slf4j
 public class JSON2XML_DOM {
-//  static {
-//      try {
-//          DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-//          DocumentBuilder db = dbf.newDocumentBuilder();
-//          Document document = db.newDocument();
-//          Element root = document.createElement("object");
-//          document.appendChild(root);
-//          root.appendChild( document.createTextNode("foo") );
-//
-//          TransformerFactory tf = TransformerFactory.newInstance();
-//          Transformer transformer = tf.newTransformer();
-//
-//          DOMSource source = new DOMSource(document);
-//          StreamResult result = new StreamResult(System.out);
-//
-//          transformer.transform(source, result);
-//      }
-//      catch (Exception e) {
-//          System.out.println(e);
-//      }
-//  }
+    static {
+        try {
+            var dbf = DocumentBuilderFactory.newInstance();
+            var db = dbf.newDocumentBuilder();
+            var document = db.newDocument();
+            var root = document.createElement("object");
+            document.appendChild(root);
+            root.appendChild(document.createTextNode("foo"));
+
+            var tf = TransformerFactory.newInstance();
+            var transformer = tf.newTransformer();
+
+            var source = new DOMSource(document);
+            var result = new StreamResult(System.out);
+
+            transformer.transform(source, result);
+        } catch (Exception e) {
+            log.error("e: ", e);
+        }
+    }
 
     public static class Node {
     }
@@ -133,9 +134,9 @@ public class JSON2XML_DOM {
             Element p = new Element(name);
             Node value = nodes.get(vctx);
             if (value != null) {
-                if (value instanceof Element && ((Element) value).name == null) {
+                if (value instanceof Element elem && elem.name == null) {
                     // if null content, must be object or array, copy in elements
-                    p.children.addAll(((Element) value).children);
+                    p.children.addAll(elem.children);
                 } else {
                     p.children.add(value);
                 }

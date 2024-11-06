@@ -1,13 +1,16 @@
-package listeners; /***
+/***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
+ * Copyrights apply to this code. It may not be used to create training material,
  * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
+ * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
+package listeners;
 
+import constant.Constants;
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -45,8 +48,10 @@ to
 
 public class JSON2XML_ST {
     public static class XMLEmitter extends JSONBaseListener {
-        ParseTreeProperty<ST> xml = new ParseTreeProperty<ST>();
-        STGroup templates = new STGroupFile("XML.stg");
+        ParseTreeProperty<ST> xml = new ParseTreeProperty<>();
+        STGroup templates = new STGroupFile(Constants.PATH_ANTLR
+                .resolve("listeners/XML.stg")
+                .toString());
 
         @Override
         public void exitJson(JSONParser.JsonContext ctx) {
@@ -83,9 +88,9 @@ public class JSON2XML_ST {
 
         @Override
         public void exitPair(JSONParser.PairContext ctx) {
-            String name = stripQuotes(ctx.STRING().getText());
-            JSONParser.ValueContext vctx = ctx.value();
-            ST tag = templates.getInstanceOf("tag");
+            var name = stripQuotes(ctx.STRING().getText());
+            var vctx = ctx.value();
+            var tag = templates.getInstanceOf("tag");
             tag.add("name", name);
             tag.add("content", xml.get(vctx));
             xml.put(ctx, tag);
@@ -103,7 +108,7 @@ public class JSON2XML_ST {
 
         @Override
         public void exitArrayValue(JSONParser.ArrayValueContext ctx) {
-            JSONParser.ArrayContext array = ctx.array();
+            var array = ctx.array();
             xml.put(ctx, xml.get(array));
         }
 
@@ -125,23 +130,18 @@ public class JSON2XML_ST {
     }
 
     public static void main(String[] args) throws Exception {
-        String inputFile = null;
-        if (args.length > 0) inputFile = args[0];
-        InputStream is = System.in;
-        if (inputFile != null) {
-            is = new FileInputStream(inputFile);
-        }
-        ANTLRInputStream input = new ANTLRInputStream(is);
-        JSONLexer lexer = new JSONLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        JSONParser parser = new JSONParser(tokens);
+        var input = CharStreams.fromPath(Constants.PATH_ANTLR
+                .resolve("listeners/t.json"));
+        var lexer = new JSONLexer(input);
+        var tokens = new CommonTokenStream(lexer);
+        var parser = new JSONParser(tokens);
         parser.setBuildParseTree(true);
-        ParseTree tree = parser.json();
+        var tree = parser.json();
         // show tree in text form
         System.out.println(tree.toStringTree(parser));
 
-        ParseTreeWalker walker = new ParseTreeWalker();
-        XMLEmitter converter = new XMLEmitter();
+        var walker = new ParseTreeWalker();
+        var converter = new XMLEmitter();
         walker.walk(converter, tree);
         System.out.println(converter.xml.get(tree).render());
     }

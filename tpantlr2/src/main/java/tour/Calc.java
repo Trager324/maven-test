@@ -1,31 +1,26 @@
-package tour;
 /***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
+ * Copyrights apply to this code. It may not be used to create training material,
  * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
+ * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
+package tour;
 
+
+import constant.Constants;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 public class Calc {
     public static void main(String[] args) throws Exception {
-        String inputFile = null;
-        if (args.length > 0) inputFile = args[0];
-        InputStream is = System.in;
-        if (inputFile != null) is = new FileInputStream(inputFile);
-        var input = CharStreams.fromStream(is);
-        LabeledExprLexer lexer = new LabeledExprLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        LabeledExprParser parser = new LabeledExprParser(tokens);
-        ParseTree tree = parser.prog(); // parse
+        var input = CharStreams.fromPath(Constants.PATH_ANTLR
+                .resolve("tour/t.expr"));
+        var lexer = new LabeledExprLexer(input);
+        var tokens = new CommonTokenStream(lexer);
+        var parser = new LabeledExprParser(tokens);
+        var tree = parser.prog(); // parse
 
         EvalVisitor eval = new EvalVisitor();
         eval.visit(tree);

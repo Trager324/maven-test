@@ -7,7 +7,9 @@ package listeners; /***
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
 
+import constant.Constants;
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -45,19 +47,16 @@ public class TestExprEmitter {
     }
 
     public static void main(String[] args) throws Exception {
-        String inputFile = null;
-        if (args.length > 0) inputFile = args[0];
-        InputStream is = System.in;
-        if (inputFile != null) is = new FileInputStream(inputFile);
-        ANTLRInputStream input = new ANTLRInputStream(is);
-        ExprLexer lexer = new ExprLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        ExprParser parser = new ExprParser(tokens);
-        ParseTree tree = parser.s(); // parse
+        var input = CharStreams.fromPath(Constants.PATH_ANTLR
+                .resolve("listeners/t.expr"));
+        var lexer = new ExprLexer(input);
+        var tokens = new CommonTokenStream(lexer);
+        var parser = new ExprParser(tokens);
+        var tree = parser.s(); // parse
         // show tree in text form
         System.out.println(tree.toStringTree(parser));
 
-        ParseTreeWalker walker = new ParseTreeWalker();
+        var walker = new ParseTreeWalker();
         walker.walk(new LeafListener(), tree);
 
         walker.walk(new Printer(), tree);

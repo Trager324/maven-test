@@ -1,6 +1,6 @@
 // Derived from http://json.org
 
-grammar JSON;
+grammar JSON9;
 
 json:   object
     |   array
