@@ -8,17 +8,13 @@ package listeners; /***
  ***/
 
 import constant.Constants;
-import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.MultiMap;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.stringtemplate.v4.ST;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Set;
 
 public class CallGraph {
@@ -37,9 +33,8 @@ public class CallGraph {
      */
     static class Graph {
         // I'm using org.antlr.v4.runtime.misc: OrderedHashSet, MultiMap
-        Set<String> nodes = new OrderedHashSet<String>(); // list of functions
-        MultiMap<String, String> edges =                  // caller->callee
-                new MultiMap<String, String>();
+        Set<String> nodes = new OrderedHashSet<>(); // list of functions
+        MultiMap<String, String> edges = new MultiMap<>(); // caller->callee
 
         public void edge(String source, String target) {
             edges.map(source, target);
@@ -50,13 +45,13 @@ public class CallGraph {
         }
 
         public String toDOT() {
-            StringBuilder buf = new StringBuilder();
-            buf.append("digraph G {\n");
-            buf.append("  ranksep=.25;\n");
-            buf.append("  edge [arrowsize=.5]\n");
-            buf.append("  node [shape=circle, fontname=\"ArialNarrow\",\n");
-            buf.append("        fontsize=12, fixedsize=true, height=.45];\n");
-            buf.append("  ");
+            StringBuilder buf = new StringBuilder("""
+                    digraph G {
+                      ranksep=.25;
+                      edge [arrowsize=.5]
+                      node [shape=circle, fontname="ArialNarrow",
+                            fontsize=12, fixedsize=true, height=.45];
+                    \s\s""");
             for (String node : nodes) { // print all nodes first
                 buf.append(node);
                 buf.append("; ");
@@ -86,15 +81,16 @@ public class CallGraph {
          * Just as an example. Much cleaner than buf.append method
          */
         public ST toST() {
-            ST st = new ST(
-                    "digraph G {\n" +
-                    "  ranksep=.25; \n" +
-                    "  edge [arrowsize=.5]\n" +
-                    "  node [shape=circle, fontname=\"ArialNarrow\",\n" +
-                    "        fontsize=12, fixedsize=true, height=.45];\n" +
-                    "  <funcs:{f | <f>; }>\n" +
-                    "  <edgePairs:{edge| <edge.a> -> <edge.b>;}; separator=\"\\n\">\n" +
-                    "}\n"
+            ST st = new ST("""
+                    digraph G {
+                      ranksep=.25;
+                      edge [arrowsize=.5]
+                      node [shape=circle, fontname="ArialNarrow",
+                            fontsize=12, fixedsize=true, height=.45];
+                      <funcs:{f | <f>; }>
+                      <edgePairs:{edge| <edge.a> -> <edge.b>;}; separator="\\n">
+                    }
+                    """
             );
             st.add("edgePairs", edges.getPairs());
             st.add("funcs", nodes);
@@ -135,9 +131,9 @@ public class CallGraph {
         var collector = new FunctionListener();
         walker.walk(collector, tree);
         System.out.println(collector.graph.toString());
-        System.out.println(collector.graph.toDOT());
+//        System.out.println(collector.graph.toDOT());
 
         // Here's another example that uses StringTemplate to generate output
-//        System.out.println(collector.graph.toST().render());
+        System.out.println(collector.graph.toST().render());
     }
 }

@@ -7,7 +7,9 @@ package listeners; /***
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
 
+import constant.Constants;
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -18,30 +20,23 @@ import java.io.InputStream;
 
 public class CheckSymbols {
     public static Symbol.Type getType(int tokenType) {
-        switch (tokenType) {
-            case CymbolParser.K_VOID:
-                return Symbol.Type.tVOID;
-            case CymbolParser.K_INT:
-                return Symbol.Type.tINT;
-            case CymbolParser.K_FLOAT:
-                return Symbol.Type.tFLOAT;
-        }
-        return Symbol.Type.tINVALID;
+        return switch (tokenType) {
+            case CymbolParser.K_VOID -> Symbol.Type.tVOID;
+            case CymbolParser.K_INT -> Symbol.Type.tINT;
+            case CymbolParser.K_FLOAT -> Symbol.Type.tFLOAT;
+            default -> Symbol.Type.tINVALID;
+        };
     }
 
     public static void error(Token t, String msg) {
+
         System.err.printf("line %d:%d %s\n", t.getLine(), t.getCharPositionInLine(),
                 msg);
     }
 
     public void process(String[] args) throws Exception {
-        String inputFile = null;
-        if (args.length > 0) inputFile = args[0];
-        InputStream is = System.in;
-        if (inputFile != null) {
-            is = new FileInputStream(inputFile);
-        }
-        var input = new ANTLRInputStream(is);
+        var input = CharStreams.fromPath(Constants.PATH_ANTLR
+                .resolve("listeners/vars.cymbol"));
         var lexer = new CymbolLexer(input);
         var tokens = new CommonTokenStream(lexer);
         var parser = new CymbolParser(tokens);
