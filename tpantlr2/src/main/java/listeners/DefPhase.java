@@ -1,18 +1,19 @@
-package listeners; /***
+/***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
+ * Copyrights apply to this code. It may not be used to create training material,
  * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
+ * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
+package listeners;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 public class DefPhase extends CymbolBaseListener {
-    ParseTreeProperty<Scope> scopes = new ParseTreeProperty<Scope>();
+    ParseTreeProperty<Scope> scopes = new ParseTreeProperty<>();
     GlobalScope globals;
     Scope currentScope; // define symbols in this scope
 
@@ -26,12 +27,12 @@ public class DefPhase extends CymbolBaseListener {
     }
 
     public void enterFunctionDecl(CymbolParser.FunctionDeclContext ctx) {
-        String name = ctx.ID().getText();
-        int typeTokenType = ctx.type().start.getType();
-        Symbol.Type type = CheckSymbols.getType(typeTokenType);
+        var name = ctx.ID().getText();
+        var typeTokenType = ctx.type().start.getType();
+        var type = Symbol.getType(typeTokenType);
 
         // push new scope by making new one that points to enclosing scope
-        FunctionSymbol function = new FunctionSymbol(name, type, currentScope);
+        var function = new FunctionSymbol(name, type, currentScope);
         currentScope.define(function); // Define function in current scope
         saveScope(ctx, function);      // Push: set function's parent to current
         currentScope = function;       // Current scope is now function scope
@@ -64,9 +65,9 @@ public class DefPhase extends CymbolBaseListener {
     }
 
     void defineVar(CymbolParser.TypeContext typeCtx, Token nameToken) {
-        int typeTokenType = typeCtx.start.getType();
-        Symbol.Type type = CheckSymbols.getType(typeTokenType);
-        VariableSymbol var = new VariableSymbol(nameToken.getText(), type);
+        var typeTokenType = typeCtx.start.getType();
+        var type = Symbol.getType(typeTokenType);
+        var var = new VariableSymbol(nameToken.getText(), type);
         currentScope.define(var); // Define symbol in current scope
     }
 }

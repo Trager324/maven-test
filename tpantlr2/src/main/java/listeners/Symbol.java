@@ -9,7 +9,18 @@ package listeners;
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
 public class Symbol { // A generic programming language symbol
-    public static enum Type {tINVALID, tVOID, tINT, tFLOAT}
+    public enum Type {
+        T_INVALID, T_VOID, T_INT, T_FLOAT;
+    }
+
+    public static Type getType(int tokenType) {
+        return switch (tokenType) {
+            case CymbolParser.K_VOID -> Type.T_VOID;
+            case CymbolParser.K_INT -> Type.T_INT;
+            case CymbolParser.K_FLOAT -> Type.T_FLOAT;
+            default -> Type.T_INVALID;
+        };
+    }
 
     String name;      // All symbols at least have a name
     Type type;
@@ -25,7 +36,7 @@ public class Symbol { // A generic programming language symbol
     public String getName() {return name;}
 
     public String toString() {
-        if (type != Type.tINVALID) return '<' + getName() + ":" + type + '>';
+        if (type != Type.T_INVALID) return '<' + getName() + ":" + type + '>';
         return getName();
     }
 }
