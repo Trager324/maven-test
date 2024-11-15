@@ -6,19 +6,19 @@ import jakarta.validation.constraints.Size;
 import org.checkerframework.checker.units.qual.Length;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main {
 
-    static final String B = "B" + 1;
 
-    @Pattern(regexp = B)
-    void f1(Object obj) {
-        switch (obj.toString()) {
-            case B -> System.out.println("B");
-        }
+    static void f1(Map<String, ? extends Map<String, Integer>> map) {
+
     }
 
     public static void main(String[] args) {
-        Main m = new Main();
-        m.f1(m);
+        var map = Map.of(
+                "", new HashMap<String, Integer>());
+        f1(map);
     }
 }
