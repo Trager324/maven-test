@@ -19,7 +19,6 @@ import org.antlr.v4.runtime.Recognizer;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Collections;
-import java.util.List;
 
 public class TestE_Dialog {
     public static class DialogListener extends BaseErrorListener {
@@ -32,8 +31,8 @@ public class TestE_Dialog {
             var stack = ((Parser) recognizer).getRuleInvocationStack();
             Collections.reverse(stack);
             var buf = "rule stack: " + stack + " "
-                         + "line " + line + ":" + charPositionInLine + " at " +
-                         offendingSymbol + ": " + msg;
+                      + "line " + line + ":" + charPositionInLine + " at " +
+                      offendingSymbol + ": " + msg;
 
             var dialog = new JDialog();
             var contentPane = dialog.getContentPane();

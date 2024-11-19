@@ -39,7 +39,8 @@ public class TestE_Listener {
     public static void main(String[] args) throws Exception {
         CharStream input;
 //        input = CharStreams.fromString("class T { int i; }");
-        input = CharStreams.fromString("class T ; { int i; }");
+//        input = CharStreams.fromString("class T ; { int i; }");
+        input = CharStreams.fromString("class T T {\n  int ;\n}");
 //        input = CharStreams.fromString("""
 //                class T {
 //                  int f(x) { a = 3 4 5; }

@@ -5,19 +5,24 @@
  * courses, books, articles, and the like. Contact us if you are in doubt.
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
-***/
+ ***/
 package errors;
-import org.antlr.v4.runtime.*;
+
+import org.antlr.v4.runtime.DefaultErrorStrategy;
+import org.antlr.v4.runtime.NoViableAltException;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.RecognitionException;
+
 public class MyErrorStrategy extends DefaultErrorStrategy {
     @Override
     public void reportNoViableAlternative(Parser parser,
                                           NoViableAltException e)
-        throws RecognitionException
-    {
+            throws RecognitionException {
         // ANTLR generates Parser subclasses from grammars and
         // Parser extends Recognizer. Parameter parser is a
         // pointer to the parser that detected the error
         String msg = "can't choose between alternatives"; // nonstandard msg
         parser.notifyErrorListeners(e.getOffendingToken(), msg, e);
+        errorRecoveryMode = errorRecoveryMode;
     }
 }

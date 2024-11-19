@@ -5,13 +5,18 @@
  * courses, books, articles, and the like. Contact us if you are in doubt.
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
-***/
+ ***/
 package errors;
-import org.antlr.v4.runtime.*;
+
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.LexerNoViableAltException;
 
 public class TestBail {
     public static class BailSimpleLexer extends Simple2Lexer {
-        public BailSimpleLexer(CharStream input) { super(input); }
+        public BailSimpleLexer(CharStream input) {super(input);}
+
         public void recover(LexerNoViableAltException e) {
             throw new RuntimeException(e); // Bail out
         }
