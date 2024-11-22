@@ -14,6 +14,11 @@ import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Token;
 
+/**
+ * Bail Error Strategy
+ *
+ * @see org.antlr.v4.runtime.BailErrorStrategy
+ */
 public class BailErrorStrategy extends DefaultErrorStrategy {
     /**
      * Instead of recovering from exception e, rethrow it wrapped

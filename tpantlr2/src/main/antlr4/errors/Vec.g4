@@ -1,6 +1,7 @@
 grammar Vec;
 
 vec4:   '[' ints[4] ']' ;
+
 ints[int max]
 locals [int i=1]
     :   INT ( ',' {$i++;} {$i<=$max}? INT )*

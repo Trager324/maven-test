@@ -8,11 +8,14 @@
  ***/
 package errors;
 
+import lombok.extern.slf4j.Slf4j;
+import org.antlr.v4.runtime.ANTLRErrorStrategy;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.LexerNoViableAltException;
 
+@Slf4j
 public class TestBail {
     public static class BailSimpleLexer extends Simple2Lexer {
         public BailSimpleLexer(CharStream input) {super(input);}
@@ -22,12 +25,24 @@ public class TestBail {
         }
     }
 
+    public static void run(CharStream input) {
+        run(input, new BailErrorStrategy());
+    }
+
+    public static void run(CharStream input, ANTLRErrorStrategy handler) {
+        try {
+            var lexer = new BailSimpleLexer(input);
+            var tokens = new CommonTokenStream(lexer);
+            var parser = new Simple2Parser(tokens);
+            parser.setErrorHandler(handler);
+            parser.prog();
+        } catch (Exception e) {
+            log.warn(e.getMessage(), e);
+        }
+    }
+
     public static void main(String[] args) throws Exception {
-        var input = CharStreams.fromString("System.in");
-        var lexer = new BailSimpleLexer(input);
-        var tokens = new CommonTokenStream(lexer);
-        var parser = new Simple2Parser(tokens);
-        parser.setErrorHandler(new BailErrorStrategy());
-        parser.prog();
+        run(CharStreams.fromString("# class T { int i; }"));
+        run(CharStreams.fromString("class { }"), new MyErrorStrategy());
     }
 }

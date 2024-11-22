@@ -23,6 +23,5 @@ public class MyErrorStrategy extends DefaultErrorStrategy {
         // pointer to the parser that detected the error
         String msg = "can't choose between alternatives"; // nonstandard msg
         parser.notifyErrorListeners(e.getOffendingToken(), msg, e);
-        errorRecoveryMode = errorRecoveryMode;
     }
 }
