@@ -1,4 +1,4 @@
-grammar CSV;
+grammar CSV5;
 
 @header {
 import java.util.*;

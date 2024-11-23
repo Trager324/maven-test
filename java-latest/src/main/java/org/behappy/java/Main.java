@@ -1,12 +1,6 @@
 package org.behappy.java;
 
 
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import org.checkerframework.checker.units.qual.Length;
-import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
@@ -16,9 +10,13 @@ public class Main {
 
     }
 
+    public static boolean isUnsignedLongPowerOf2(long n) {
+        return n != 0 && (n & (n - 1)) == 0;
+    }
+
     public static void main(String[] args) {
-        var map = Map.of(
-                "", new HashMap<String, Integer>());
-        f1(map);
+        System.out.println(isUnsignedLongPowerOf2(128L));
+        System.out.println(isUnsignedLongPowerOf2(Long.MAX_VALUE));
+        System.out.println(isUnsignedLongPowerOf2(Long.MIN_VALUE));
     }
 }

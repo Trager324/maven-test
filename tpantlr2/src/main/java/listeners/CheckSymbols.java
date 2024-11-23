@@ -34,7 +34,7 @@ public class CheckSymbols {
 //        System.out.println(tree.toStringTree(parser));
 
         var walker = new ParseTreeWalker();
-        DefPhase def = new DefPhase();
+        var def = new DefPhase();
         walker.walk(def, tree);
         // create next phase and feed symbol table info from def to ref phase
         RefPhase ref = new RefPhase(def.globals, def.scopes);

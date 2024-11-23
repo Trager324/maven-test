@@ -13,12 +13,12 @@ import java.util.Map;
 
 public abstract class BaseScope implements Scope {
     Scope enclosingScope; // null if global (outermost) scope
-    Map<String, Symbol> symbols = new LinkedHashMap<String, Symbol>();
+    Map<String, Symbol> symbols = new LinkedHashMap<>();
 
     public BaseScope(Scope enclosingScope) {this.enclosingScope = enclosingScope;}
 
     public Symbol resolve(String name) {
-        Symbol s = symbols.get(name);
+        var s = symbols.get(name);
         if (s != null) return s;
         // if not here, check any enclosing scope
         if (enclosingScope != null) return enclosingScope.resolve(name);

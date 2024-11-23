@@ -1,8 +1,8 @@
 /** Grammar from tour chapter augmented with actions */
-grammar Expr;
+grammar Expr5;
 
 @header {
-package tools;
+//package actions.tools;
 import java.util.*;
 }
 
@@ -33,7 +33,7 @@ e returns [int v]
     | ID
       {
       String id = $ID.text;
-      $v = memory.containsKey(id) ? memory.get(id) : 0;
+      $v = memory.getOrDefault(id, 0);
       }
     | '(' e ')'             {$v = $e.v;}       
     ; 
