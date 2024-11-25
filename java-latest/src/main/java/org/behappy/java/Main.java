@@ -15,8 +15,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println(isUnsignedLongPowerOf2(128L));
-        System.out.println(isUnsignedLongPowerOf2(Long.MAX_VALUE));
-        System.out.println(isUnsignedLongPowerOf2(Long.MIN_VALUE));
+        short x = 1;
+        short y = 2;
+//        short o = x + y;
+//        System.out.println(o);
     }
 }
