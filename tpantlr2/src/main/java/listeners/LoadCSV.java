@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LoadCSV {
-    public static class Loader extends CSVBaseListener {
+    public static class Loader extends CSV7BaseListener {
         public static final String EMPTY = "";
         /**
          * Load a list of row maps that map field name to value
@@ -37,19 +37,19 @@ public class LoadCSV {
          */
         List<String> currentRowFieldValues;
 
-        public void exitHdr(CSVParser.HdrContext ctx) {
+        public void exitHdr(CSV7Parser.HdrContext ctx) {
             header = new ArrayList<String>();
             header.addAll(currentRowFieldValues);
         }
 
-        public void enterRow(CSVParser.RowContext ctx) {
+        public void enterRow(CSV7Parser.RowContext ctx) {
             currentRowFieldValues = new ArrayList<String>();
         }
 
-        public void exitRow(CSVParser.RowContext ctx) {
+        public void exitRow(CSV7Parser.RowContext ctx) {
             // If this is the header row, do nothing
-            // if ( ctx.parent instanceof CSVParser.HdrContext ) return; OR:
-            if (ctx.getParent().getRuleIndex() == CSVParser.RULE_hdr) return;
+            // if ( ctx.parent instanceof CSV7Parser.HdrContext ) return; OR:
+            if (ctx.getParent().getRuleIndex() == CSV7Parser.RULE_hdr) return;
             // It's a data row
             Map<String, String> m = new LinkedHashMap<String, String>();
             int i = 0;
@@ -60,15 +60,15 @@ public class LoadCSV {
             rows.add(m);
         }
 
-        public void exitString(CSVParser.StringContext ctx) {
+        public void exitString(CSV7Parser.StringContext ctx) {
             currentRowFieldValues.add(ctx.STRING().getText());
         }
 
-        public void exitText(CSVParser.TextContext ctx) {
+        public void exitText(CSV7Parser.TextContext ctx) {
             currentRowFieldValues.add(ctx.TEXT().getText());
         }
 
-        public void exitEmpty(CSVParser.EmptyContext ctx) {
+        public void exitEmpty(CSV7Parser.EmptyContext ctx) {
             currentRowFieldValues.add(EMPTY);
         }
     }
@@ -76,14 +76,14 @@ public class LoadCSV {
     public static void main(String[] args) throws Exception {
         var input = CharStreams.fromPath(Constants.PATH_ANTLR
                 .resolve("listeners/t.csv"));
-        CSVLexer lexer = new CSVLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        CSVParser parser = new CSVParser(tokens);
+        var lexer = new CSV7Lexer(input);
+        var tokens = new CommonTokenStream(lexer);
+        var parser = new CSV7Parser(tokens);
         parser.setBuildParseTree(true); // tell ANTLR to build a parse tree
-        ParseTree tree = parser.file();
+        var tree = parser.file();
 
-        ParseTreeWalker walker = new ParseTreeWalker();
-        Loader loader = new Loader();
+        var walker = new ParseTreeWalker();
+        var loader = new Loader();
         walker.walk(loader, tree);
         System.out.println(loader.rows);
     }

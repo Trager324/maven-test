@@ -12,21 +12,21 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
-public class DefPhase extends CymbolBaseListener {
+public class DefPhase extends Cymbol7BaseListener {
     ParseTreeProperty<Scope> scopes = new ParseTreeProperty<>();
     GlobalScope globals;
     Scope currentScope; // define symbols in this scope
 
-    public void enterFile(CymbolParser.FileContext ctx) {
+    public void enterFile(Cymbol7Parser.FileContext ctx) {
         globals = new GlobalScope(null);
         currentScope = globals;
     }
 
-    public void exitFile(CymbolParser.FileContext ctx) {
+    public void exitFile(Cymbol7Parser.FileContext ctx) {
         System.out.println(globals);
     }
 
-    public void enterFunctionDecl(CymbolParser.FunctionDeclContext ctx) {
+    public void enterFunctionDecl(Cymbol7Parser.FunctionDeclContext ctx) {
         var name = ctx.ID().getText();
         var typeTokenType = ctx.type().start.getType();
         var type = Symbol.getType(typeTokenType);
@@ -40,31 +40,31 @@ public class DefPhase extends CymbolBaseListener {
 
     void saveScope(ParserRuleContext ctx, Scope s) {scopes.put(ctx, s);}
 
-    public void exitFunctionDecl(CymbolParser.FunctionDeclContext ctx) {
+    public void exitFunctionDecl(Cymbol7Parser.FunctionDeclContext ctx) {
         System.out.println(currentScope);
         currentScope = currentScope.getEnclosingScope(); // pop scope
     }
 
-    public void enterBlock(CymbolParser.BlockContext ctx) {
+    public void enterBlock(Cymbol7Parser.BlockContext ctx) {
         // push new local scope
         currentScope = new LocalScope(currentScope);
         saveScope(ctx, currentScope);
     }
 
-    public void exitBlock(CymbolParser.BlockContext ctx) {
+    public void exitBlock(Cymbol7Parser.BlockContext ctx) {
         System.out.println(currentScope);
         currentScope = currentScope.getEnclosingScope(); // pop scope
     }
 
-    public void exitFormalParameter(CymbolParser.FormalParameterContext ctx) {
+    public void exitFormalParameter(Cymbol7Parser.FormalParameterContext ctx) {
         defineVar(ctx.type(), ctx.ID().getSymbol());
     }
 
-    public void exitVarDecl(CymbolParser.VarDeclContext ctx) {
+    public void exitVarDecl(Cymbol7Parser.VarDeclContext ctx) {
         defineVar(ctx.type(), ctx.ID().getSymbol());
     }
 
-    void defineVar(CymbolParser.TypeContext typeCtx, Token nameToken) {
+    void defineVar(Cymbol7Parser.TypeContext typeCtx, Token nameToken) {
         var typeTokenType = typeCtx.start.getType();
         var type = Symbol.getType(typeTokenType);
         var var = new VariableSymbol(nameToken.getText(), type);

@@ -1,5 +1,5 @@
-parser grammar XMLParser;
-options { tokenVocab=XMLLexer; }
+parser grammar XML12Parser;
+options { tokenVocab=XML12Lexer; }
 
 document    :   prolog? misc* element misc*;
 

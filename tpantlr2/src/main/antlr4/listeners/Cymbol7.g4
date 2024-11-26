@@ -1,7 +1,7 @@
 /** Simple statically-typed programming language with functions and variables
  *  taken from "Language Implementation Patterns" book.
  */
-grammar Cymbol;
+grammar Cymbol7;
 
 file:   (functionDecl | varDecl)+ ;
 

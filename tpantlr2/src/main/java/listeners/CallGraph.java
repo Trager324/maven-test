@@ -99,18 +99,18 @@ public class CallGraph {
         }
     }
 
-    static class FunctionListener extends CymbolBaseListener {
+    static class FunctionListener extends Cymbol7BaseListener {
         Graph graph = new Graph();
         String currentFunctionName = null;
 
         @Override
-        public void enterFunctionDecl(CymbolParser.FunctionDeclContext ctx) {
+        public void enterFunctionDecl(Cymbol7Parser.FunctionDeclContext ctx) {
             currentFunctionName = ctx.ID().getText();
             graph.nodes.add(currentFunctionName);
         }
 
         @Override
-        public void exitCall(CymbolParser.CallContext ctx) {
+        public void exitCall(Cymbol7Parser.CallContext ctx) {
             String funcName = ctx.ID().getText();
             // map current function to the callee
             graph.edge(currentFunctionName, funcName);
@@ -120,9 +120,9 @@ public class CallGraph {
     public static void main(String[] args) throws Exception {
         var input = CharStreams.fromPath(Constants.PATH_ANTLR
                 .resolve("listeners/t.cymbol"));
-        var lexer = new CymbolLexer(input);
+        var lexer = new Cymbol7Lexer(input);
         var tokens = new CommonTokenStream(lexer);
-        var parser = new CymbolParser(tokens);
+        var parser = new Cymbol7Parser(tokens);
         parser.setBuildParseTree(true);
         var tree = parser.file();
         // show tree in text form

@@ -15,9 +15,9 @@ public class Symbol { // A generic programming language symbol
 
     public static Type getType(int tokenType) {
         return switch (tokenType) {
-            case CymbolParser.K_VOID -> Type.T_VOID;
-            case CymbolParser.K_INT -> Type.T_INT;
-            case CymbolParser.K_FLOAT -> Type.T_FLOAT;
+            case Cymbol7Parser.K_VOID -> Type.T_VOID;
+            case Cymbol7Parser.K_INT -> Type.T_INT;
+            case Cymbol7Parser.K_FLOAT -> Type.T_FLOAT;
             default -> Type.T_INVALID;
         };
     }

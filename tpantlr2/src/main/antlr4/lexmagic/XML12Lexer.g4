@@ -1,4 +1,4 @@
-lexer grammar XMLLexer;
+lexer grammar XML12Lexer;
 
 // Default "mode": Everything OUTSIDE of a tag
 COMMENT     :   '<!--' .*? '-->' ;

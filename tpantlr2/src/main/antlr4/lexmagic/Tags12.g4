@@ -1,4 +1,4 @@
-grammar Tags;
+grammar Tags12;
 file : (TAG|ENTITY|TEXT|CDATA)* ;
 
 COMMENT : '<!--' .*? '-->' -> skip ;

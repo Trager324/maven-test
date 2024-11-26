@@ -25,9 +25,9 @@ public class CheckSymbols {
     public void process(String[] args) throws Exception {
         var input = CharStreams.fromPath(Constants.PATH_ANTLR
                 .resolve("listeners/vars.cymbol"));
-        var lexer = new CymbolLexer(input);
+        var lexer = new Cymbol7Lexer(input);
         var tokens = new CommonTokenStream(lexer);
-        var parser = new CymbolParser(tokens);
+        var parser = new Cymbol7Parser(tokens);
         parser.setBuildParseTree(true);
         var tree = parser.file();
         // show tree in text form
