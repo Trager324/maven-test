@@ -30,7 +30,7 @@ public class MyTokenFactory implements TokenFactory<MyToken> {
                           String text,
                           int channel, int start, int stop, int line,
                           int charPositionInLine) {
-        MyToken t = new MyToken(source, type, channel, start, stop);
+        var t = new MyToken(source, type, channel, start, stop);
         t.setLine(line);
         t.setCharPositionInLine(charPositionInLine);
         t.srcName = input.getSourceName();

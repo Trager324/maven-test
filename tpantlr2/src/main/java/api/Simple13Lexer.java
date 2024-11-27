@@ -17,7 +17,7 @@ import org.antlr.v4.runtime.misc.Pair;
 /**
  * Match ID, INT, and SEMI tokens and toss out whitespace
  */
-public class SimpleLexer implements TokenSource {
+public class Simple13Lexer implements TokenSource {
     public static final int ID = 1; // Token.MIN_USER_TOKEN_TYPE;
     public static final int INT = 2;
     public static final int SEMI = 3;
@@ -37,7 +37,7 @@ public class SimpleLexer implements TokenSource {
     int startCharPositionInLine;
     char c;        // current character
 
-    public SimpleLexer(CharStream input) {
+    public Simple13Lexer(CharStream input) {
         this.input = input;
         c = (char) input.LA(1); // prime lookahead
     }
@@ -67,8 +67,7 @@ public class SimpleLexer implements TokenSource {
 
     protected Token createToken(int ttype) {
         String text = null; // we use start..stop indexes in input
-        Pair<TokenSource, CharStream> source =
-                new Pair<TokenSource, CharStream>(this, input);
+        var source = new Pair<TokenSource, CharStream>(this, input);
         return factory.create(source, ttype, text, Token.DEFAULT_CHANNEL,
                 startCharIndex, input.index() - 1,
                 startLine, startCharPositionInLine);

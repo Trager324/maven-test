@@ -17,9 +17,9 @@ public class TestSimple {
     public static void main(String[] args) throws IOException {
         var input = CharStreams.fromPath(Constants.PATH_ANTLR
                 .resolve("api/Simple-input"));
-        var lexer = new SimpleLexer(input);
+        var lexer = new Simple13Lexer(input);
         var tokens = new CommonTokenStream(lexer);
-        var parser = new SimpleParser(tokens);
+        var parser = new Simple13Parser(tokens);
         var t = parser.s();
         System.out.println(t.toStringTree(parser));
     }

@@ -29,7 +29,7 @@ public class MyToken extends CommonToken {
 
     @Override
     public String toString() {
-        String t = super.toString();
+        var t = super.toString();
         return srcName + ":" + t;
     }
 }

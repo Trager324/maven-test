@@ -7,7 +7,7 @@ public final class Constants {
     public static final Path PATH_ANTLR;
 
     static {
-        var ws = Path.of(".").toAbsolutePath();
+        var ws = Path.of(".");
         var rela = Path.of("tpantlr2/src/main/antlr4");
         while (Files.notExists(ws.resolve(rela))) {
             int nameCount = rela.getNameCount();

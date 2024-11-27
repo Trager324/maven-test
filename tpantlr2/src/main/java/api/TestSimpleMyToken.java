@@ -11,8 +11,6 @@ package api;
 import constant.Constants;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
 
@@ -20,7 +18,7 @@ public class TestSimpleMyToken {
     public static void main(String[] args) throws IOException {
         var input = CharStreams.fromPath(Constants.PATH_ANTLR
                 .resolve("api/Simple-input"));
-        var lexer = new SimpleLexer(input);
+        var lexer = new Simple13Lexer(input);
         var factory = new MyTokenFactory(input);
         lexer.setTokenFactory(factory);
         var tokens = new CommonTokenStream(lexer);
@@ -28,12 +26,12 @@ public class TestSimpleMyToken {
         // now, print all tokens
         tokens.fill();
         var alltokens = tokens.getTokens();
-        for (Token t : alltokens) System.out.println(t.toString());
+        alltokens.forEach(System.out::println);
 
         // now parse
-        var parser = new SimpleParser(tokens);
+        var parser = new Simple13Parser(tokens);
         parser.setTokenFactory(factory);
-        ParseTree t = parser.s();
+        var t = parser.s();
         System.out.println(t.toStringTree(parser));
     }
 }
