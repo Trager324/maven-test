@@ -8,6 +8,7 @@
  ***/
 package lexmagic;
 
+import constant.Constants;
 import org.antlr.v4.runtime.BufferedTokenStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -48,7 +49,8 @@ public class ShiftVarComments {
     }
 
     public static void main(String[] args) throws Exception {
-        var input = CharStreams.fromString("");
+        var input = CharStreams.fromPath(Constants.PATH_ANTLR
+                .resolve("lexmagic/t.cym"));
         var lexer = new Cymbol12Lexer(input);
         var tokens = new CommonTokenStream(lexer);
         var parser = new Cymbol12Parser(tokens);

@@ -1,18 +1,19 @@
-package tour; /***
+/***
  * Excerpted from "The Definitive ANTLR 4 Reference",
  * published by The Pragmatic Bookshelf.
- * Copyrights apply to this code. It may not be used to create training material, 
+ * Copyrights apply to this code. It may not be used to create training material,
  * courses, books, articles, and the like. Contact us if you are in doubt.
- * We make no guarantees that this code is fit for any purpose. 
+ * We make no guarantees that this code is fit for any purpose.
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
+package tour;
 
 import org.antlr.v4.runtime.TokenStream;
 
-public class ExtractInterfaceListener extends JavaBaseListener {
-    JavaParser parser;
+public class ExtractInterfaceListener extends Java4BaseListener {
+    Java4Parser parser;
 
-    public ExtractInterfaceListener(JavaParser parser) {
+    public ExtractInterfaceListener(Java4Parser parser) {
         this.parser = parser;
     }
 
@@ -20,12 +21,12 @@ public class ExtractInterfaceListener extends JavaBaseListener {
      * Listen to matches of classDeclaration
      */
     @Override
-    public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+    public void enterClassDeclaration(Java4Parser.ClassDeclarationContext ctx) {
         System.out.println("class " + ctx.Identifier() + " {");
     }
 
     @Override
-    public void exitClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+    public void exitClassDeclaration(Java4Parser.ClassDeclarationContext ctx) {
         System.out.println("}");
     }
 
@@ -34,7 +35,7 @@ public class ExtractInterfaceListener extends JavaBaseListener {
      */
     @Override
     public void enterMethodDeclaration(
-            JavaParser.MethodDeclarationContext ctx
+            Java4Parser.MethodDeclarationContext ctx
     ) {
         // need parser to get tokens
         TokenStream tokens = parser.getTokenStream();

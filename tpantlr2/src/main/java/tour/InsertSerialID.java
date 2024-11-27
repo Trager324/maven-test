@@ -17,13 +17,13 @@ public class InsertSerialID {
 
     public static void run(CharStream input) {
 
-        var lexer = new JavaLexer(input);
+        var lexer = new Java4Lexer(input);
         var tokens = new CommonTokenStream(lexer);
-        var parser = new JavaParser(tokens);
+        var parser = new Java4Parser(tokens);
         var tree = parser.compilationUnit(); // parse
 
         var walker = new ParseTreeWalker(); // create standard walker
-        InsertSerialIDListener extractor = new InsertSerialIDListener(tokens);
+        var extractor = new InsertSerialIDListener(tokens);
         walker.walk(extractor, tree); // initiate walk of tree with listener
 
         // print back ALTERED stream

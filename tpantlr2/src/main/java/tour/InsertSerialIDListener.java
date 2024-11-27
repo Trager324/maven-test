@@ -11,7 +11,7 @@ package tour;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.TokenStreamRewriter;
 
-public class InsertSerialIDListener extends JavaBaseListener {
+public class InsertSerialIDListener extends Java4BaseListener {
     TokenStreamRewriter rewriter;
 
     public InsertSerialIDListener(TokenStream tokens) {
@@ -19,7 +19,7 @@ public class InsertSerialIDListener extends JavaBaseListener {
     }
 
     @Override
-    public void enterClassBody(JavaParser.ClassBodyContext ctx) {
+    public void enterClassBody(Java4Parser.ClassBodyContext ctx) {
         String field = "\n\tpublic static final long serialVersionUID = 1L;";
         rewriter.insertAfter(ctx.start, field);
     }

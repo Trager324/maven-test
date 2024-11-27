@@ -19,21 +19,20 @@ import java.nio.file.Files;
 public class ExtractInterfaceTool {
     public static void run(CharStream input) throws Exception {
 
-        JavaLexer lexer = new JavaLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        JavaParser parser = new JavaParser(tokens);
-        ParseTree tree = parser.compilationUnit(); // parse
+        var lexer = new Java4Lexer(input);
+        var tokens = new CommonTokenStream(lexer);
+        var parser = new Java4Parser(tokens);
+        var tree = parser.compilationUnit(); // parse
 
-        ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
-        ExtractInterfaceListener extractor = new ExtractInterfaceListener(parser);
+        var walker = new ParseTreeWalker(); // create standard walker
+        var extractor = new ExtractInterfaceListener(parser);
         walker.walk(extractor, tree); // initiate walk of tree with listener
 
     }
 
     public static void main(String[] args) throws Exception {
-        var input = CharStreams.fromStream(
-                Files.newInputStream(Constants.PATH_ANTLR.resolve("tour/Demo.java"))
-        );
+        var input = CharStreams.fromPath(Constants.PATH_ANTLR
+                .resolve("tour/Demo.java"));
         run(input);
     }
 }

@@ -2,19 +2,15 @@
  *  taken from "Language Implementation Patterns" book.
  */
 parser grammar Cymbol12Parser;
+//import Cymbol12Lexer;
 options { tokenVocab=Cymbol12Lexer; }
-
-@lexer::members {
-    public static final int WHITESPACE = 1;
-    public static final int COMMENTS = 2;
-}
 
 file:   (functionDecl | varDecl)+ ;
 
 varDecl
     :   type ID (EQ expr)? SEMI
     ;
-type:   KFLOAG | KINT | KVOID ; // user-defined types
+type:   KFLOAT | KINT | KVOID ; // user-defined types
 
 functionDecl
     :   type ID LPAREN formalParameters? RPAREN block // "void f(int x) {...}"

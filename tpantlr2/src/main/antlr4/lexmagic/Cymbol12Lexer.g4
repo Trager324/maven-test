@@ -10,18 +10,6 @@ lexer grammar Cymbol12Lexer;
 
 channels { WHITESPACE, COMMENTS }
 
-ID  :   LETTER (LETTER | [0-9])* ;
-fragment
-LETTER : [a-zA-Z] ;
-
-INT :   [0-9]+ ;
-
-WS  :   [ \t\n\r]+ -> channel(WHITESPACE) ;  // channel(1)
-
-SL_COMMENT
-    :   '//' .*? '\n' -> channel(COMMENTS)   // channel(2)
-    ;
-
 EXCLAMATION  : '!';
 EQ  : '=';
 EQEQ  : '==';
@@ -48,3 +36,16 @@ IF: 'if';
 ELSE: 'else';
 THEN: 'then';
 RETURN: 'return';
+
+
+ID  :   LETTER (LETTER | [0-9])* ;
+fragment
+LETTER : [a-zA-Z] ;
+
+INT :   [0-9]+ ;
+
+WS  :   [ \t\n\r]+ -> channel(WHITESPACE) ;  // channel(1)
+
+SL_COMMENT
+    :   '//' .*? '\n' -> channel(COMMENTS)   // channel(2)
+    ;

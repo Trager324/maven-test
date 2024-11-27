@@ -21,3 +21,8 @@ attribute   :   Name '=' STRING ; // Our STRING is AttValue in spec
 chardata    :   TEXT | SEA_WS ;
 
 misc        :   COMMENT | PI | SEA_WS ;
+
+//prolog : XMLDecl versionInfo encodingDecl? standalone? SPECIAL_CLOSE ;
+//versionInfo : {_input.LT(1).getText().equals("version")}? Name '=' STRING ;
+//encodingDecl : {_input.LT(1).getText().equals("encoding")}? Name '=' STRING ;
+//standalone : {_input.LT(1).getText().equals("standalone")}? Name '=' STRING ;

@@ -4,7 +4,7 @@
 
     and JavaParser.g from ANTLR v3
  */
-grammar Java;
+grammar Java4;
 
 @lexer::members {
   protected boolean enumIsKeyword = true;
