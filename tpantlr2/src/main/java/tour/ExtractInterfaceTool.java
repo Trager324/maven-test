@@ -11,10 +11,7 @@ import constant.Constants;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
-import java.nio.file.Files;
 
 public class ExtractInterfaceTool {
     public static void run(CharStream input) throws Exception {

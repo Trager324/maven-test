@@ -9,7 +9,8 @@
 package extras;
 
 import constant.Constants;
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 public class TestCSQL {
     @SuppressWarnings("deprecation")

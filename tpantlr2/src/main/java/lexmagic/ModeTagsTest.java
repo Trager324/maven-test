@@ -1,8 +1,6 @@
 import constant.Constants;
 import lexmagic.ModeTagsLexer;
 import lexmagic.ModeTagsParser;
-import lexmagic.Tags12Lexer;
-import lexmagic.Tags12Parser;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 

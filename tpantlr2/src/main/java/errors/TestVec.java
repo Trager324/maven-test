@@ -1,10 +1,8 @@
 package errors;
 
-import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.DiagnosticErrorListener;
-import org.antlr.v4.runtime.atn.PredictionMode;
 
 public class TestVec {
     public static void main(String[] args) {

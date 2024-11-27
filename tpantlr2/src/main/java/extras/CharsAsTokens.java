@@ -9,7 +9,12 @@
 package extras;
 
 import org.antlr.v4.misc.CharSupport;
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonToken;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenFactory;
+import org.antlr.v4.runtime.TokenSource;
+import org.antlr.v4.runtime.WritableToken;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.LinkedHashMap;

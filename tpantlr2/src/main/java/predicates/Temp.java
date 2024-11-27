@@ -7,5 +7,5 @@ package predicates;
  * courses, books, articles, and the like. Contact us if you are in doubt.
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
-***/
-enum Temp { HOT, COLD }
+ ***/
+enum Temp {HOT, COLD}

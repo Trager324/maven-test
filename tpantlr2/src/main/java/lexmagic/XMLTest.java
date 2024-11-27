@@ -1,12 +1,9 @@
 import constant.Constants;
-import lexmagic.IDKeywordLexer;
-import lexmagic.IDKeywordParser;
 import lexmagic.XML12Lexer;
 import lexmagic.XML12Parser;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Lexer;
 
 void main() throws IOException {
     run(CharStreams.fromPath(Constants.PATH_ANTLR

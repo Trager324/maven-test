@@ -1,13 +1,10 @@
 package predicates;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /***
  * Excerpted from "The Definitive ANTLR 4 Reference",
@@ -27,6 +24,7 @@ public class TestEnum2 {
         parser.prog();
 
     }
+
     public static void main(String[] args) throws Exception {
         run(CharStreams.fromString("""
                 enum Temp { HOT, COLD }"""), false);
