@@ -31,7 +31,7 @@
 /** A grammar for ANTLR v4 tokens suitable for use in an IDE for handling
     erroneous input well.
  */
-lexer grammar GrammarLexer;
+lexer grammar ANTLRv4Lexer;
 
 tokens {
 	TOKEN_REF,
@@ -440,7 +440,7 @@ mode Action;
 				|   [{}]             // nested actions
 				|   '\\'             // escapes
 				|   '/'              // potential comments
-				|   [.=,<>()\[\]:-]  // delimiters
+				|   [.=,<>()[\]:-]  // delimiters
 				|   [$a-zA-Z0-9_]    // words
 				|   [ \t\r\n]
 				)

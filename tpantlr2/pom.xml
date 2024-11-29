@@ -88,15 +88,6 @@
                                     <includes>
                                         <include>*.tokens</include>
                                     </includes>
-                                    <excludes>
-                                        <exclude>tour/Demo.java</exclude>
-                                    </excludes>
-                                </resource>
-                                <resource>
-                                    <directory>src/main/antlr4</directory>
-                                    <includes>
-                                        <include>**/*.java</include>
-                                    </includes>
                                 </resource>
                             </resources>
                         </configuration>

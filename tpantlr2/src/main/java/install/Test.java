@@ -6,24 +6,26 @@
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
 ***/
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
+package install;
+
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 public class Test {
     public static void main(String[] args) throws Exception {
         // create a CharStream that reads from standard input
-        ANTLRInputStream input = new ANTLRInputStream(System.in);
+        var input = CharStreams.fromStream(System.in);
 
         // create a lexer that feeds off of input CharStream
-        HelloLexer lexer = new HelloLexer(input);
+        var lexer = new Hello1Lexer(input);
 
         // create a buffer of tokens pulled from the lexer
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        var tokens = new CommonTokenStream(lexer);
 
         // create a parser that feeds off the tokens buffer
-        HelloParser parser = new HelloParser(tokens);
+        var parser = new Hello1Parser(tokens);
 
-        ParseTree tree = parser.r();    // begin parsing at rule r
+        var tree = parser.r();    // begin parsing at rule r
         System.out.println(tree.toStringTree(parser)); // print LISP-style tree
     }
 }

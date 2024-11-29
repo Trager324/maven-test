@@ -1,4 +1,4 @@
-grammar Expr;
+grammar Expr0;
 
 expr: INT              // "1", "94117"
     | ID '[' expr ']'  // "a[1]", "a[b[1]]", "a[(2*b[1])]"

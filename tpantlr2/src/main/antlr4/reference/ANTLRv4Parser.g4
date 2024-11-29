@@ -31,7 +31,7 @@
 /** A grammar for ANTLR v4 tokens suitable for use in an IDE for handling
     erroneous input well. Experimental.
  */
-parser grammar GrammarParser;
+parser grammar ANTLRv4Parser;
 
 options {
 	tokenVocab	= ANTLRv4Lexer;

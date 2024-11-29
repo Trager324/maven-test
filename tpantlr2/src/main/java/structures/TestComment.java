@@ -6,18 +6,18 @@
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
 ***/
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.Trees;
+package structures;
 
-public class TestExpr_Tree {
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+public class TestComment {
     public static void main(String[] args) throws Exception {
-        ANTLRInputStream input = new ANTLRInputStream(System.in);
-        ExprLexer lexer = new ExprLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        ExprParser parser = new ExprParser(tokens);
+        var input = CharStreams.fromStream(System.in);
+        var lexer = new Comment0Lexer(input);
+        var tokens = new CommonTokenStream(lexer);
+        var parser = new Comment0Parser(tokens);
         parser.setBuildParseTree(true);
-        ParserRuleContext tree = parser.expr();
-	System.out.println(tree.toStringTree(parser));
-        tree.save(parser, "/tmp/t.ps"); // Generate postscript
+        parser.file();
     }
 }

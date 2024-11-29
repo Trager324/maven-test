@@ -5,17 +5,20 @@
  * courses, books, articles, and the like. Contact us if you are in doubt.
  * We make no guarantees that this code is fit for any purpose. 
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
-***/
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.Trees;
+ ***/
+package structures;
 
-public class TestComment {
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.Token;
+
+public class TestTags {
     public static void main(String[] args) throws Exception {
-        ANTLRInputStream input = new ANTLRInputStream(System.in);
-        CommentLexer lexer = new CommentLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        CommentParser parser = new CommentParser(tokens);
-        parser.setBuildParseTree(true);
-        parser.file();
+        var input = CharStreams.fromStream(System.in);
+        var lexer = new Tags0(input);
+        var t = lexer.nextToken();
+        while (t.getType() != Token.EOF) {
+            System.out.println(t);
+            t = lexer.nextToken();
+        }
     }
 }

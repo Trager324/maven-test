@@ -7,14 +7,11 @@ package listeners; /***
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
  ***/
 
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 public class TestNodeCounter {
     /**
@@ -34,11 +31,7 @@ public class TestNodeCounter {
     }
 
     public static void main(String[] args) throws Exception {
-        String inputFile = null;
-        if (args.length > 0) inputFile = args[0];
-        InputStream is = System.in;
-        if (inputFile != null) is = new FileInputStream(inputFile);
-        var input = new ANTLRInputStream(is);
+        var input = CharStreams.fromStream(System.in);
         var lexer = new ExprLexer(input);
         var tokens = new CommonTokenStream(lexer);
         var parser = new ExprParser(tokens);

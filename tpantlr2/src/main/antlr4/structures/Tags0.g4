@@ -1,4 +1,4 @@
-lexer grammar Tags;
+lexer grammar Tags0;
 
 TAG_START : '<' {pushMode(ISLAND); more();} ;
 TEXT : ~'<'+ ;

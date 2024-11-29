@@ -1,4 +1,4 @@
-grammar Comment;
+grammar Comment0;
 file : (ID {System.out.println($ID.text);})+ ;
 ID : 'a'..'z'+ ;
 LINE_COMMENT : '//' .*? '\r'? '\n' -> skip ;
