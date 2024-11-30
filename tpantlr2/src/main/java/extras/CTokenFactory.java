@@ -7,11 +7,12 @@
  * Visit http://www.pragmaticprogrammer.com/titles/tpantlr2 for more book information.
 ***/
 package extras;
+
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.TokenFactory;
 import org.antlr.v4.runtime.TokenSource;
-import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.misc.Interval;
+import org.antlr.v4.runtime.misc.Pair;
 
 public class CTokenFactory implements TokenFactory<CToken> {
 	private final PreprocessedCharStream cinput;

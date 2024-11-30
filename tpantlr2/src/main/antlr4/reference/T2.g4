@@ -1,3 +1,5 @@
 grammar T2;
-options {TokenLabelType=MyToken;}
+options {
+//TokenLabelType=api.MyToken;
+}
 a : x=ID ;

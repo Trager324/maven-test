@@ -1,7 +1,7 @@
 grammar Count;
 
 @header {
-package foo;
+//package foo;
 }
 
 @members {
