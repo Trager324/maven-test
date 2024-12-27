@@ -8,6 +8,7 @@
  ***/
 package errors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -16,6 +17,7 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
 
+@Slf4j
 public class TestE_Listener2 {
     public static class UnderlineListener extends BaseErrorListener {
         public void syntaxError(Recognizer<?, ?> recognizer,
@@ -23,9 +25,12 @@ public class TestE_Listener2 {
                                 int line, int charPositionInLine,
                                 String msg,
                                 RecognitionException e) {
-            System.err.println("line " + line + ":" + charPositionInLine + " " + msg);
+            var msg2 = "line " + line + ":" + charPositionInLine + " " + msg;
+            System.err.println(msg2);
             underlineError(recognizer, (Token) offendingSymbol,
                     line, charPositionInLine);
+//            throw new RecognitionException(msg2, recognizer, recognizer.getInputStream(), recognizer.getInputStream());
+            throw new RuntimeException(msg2);
         }
 
         protected void underlineError(Recognizer<?, ?> recognizer,
@@ -47,14 +52,18 @@ public class TestE_Listener2 {
     }
 
     public static void main(String[] args) throws Exception {
-        CharStream input;
+        try {
+            CharStream input;
 //        input = CharStreams.fromString("class T { int i; }");
-        input = CharStreams.fromString("class T T {\n  int ;\n}");
-        var lexer = new Simple2Lexer(input);
-        var tokens = new CommonTokenStream(lexer);
-        var parser = new Simple2Parser(tokens);
-        parser.removeErrorListeners(); // remove ConsoleErrorListener
-        parser.addErrorListener(new UnderlineListener());
-        parser.prog();
+            input = CharStreams.fromString("class T T {\n  int ;\n}");
+            var lexer = new Simple2Lexer(input);
+            var tokens = new CommonTokenStream(lexer);
+            var parser = new Simple2Parser(tokens);
+            parser.removeErrorListeners(); // remove ConsoleErrorListener
+            parser.addErrorListener(new UnderlineListener());
+            parser.prog();
+        } catch (Exception e) {
+            log.warn(e.getMessage(), e);
+        }
     }
 }

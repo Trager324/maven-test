@@ -20,10 +20,15 @@ public class TestBail {
     public static class BailSimpleLexer extends Simple2Lexer {
         public BailSimpleLexer(CharStream input) {super(input);}
 
+        @Override
         public void recover(LexerNoViableAltException e) {
-            throw new RuntimeException(e); // Bail out
+//            throw new RuntimeException(e); // Bail out
+            throw new RuntimeException(e.getMessage(), e); // Bail out
         }
     }
+//    public static class BailSimpleParser extends Simple2Parser {
+//        public BailSimpleParser(TokenStream input) {super(input);}
+//    }
 
     public static void run(CharStream input) {
         run(input, new BailErrorStrategy());
@@ -32,6 +37,7 @@ public class TestBail {
     public static void run(CharStream input, ANTLRErrorStrategy handler) {
         try {
             var lexer = new BailSimpleLexer(input);
+//            var lexer = new Simple2Lexer(input);
             var tokens = new CommonTokenStream(lexer);
             var parser = new Simple2Parser(tokens);
             parser.setErrorHandler(handler);
@@ -42,7 +48,8 @@ public class TestBail {
     }
 
     public static void main(String[] args) throws Exception {
-        run(CharStreams.fromString("# class T { int i; }"));
+//        run(CharStreams.fromString("# class T { int i; }"));
+        run(CharStreams.fromString("class { int i; }"));
         run(CharStreams.fromString("class { }"), new MyErrorStrategy());
     }
 }

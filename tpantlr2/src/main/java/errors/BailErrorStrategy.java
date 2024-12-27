@@ -29,7 +29,7 @@ public class BailErrorStrategy extends DefaultErrorStrategy {
 
     @Override
     public void recover(Parser recognizer, RecognitionException e) {
-        throw new RuntimeException(e);
+        throw new RuntimeException(e.getMessage(), e);
     }
 
     /**

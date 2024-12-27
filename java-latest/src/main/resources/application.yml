@@ -2,6 +2,9 @@ server:
   port: 8080
 
 spring:
+  cloud:
+    config:
+      enabled: false
   profiles:
     active: dev
   application:
@@ -43,3 +46,23 @@ mybatis-plus:
 springfox:
   documentation:
     enabled: false
+
+management:
+  endpoint:
+    refresh:
+      access: UNRESTRICTED
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          actuate: DEBUG
+
+my:
+  custom:
+    property: defaultValue

@@ -33,7 +33,6 @@ public class TestE_Listener {
             System.err.println("line " + line + ":" + charPositionInLine + " at " +
                                offendingSymbol + ": " + msg);
         }
-
     }
 
     public static void main(String[] args) throws Exception {

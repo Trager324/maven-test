@@ -2,15 +2,15 @@ package org.behappy.kt
 
 
 import com.alibaba.fastjson2.*
-import org.behappy.kt.leetcode.ListNode
-import org.behappy.kt.leetcode.ListNode.parseListNode
-import org.behappy.kt.leetcode.TreeNode
-import org.behappy.kt.leetcode.TreeNode.parseTreeNode
 import jdk.dynalink.linker.support.TypeUtilities
 import kotlinx.coroutines.*
 import lombok.*
 import lombok.experimental.Accessors
 import lombok.extern.java.Log
+import org.behappy.kt.leetcode.ListNode
+import org.behappy.kt.leetcode.ListNode.parseListNode
+import org.behappy.kt.leetcode.TreeNode
+import org.behappy.kt.leetcode.TreeNode.parseTreeNode
 import java.io.*
 import java.lang.annotation.*
 import java.lang.annotation.Repeatable
@@ -47,6 +47,7 @@ import kotlin.isNaN
 import kotlin.math.abs
 import kotlin.reflect.KClass
 import kotlin.require
+import kotlin.to
 
 class Solution {
     fun f(arr: IntArray): Int {
@@ -82,6 +83,8 @@ private val solution = Solution()
 fun main(vararg args: String) {
     buildString {
     }
+    val map1 = listOf(1).map { x -> x }
+    val map2 = setOf(1).map { x -> x }
 }
 
 fun <T : Any> parseObject(text: String?, clazz: KClass<T>): T {

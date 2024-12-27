@@ -32,6 +32,7 @@
         <antlr4-ST.version>4.3.4</antlr4-ST.version>
         <bitwalker.version>1.21</bitwalker.version>
         <cglib.version>3.3.0</cglib.version>
+        <commons-configuration2.version>2.11.0</commons-configuration2.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-io.version>2.15.1</commons-io.version>
@@ -57,8 +58,8 @@
         <lombok.version>1.18.34</lombok.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
-        <mybatis.version>3.0.1</mybatis.version>
-        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+        <mybatis.version>3.5.17</mybatis.version>
+        <mybatis-plus.version>3.5.9</mybatis-plus.version>
         <mybatis-plus-ds.version>3.5.2</mybatis-plus-ds.version>
         <mysql.version>8.0.32</mysql.version>
         <okhttp.version>5.0.0-alpha.11</okhttp.version>
@@ -72,7 +73,8 @@
         <slf4j.version>2.0.16</slf4j.version>
         <spring.version>6.0.9</spring.version>
         <spring-boot-starter-data-redis.version>3.0.1</spring-boot-starter-data-redis.version>
-        <spring-boot.version>3.3.4</spring-boot.version>
+        <spring-boot.version>3.4.1</spring-boot.version>
+        <spring-cloud.version>2024.0.0</spring-cloud.version>
         <swagger.version>3.0.0</swagger.version>
         <validation.version>3.0.2</validation.version>
         <velocity.version>2.3</velocity.version>
@@ -88,6 +90,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-configuration2</artifactId>
+                <version>${commons-configuration2.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
@@ -98,6 +106,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
