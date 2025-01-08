@@ -1,9 +1,9 @@
 package org.behappy.common.util;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -37,9 +37,9 @@ public class BatchUtils {
      * @param size 查询总数，如果为null，则查询全部
      * @return 迭代器
      */
-    public static <T, R> Iterator<List<T>> newBatchQueryIterator(Function<IPage<R>, List<T>> func, Integer size) {
+    public static <T, R> Iterator<List<T>> newBatchQueryIterator(Function<Pageable, List<T>> func, Integer size) {
         return new Iterator<List<T>>() {
-            final IPage<R> page = new Page<>(1, BATCH_SIZE_EXPORT);
+            Pageable page = PageRequest.of(1, BATCH_SIZE_EXPORT);
             boolean hasNext = true;
             int cnt = 0;
 
@@ -51,7 +51,7 @@ public class BatchUtils {
             @Override
             public List<T> next() {
                 List<T> list = func.apply(page);
-                if (list == null || list.size() == 0) {
+                if (list == null || list.isEmpty()) {
                     hasNext = false;
                     return Collections.emptyList();
                 }
@@ -60,7 +60,7 @@ public class BatchUtils {
                     return list.subList(0, size - cnt);
                 }
                 cnt += list.size();
-                page.setCurrent(page.getCurrent() + 1);
+                page = PageRequest.of(page.getPageNumber() + 1, page.getPageSize());
                 return list;
             }
         };
@@ -107,7 +107,7 @@ public class BatchUtils {
     /**
      * 批量查询后插入
      */
-    public static <T, R> int batchInsertFromSelect(Function<IPage<T>, List<T>> supplier, Function<List<T>, R> consumer) {
+    public static <T, R> int batchInsertFromSelect(Function<Pageable, List<T>> supplier, Function<List<T>, R> consumer) {
         return batchInsertFromSelect(supplier, consumer, BATCH_SIZE_QUERY, BATCH_SIZE_INSERT);
     }
 
@@ -115,8 +115,8 @@ public class BatchUtils {
      * 批量查询后插入
      */
     public static <T, R> int batchInsertFromSelect(
-            Function<IPage<T>, List<T>> supplier, Function<List<T>, R> consumer, int querySize, int insertSize) {
-        IPage<T> page = new Page<>(1, querySize);
+            Function<Pageable, List<T>> supplier, Function<List<T>, R> consumer, int querySize, int insertSize) {
+        Pageable page = PageRequest.of(1, querySize);
         long idx = 0;
         while (true) {
             List<T> list = supplier.apply(page);
@@ -129,7 +129,7 @@ public class BatchUtils {
             } else {
                 consumer.apply(list);
             }
-            page.setCurrent(page.getCurrent() + 1);
+            page = PageRequest.of(page.getPageNumber() + 1, page.getPageSize());
         }
         return (int)idx;
     }

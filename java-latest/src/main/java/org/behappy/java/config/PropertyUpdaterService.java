@@ -17,7 +17,7 @@ public class PropertyUpdaterService {
 
     private final ConfigurableEnvironment environment;
 
-    public void updateProperty(String key, String value) {
+    public void updateProperty(String key, Object value) {
         MutablePropertySources propertySources = environment.getPropertySources();
         if (propertySources.get(DYNAMIC_PROPERTIES_SOURCE_NAME) instanceof MapPropertySource propertySource) {
             propertySource.getSource().put(key, value);

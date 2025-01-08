@@ -45,12 +45,12 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- SpringBoot集成mybatis框架 -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <optional>true</optional>
-        </dependency>
+<!--        &lt;!&ndash; SpringBoot集成mybatis框架 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.mybatis.spring.boot</groupId>-->
+<!--            <artifactId>mybatis-spring-boot-starter</artifactId>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
 
         <!-- 自定义验证注解 -->
         <dependency>
@@ -59,12 +59,12 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- mybatis-plus插件依赖 -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <optional>true</optional>
-        </dependency>
+<!--        &lt;!&ndash; mybatis-plus插件依赖 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.baomidou</groupId>-->
+<!--            <artifactId>mybatis-plus-boot-starter</artifactId>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
 
         <!-- 阿里数据库连接池 -->
         <dependency>

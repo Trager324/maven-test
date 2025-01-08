@@ -1,11 +1,11 @@
 package org.behappy.common.bean;
 
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -24,5 +24,5 @@ public class PageParam implements IPageParam {
     @Max(value = MAX_PAGE_SIZE, message = "分页大小不能超过500")
     private Integer size = DEF_SIZE;
     @ApiModelProperty("排序列")
-    private List<OrderItem> orders;
+    private List<Sort.Order> orders;
 }

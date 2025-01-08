@@ -1,31 +1,33 @@
 package org.behappy.java.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@RefreshScope
 @RestController
 @RequestMapping("/properties")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
+@Slf4j
 public class PropertyController {
-    private final PropertyUpdaterService propertyUpdaterService;
+    private final Bucket4jConfig bucket4jConfig;
 
-    private final ExampleBean exampleBean;
-
-    @PostMapping("/update")
-    public String updateProperty(
-            @RequestParam("key") String key,
-            @RequestParam("value") String value) {
-        propertyUpdaterService.updateProperty(key, value);
-        return "Property updated. Remember to call the actuator /actuator/refresh";
+    @GetMapping
+    public String get() {
+        log.info("Bucket4jConfig: {}", bucket4jConfig);
+        return bucket4jConfig.toString();
     }
 
-    @GetMapping("/customProperty")
-    public String getCustomProperty() {
-        return exampleBean.getCustomProperty();
+    @EventListener(RefreshScopeRefreshedEvent.class)
+    public void onRefresh(RefreshScopeRefreshedEvent event) {
+        if (RefreshScopeRefreshedEvent.DEFAULT_NAME.equals(event.getName())) {
+            log.info("Bucket4jConfig refreshed: {}", bucket4jConfig);
+        }
     }
 }

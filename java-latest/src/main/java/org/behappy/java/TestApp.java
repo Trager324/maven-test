@@ -2,17 +2,23 @@ package org.behappy.java;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.retry.annotation.EnableRetry;
+
+import java.io.IOException;
 
 /**
  * @author syd
- * @date 2022/3/29
  */
 @SpringBootApplication//(exclude = {DataSourceAutoConfiguration.class, RedisAutoConfiguration.class})
 @EnableRetry(proxyTargetClass = true)
+@EnableConfigurationProperties
+//@ComponentScan(basePackages = {"org.behappy.java", "org.behappy.common"})
 public class TestApp {
+    public static ConfigurableApplicationContext ac;
 
-    public static void main(String[] args) {
-        var ac = SpringApplication.run(TestApp.class, args);
+    public static void main(String[] args) throws IOException {
+        ac = SpringApplication.run(TestApp.class, args);
     }
 }

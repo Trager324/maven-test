@@ -2,9 +2,6 @@ server:
   port: 8080
 
 spring:
-  cloud:
-    config:
-      enabled: false
   profiles:
     active: dev
   application:
@@ -23,7 +20,10 @@ spring:
       #多文件最大容量
       max-request-size: 100MB
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
   data:
     redis:
       host:
@@ -58,11 +58,9 @@ management:
 
 logging:
   level:
+    org.behappy: TRACE
     org:
       springframework:
         boot:
           actuate: DEBUG
 
-my:
-  custom:
-    property: defaultValue

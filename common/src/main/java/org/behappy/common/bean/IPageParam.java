@@ -1,8 +1,10 @@
 package org.behappy.common.bean;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public interface IPageParam {
         }
 
         @Override
-        public void setOrders(List<OrderItem> orders) {
+        public void setOrders(List<Sort.Order> orders) {
             throw new UnsupportedOperationException("公有参数不支持修改");
         }
     };
@@ -65,23 +67,23 @@ public interface IPageParam {
      *
      * @return 排序字段
      */
-    List<OrderItem> getOrders();
+    List<Sort.Order> getOrders();
 
     /**
      * 排序字段
      *
      * @param orders 排序字段
      */
-    void setOrders(List<OrderItem> orders);
+    void setOrders(List<Sort.Order> orders);
 
     /**
      * 快捷设置分页参数
      *
      * @param page 分页参数
      */
-    default void setPageParam(IPage<?> page) {
-        setCurrent((int)page.getCurrent());
-        setSize((int)page.getSize());
+    default void setPageParam(Pageable page) {
+        setCurrent(page.getPageNumber());
+        setSize(page.getPageSize());
     }
 
     /**
@@ -90,7 +92,7 @@ public interface IPageParam {
      *
      * @return 排序字段过滤器
      */
-    default Predicate<OrderItem> getOrderItemFilter() {
+    default Predicate<Sort.Order> getOrderItemFilter() {
         return o -> false;
     }
 
@@ -99,19 +101,19 @@ public interface IPageParam {
      * <p><b>mbp的分页排序没有安全检查措施，需要避免SQL注入</b></p>
      *
      * @return 分页参数
-     * @see IPage
+     * @see Pageable
      */
     @NonNull
-    default <T> IPage<T> newPage() {
-        Page<T> page = getCurrent() == null || getSize() == null
-                ? new Page<>(DEF_CURRENT, Long.MAX_VALUE)
-                : new Page<>(getCurrent(), getSize());
+    default <T> Pageable newPage() {
+        PageRequest page = getCurrent() == null || getSize() == null
+                ? PageRequest.of(DEF_CURRENT, Integer.MAX_VALUE)
+                : PageRequest.of(getCurrent(), getSize());
         var orders = getOrders();
         if (orders != null) {
-            page.setOrders(orders.stream()
-                    .filter(getOrderItemFilter())
-                    .toList()
-            );
+            page = PageRequest.of(page.getPageNumber(), page.getPageSize(),
+                    Sort.by(orders.stream()
+                            .filter(getOrderItemFilter())
+                            .toList()));
         }
         return page;
     }
@@ -122,7 +124,7 @@ public interface IPageParam {
      * @param list 列表
      * @return 分页结果
      */
-    default <T> PageResult<T> paging(List<T> list) {
-        return PageResult.paging(list, this);
+    default <T> Page<T> paging(List<T> list) {
+        return new PageImpl<>(list);
     }
 }
